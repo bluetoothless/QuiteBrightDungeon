@@ -103,6 +103,8 @@ void AdungeonCrawlerMgrPlayerController::OnSetDestinationReleased()
 
 void AdungeonCrawlerMgrPlayerController::SwingSword()
 {
+	UE_LOG(LogTemp, Error, TEXT("!	 SWING SWORD   !"));
+
 	APawn* ControlledPawn = GetPawn();
 	if (AdungeonCrawlerMgrCharacter* ControlledCharacter = Cast<AdungeonCrawlerMgrCharacter>(ControlledPawn))
 	{
