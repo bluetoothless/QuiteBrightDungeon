@@ -16,12 +16,14 @@ AdungeonCrawlerMgrPlayerController::AdungeonCrawlerMgrPlayerController()
 	DefaultMouseCursor = EMouseCursor::Default;
 	CachedDestination = FVector::ZeroVector;
 	FollowTime = 0.f;
+	SwingSwordAction = Cast<UInputAction>(StaticLoadObject(UInputAction::StaticClass(), nullptr, TEXT("InputAction'/Game/TopDown/Input/Actions/IA_SwingSword.IA_SwingSword'")));
 }
 
 void AdungeonCrawlerMgrPlayerController::BeginPlay()
 {
 	// Call the base class  
 	Super::BeginPlay();
+	UE_LOG(LogTemp, Error, TEXT("Begin Play"));
 
 	//Add Input Mapping Context
 	if (UEnhancedInputLocalPlayerSubsystem* Subsystem = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(GetLocalPlayer()))
@@ -44,11 +46,7 @@ void AdungeonCrawlerMgrPlayerController::SetupInputComponent()
 		EnhancedInputComponent->BindAction(SetDestinationClickAction, ETriggerEvent::Completed, this, &AdungeonCrawlerMgrPlayerController::OnSetDestinationReleased);
 		EnhancedInputComponent->BindAction(SetDestinationClickAction, ETriggerEvent::Canceled, this, &AdungeonCrawlerMgrPlayerController::OnSetDestinationReleased);
 
-		// Setup touch input events
-		EnhancedInputComponent->BindAction(SetDestinationTouchAction, ETriggerEvent::Started, this, &AdungeonCrawlerMgrPlayerController::OnInputStarted);
-		EnhancedInputComponent->BindAction(SetDestinationTouchAction, ETriggerEvent::Triggered, this, &AdungeonCrawlerMgrPlayerController::OnTouchTriggered);
-		EnhancedInputComponent->BindAction(SetDestinationTouchAction, ETriggerEvent::Completed, this, &AdungeonCrawlerMgrPlayerController::OnTouchReleased);
-		EnhancedInputComponent->BindAction(SetDestinationTouchAction, ETriggerEvent::Canceled, this, &AdungeonCrawlerMgrPlayerController::OnTouchReleased);
+		EnhancedInputComponent->BindAction(SwingSwordAction, ETriggerEvent::Started, this, &AdungeonCrawlerMgrPlayerController::SwingSword);
 	}
 }
 
@@ -103,15 +101,18 @@ void AdungeonCrawlerMgrPlayerController::OnSetDestinationReleased()
 	FollowTime = 0.f;
 }
 
-// Triggered every frame when the input is held down
-void AdungeonCrawlerMgrPlayerController::OnTouchTriggered()
+void AdungeonCrawlerMgrPlayerController::SwingSword()
 {
-	bIsTouch = true;
-	OnSetDestinationTriggered();
-}
-
-void AdungeonCrawlerMgrPlayerController::OnTouchReleased()
-{
-	bIsTouch = false;
-	OnSetDestinationReleased();
+	APawn* ControlledPawn = GetPawn();
+	if (AdungeonCrawlerMgrCharacter* ControlledCharacter = Cast<AdungeonCrawlerMgrCharacter>(ControlledPawn))
+	{
+		// Retrieve the character's mesh component and play the animation
+		USkeletalMeshComponent* CharacterMesh = ControlledCharacter->GetMesh();
+		if (CharacterMesh != nullptr)
+		{
+			UAnimSequence* Anim = Cast<UAnimSequence>(StaticLoadObject(UAnimSequence::StaticClass(), nullptr, TEXT("AnimSequence'/Game/dungeonCrawler/SwordSlash.SwordSlash'")));
+			bool bLoop = false;
+			CharacterMesh->PlayAnimation(Anim, bLoop);
+		}
+	}
 }

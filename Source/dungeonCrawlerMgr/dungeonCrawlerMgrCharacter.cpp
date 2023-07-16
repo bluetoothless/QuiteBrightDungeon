@@ -10,6 +10,7 @@
 #include "GameFramework/SpringArmComponent.h"
 #include "Materials/Material.h"
 #include "Engine/World.h"
+#include <EnhancedInputComponent.h>
 
 AdungeonCrawlerMgrCharacter::AdungeonCrawlerMgrCharacter()
 {
@@ -49,3 +50,8 @@ void AdungeonCrawlerMgrCharacter::Tick(float DeltaSeconds)
 {
     Super::Tick(DeltaSeconds);
 }
+/*
+void AdungeonCrawlerMgrCharacter::SwordSwing()
+{
+		
+}*/
