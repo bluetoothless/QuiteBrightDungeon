@@ -16,7 +16,9 @@ AdungeonCrawlerMgrPlayerController::AdungeonCrawlerMgrPlayerController()
 	DefaultMouseCursor = EMouseCursor::Default;
 	CachedDestination = FVector::ZeroVector;
 	FollowTime = 0.f;
-	SwingSwordAction = Cast<UInputAction>(StaticLoadObject(UInputAction::StaticClass(), nullptr, TEXT("InputAction'/Game/TopDown/Input/Actions/IA_SwingSword.IA_SwingSword'")));
+	SwingSwordAction = Cast<UInputAction>(StaticLoadObject(
+		UInputAction::StaticClass(), nullptr, 
+		TEXT("InputAction'/Game/TopDown/Input/Actions/IA_SwingSword.IA_SwingSword'")));
 }
 
 void AdungeonCrawlerMgrPlayerController::BeginPlay()
@@ -46,7 +48,7 @@ void AdungeonCrawlerMgrPlayerController::SetupInputComponent()
 		EnhancedInputComponent->BindAction(SetDestinationClickAction, ETriggerEvent::Completed, this, &AdungeonCrawlerMgrPlayerController::OnSetDestinationReleased);
 		EnhancedInputComponent->BindAction(SetDestinationClickAction, ETriggerEvent::Canceled, this, &AdungeonCrawlerMgrPlayerController::OnSetDestinationReleased);
 
-		EnhancedInputComponent->BindAction(SwingSwordAction, ETriggerEvent::Started, this, &AdungeonCrawlerMgrPlayerController::SwingSword);
+		//EnhancedInputComponent->BindAction(SwingSwordAction, ETriggerEvent::Started, this, &AdungeonCrawlerMgrPlayerController::SwingSword);
 	}
 }
 
