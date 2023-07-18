@@ -13,5 +13,8 @@ public:
 	LevelManager();
 	~LevelManager();
 
-	TArray<TArray<int32>> LoadLevel(FString levelFilePath);
+	void LoadLevel();
+	TArray<TArray<TArray<int32>>> ReadLevelArray(FString levelFilePath);
+	void PrintLevelArray(TArray<TArray<TArray<int32>>> levelArray);
+	void SpawnRooms(TArray<TArray<TArray<int32>>> levelArray);
 };

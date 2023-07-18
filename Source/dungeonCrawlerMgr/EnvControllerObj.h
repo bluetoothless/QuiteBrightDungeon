@@ -13,5 +13,22 @@ public:
 	// Sets default values for this component's properties
 	UEnvControllerObj();
 
-	
+	static enum RoomType 
+	{ 
+		NoRoom, 
+		BasicRoom, 
+		//DoorRoom
+	};
+
+	static enum EntityType
+	{
+		NoEntity,
+		PlayerStart,
+		PlayerEnd,
+		Enemy,
+		Treasure,
+		GuardedTreasure,
+		//Key,
+		//GuardedKey
+	};
 };
