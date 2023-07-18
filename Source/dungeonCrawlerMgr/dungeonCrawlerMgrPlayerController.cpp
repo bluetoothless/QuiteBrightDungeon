@@ -25,7 +25,7 @@ void AdungeonCrawlerMgrPlayerController::BeginPlay()
 {
 	// Call the base class  
 	Super::BeginPlay();
-	UE_LOG(LogTemp, Error, TEXT("Begin Play"));
+	UE_LOG(LogTemp, Error, TEXT("PlayerController - Begin Play"));
 
 	//Add Input Mapping Context
 	if (UEnhancedInputLocalPlayerSubsystem* Subsystem = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(GetLocalPlayer()))
@@ -92,6 +92,7 @@ void AdungeonCrawlerMgrPlayerController::OnSetDestinationTriggered()
 
 void AdungeonCrawlerMgrPlayerController::OnSetDestinationReleased()
 {
+	UE_LOG(LogTemp, Error, TEXT("Go go go"));
 	// If it was a short press
 	if (FollowTime <= ShortPressThreshold)
 	{

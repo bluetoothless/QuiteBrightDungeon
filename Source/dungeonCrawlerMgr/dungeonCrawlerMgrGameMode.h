@@ -13,6 +13,9 @@ class AdungeonCrawlerMgrGameMode : public AGameModeBase
 
 public:
 	AdungeonCrawlerMgrGameMode();
+	virtual void BeginPlay();
+	void LoadLevel();
+	void SpawnRooms(TArray<TArray<int32>> levelArray);
 };
 
 
