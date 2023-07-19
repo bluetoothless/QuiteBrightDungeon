@@ -1,8 +1,13 @@
 #include "LevelManager.h"
 #include "EnvControllerObj.h"
+#include "dungeonCrawlerMgrPlayerController.h"
+#include "Engine/World.h"
 
-LevelManager::LevelManager()
+UWorld* World;
+
+LevelManager::LevelManager(UWorld* world)
 {
+	World = world;
 	UE_LOG(LogTemp, Error, TEXT("LevelManager - constructor"));
 }
 
@@ -59,16 +64,89 @@ void LevelManager::PrintLevelArray(TArray<TArray<TArray<int32>>> levelArray)
 	UE_LOG(LogTemp, Error, TEXT("%s"), *entityArray);
 }
 
-void LevelManager::SpawnRooms(TArray<TArray<TArray<int32>>>  levelArray)
+void LevelManager::SpawnRooms(TArray<TArray<TArray<int32>>> levelArray)
 {
 	for (int32 i = 0; i < levelArray.Num(); i++)
 	{
 		for (int32 j = 0; j < levelArray[i].Num(); j++)
 		{
-			;/*switch (levelArray[i][j][0]) {
-				case UEnvControllerObj::RoomType.NoRoom:
-					break;
-			}*/
+			SpawnRoomWithType(levelArray, i, j);
+			SpawnEntityWithType(levelArray[i][j][1], i, j);
 		}
+	}
+}
+
+void LevelManager::SpawnRoomWithType(TArray<TArray<TArray<int32>>> levelArray, int32 i, int32 j)
+{
+	UClass* assetClass;
+	FRotator spawnRotation;	//SpawnRotation.Yaw = 270.0f; //left
+	FActorSpawnParameters spawnParams;
+	AActor* spawnedActor;
+	double roomSize = 800.0f;
+
+	FVector location(i * -roomSize + roomSize / 2, j * 800.0f + roomSize / 2, 10.0f);
+	spawnParams.Name = FName(*("Room_" + FString::FromInt(i) + "_" + FString::FromInt(j)));
+	spawnParams.bNoFail = true;
+	
+	//FVector location2(-6800.0f, 400.0f, 10.0f);
+	//assetClass = LoadClass<AActor>(nullptr, TEXT("/Game/dungeonCrawler/Prefab_BluePrints/Rooms/NoRoom_Blueprint.NoRoom_Blueprint_C"));
+	//assetClass = LoadClass<AActor>(nullptr, TEXT("/Game/dungeonCrawler/Prefab_BluePrints/Rooms/Room_1door_up_Blueprint.Room_1door_up_Blueprint_C"));
+	//spawnRotation.Yaw = 0.0f;
+	//spawnedActor = World->SpawnActor<AActor>(assetClass, location2, spawnRotation, spawnParams);
+
+	switch (levelArray[i][j][0]) {
+		case UEnvControllerObj::RoomType::NoRoom:
+			assetClass = LoadClass<AActor>(nullptr, TEXT("/Game/dungeonCrawler/Prefab_BluePrints/Rooms/NoRoomSquare_Blueprint.NoRoomSquare_Blueprint_C"));
+			//assetClass = LoadClass<AActor>(nullptr, TEXT("/Game/dungeonCrawler/Prefab_BluePrints/Rooms/Room_1door_up_Blueprint.Room_1door_up_Blueprint_C"));
+			spawnRotation.Yaw = 0.0f;
+			spawnedActor = World->SpawnActor<AActor>(assetClass, location, spawnRotation, spawnParams);
+			break;
+		case UEnvControllerObj::RoomType::BasicRoom:
+
+			break;
+		default:
+			UE_LOG(LogTemp, Error, TEXT("ERROR ERROR ERROR: wrong room type at i:%d, j:%d"), i, j);
+			break;
+	}
+}
+/*AActor* UWorld::SpawnActor
+(
+    UClass*         Class,
+    FName           InName,
+    FVector const*  Location,
+    FRotator const* Rotation,
+    AActor*         Template,
+    bool            bNoCollisionFail,
+    bool            bRemoteOwned,
+    AActor*         Owner,
+    APawn*          Instigator,
+    bool            bNoFail,
+    ULevel*         OverrideLevel,
+    bool            bDeferConstruction
+)*/
+
+void LevelManager::SpawnEntityWithType(int32 entityType, int32 i, int32 j)
+{
+	switch (entityType) {
+		case UEnvControllerObj::EntityType::NoEntity:
+			break;
+		case UEnvControllerObj::EntityType::PlayerStart:
+
+			break;
+		case UEnvControllerObj::EntityType::PlayerEnd:
+
+			break;
+		case UEnvControllerObj::EntityType::Enemy:
+
+			break;
+		case UEnvControllerObj::EntityType::Treasure:
+
+			break;
+		case UEnvControllerObj::EntityType::GuardedTreasure:
+
+			break;
+		default:
+			UE_LOG(LogTemp, Error, TEXT("ERROR ERROR ERROR: wrong entity type at i:%d, j:%d"), i, j);
+			break;
 	}
 }

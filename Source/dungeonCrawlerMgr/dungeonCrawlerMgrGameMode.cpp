@@ -35,6 +35,7 @@ void AdungeonCrawlerMgrGameMode::BeginPlay()
 
 void AdungeonCrawlerMgrGameMode::LoadLevel()
 {
-	LevelManager* levelManager = new LevelManager();
+	UWorld* world = GetWorld();
+	LevelManager* levelManager = new LevelManager(world);
 	levelManager->LoadLevel();
 }
