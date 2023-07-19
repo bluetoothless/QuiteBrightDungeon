@@ -17,7 +17,7 @@ public:
 	{ 
 		NoRoom, 
 		BasicRoom, 
-		//DoorRoom
+		//LockedDoorRoom
 	};
 
 	static enum EntityType

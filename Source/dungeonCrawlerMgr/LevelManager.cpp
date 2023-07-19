@@ -2,6 +2,7 @@
 #include "EnvControllerObj.h"
 #include "dungeonCrawlerMgrPlayerController.h"
 #include "Engine/World.h"
+#include "RoomDetailManager.h"
 
 LevelManager::LevelManager(UWorld* world)
 {
@@ -66,62 +67,10 @@ void LevelManager::SpawnRooms()
 	{
 		for (int32 j = 0; j < LevelArray[i].Num(); j++)
 		{
-			SpawnRoomWithType(i, j);
-			SpawnEntityWithType(i, j);
+			RoomDetailManager* roomDetailManager = new RoomDetailManager(World, LevelArray);
+
+			roomDetailManager->SpawnRoomWithType(i, j);
+			roomDetailManager->SpawnEntityWithType(i, j);
 		}
-	}
-}
-
-void LevelManager::SpawnRoomWithType(int32 i, int32 j)
-{
-	UClass* assetClass;
-	FRotator spawnRotation;	//SpawnRotation.Yaw = 270.0f; //left
-	FActorSpawnParameters spawnParams;
-	AActor* spawnedRoom;
-	double roomSize = 800.0f;
-
-	FVector location(i * -roomSize + roomSize / 2, j * 800.0f + roomSize / 2, 10.0f);
-	spawnParams.Name = FName(*("Room_" + FString::FromInt(i) + "_" + FString::FromInt(j)));
-	spawnParams.bNoFail = true;
-	
-	switch (LevelArray[i][j][0]) {
-		case UEnvControllerObj::RoomType::NoRoom:
-			assetClass = LoadClass<AActor>(nullptr, TEXT("/Game/dungeonCrawler/Prefab_BluePrints/Rooms/NoRoomSquare_Blueprint.NoRoomSquare_Blueprint_C"));
-			//assetClass = LoadClass<AActor>(nullptr, TEXT("/Game/dungeonCrawler/Prefab_BluePrints/Rooms/Room_1door_up_Blueprint.Room_1door_up_Blueprint_C"));
-			spawnRotation.Yaw = 0.0f;
-			spawnedRoom = World->SpawnActor<AActor>(assetClass, location, spawnRotation, spawnParams);
-			break;
-		case UEnvControllerObj::RoomType::BasicRoom:
-
-			break;
-		default:
-			UE_LOG(LogTemp, Error, TEXT("ERROR ERROR ERROR: wrong room type at i:%d, j:%d"), i, j);
-			break;
-	}
-}
-
-void LevelManager::SpawnEntityWithType(int32 i, int32 j)
-{
-	switch (LevelArray[i][j][1]) {
-		case UEnvControllerObj::EntityType::NoEntity:
-			break;
-		case UEnvControllerObj::EntityType::PlayerStart:
-
-			break;
-		case UEnvControllerObj::EntityType::PlayerEnd:
-
-			break;
-		case UEnvControllerObj::EntityType::Enemy:
-
-			break;
-		case UEnvControllerObj::EntityType::Treasure:
-
-			break;
-		case UEnvControllerObj::EntityType::GuardedTreasure:
-
-			break;
-		default:
-			UE_LOG(LogTemp, Error, TEXT("ERROR ERROR ERROR: wrong entity type at i:%d, j:%d"), i, j);
-			break;
 	}
 }

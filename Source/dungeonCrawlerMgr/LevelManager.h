@@ -20,7 +20,4 @@ public:
 	void ReadLevelArray(FString levelFilePath);
 	void PrintLevelArray();
 	void SpawnRooms();
-	void SpawnRoomWithType(int32 i, int32 j);
-	void SpawnEntityWithType(int32 i, int32 j);
-	//UClass* DetermineRoomType();
 };
