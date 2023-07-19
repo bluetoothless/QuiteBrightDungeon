@@ -9,14 +9,18 @@
  */
 class DUNGEONCRAWLERMGR_API LevelManager
 {
+private:
+		UWorld* World;
+		TArray<TArray<TArray<int32>>> LevelArray;
 public:
 	LevelManager(UWorld* world);
 	~LevelManager();
 
 	void LoadLevel();
-	TArray<TArray<TArray<int32>>> ReadLevelArray(FString levelFilePath);
-	void PrintLevelArray(TArray<TArray<TArray<int32>>> levelArray);
-	void SpawnRooms(TArray<TArray<TArray<int32>>> levelArray);
-	void SpawnRoomWithType(TArray<TArray<TArray<int32>>>  levelArray, int32 i, int32 j);
-	void SpawnEntityWithType(int32 entityType, int32 i, int32 j);
+	void ReadLevelArray(FString levelFilePath);
+	void PrintLevelArray();
+	void SpawnRooms();
+	void SpawnRoomWithType(int32 i, int32 j);
+	void SpawnEntityWithType(int32 i, int32 j);
+	//UClass* DetermineRoomType();
 };
