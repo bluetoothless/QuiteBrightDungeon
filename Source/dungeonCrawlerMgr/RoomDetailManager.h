@@ -1,17 +1,13 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
 #pragma once
-
 #include "CoreMinimal.h"
+#include "RoomSpawnInfo.h"
 
-/**
- * 
- */
 class DUNGEONCRAWLERMGR_API RoomDetailManager
 {
 private:
 	UWorld* World;
 	TArray<TArray<TArray<int32>>> LevelArray;
+	double RoomSize;
 	TMap<FString, FString> RoomClassPaths = {
 		{ "NoRoom", "/Game/dungeonCrawler/Prefab_BluePrints/Rooms/NoRoomSquare_Blueprint.NoRoomSquare_Blueprint_C" },
 		{ "BasicRoom_1d_up", "/Game/dungeonCrawler/Prefab_BluePrints/Rooms/Room_1door_up_Blueprint.Room_1door_up_Blueprint_C" },
@@ -35,5 +31,6 @@ public:
 
 	void SpawnRoomWithType(int32 i, int32 j);
 	void SpawnEntityWithType(int32 i, int32 j);
-	UClass* DetermineAssetClass(int32 i, int32 j);
+	RoomSpawnInfo* DetermineAssetClassAndRotation(int32 i, int32 j);
 };
+

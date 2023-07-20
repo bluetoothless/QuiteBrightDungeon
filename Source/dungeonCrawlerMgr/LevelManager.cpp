@@ -37,6 +37,17 @@ void LevelManager::ReadLevelArray(FString levelFilePath)
         }
     }
 	LevelArray[9][4] = { 1, 1 };
+	LevelArray[8][3] = { 1, 0 };
+	LevelArray[8][4] = { 1, 0 };
+	LevelArray[8][5] = { 1, 0 };
+	LevelArray[8][6] = { 1, 0 };
+	LevelArray[7][4] = { 1, 0 };
+	LevelArray[7][6] = { 1, 0 };
+	LevelArray[7][7] = { 1, 0 };
+	LevelArray[6][3] = { 1, 0 };
+	LevelArray[6][4] = { 1, 0 };
+	LevelArray[6][7] = { 1, 0 };
+	LevelArray[5][4] = { 1, 0 };
 }
 
 void LevelManager::PrintLevelArray()
@@ -63,11 +74,14 @@ void LevelManager::PrintLevelArray()
 
 void LevelManager::SpawnRooms()
 {
+	RoomDetailManager* roomDetailManager = new RoomDetailManager(World, LevelArray);
 	for (int32 i = 0; i < LevelArray.Num(); i++)
 	{
 		for (int32 j = 0; j < LevelArray[i].Num(); j++)
 		{
-			RoomDetailManager* roomDetailManager = new RoomDetailManager(World, LevelArray);
+			if (i == 6 && (j == 3 || j == 4)) {
+				UE_LOG(LogTemp, Error, TEXT("tu"));
+			}
 
 			roomDetailManager->SpawnRoomWithType(i, j);
 			roomDetailManager->SpawnEntityWithType(i, j);
