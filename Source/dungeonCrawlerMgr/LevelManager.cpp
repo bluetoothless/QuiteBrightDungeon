@@ -17,9 +17,18 @@ LevelManager::~LevelManager()
 void LevelManager::LoadLevel()
 {
     FString levelFilePath = "";
+	//// spawning whole rooms
+	/*
 	ReadLevelArray(levelFilePath);
 	PrintLevelArray();
 	SpawnRooms();
+	*/
+
+	//// spawning tiles
+	ReadLevelTileArray(levelFilePath);
+	PrintLevelTileArray();
+	SpawnTiles();
+
 }
 
 
@@ -74,7 +83,7 @@ void LevelManager::PrintLevelArray()
 
 void LevelManager::SpawnRooms()
 {
-	RoomDetailManager* roomDetailManager = new RoomDetailManager(World, LevelArray);
+	RoomDetailManager* roomDetailManager = new RoomDetailManager(World, LevelArray, LevelTileArray);
 	for (int32 i = 0; i < LevelArray.Num(); i++)
 	{
 		for (int32 j = 0; j < LevelArray[i].Num(); j++)
@@ -85,6 +94,100 @@ void LevelManager::SpawnRooms()
 
 			roomDetailManager->SpawnRoomWithType(i, j);
 			roomDetailManager->SpawnEntityWithType(i, j);
+		}
+	}
+}
+
+//------------------------------ ^ rooms ------------- v tiles
+
+void LevelManager::ReadLevelTileArray(FString levelFilePath)
+{
+	UE_LOG(LogTemp, Error, TEXT("LevelManager - LoadTileLevel"));
+	LevelTileArray.SetNum(20);
+	for (int32 i = 0; i < LevelTileArray.Num(); i++)
+	{
+		LevelTileArray[i].SetNum(20);
+
+		for (int32 j = 0; j < LevelTileArray.Num(); j++)
+		{
+			LevelTileArray[i][j] = 1; //wall
+		}
+	}
+	LevelTileArray[11][1] = 0;
+	LevelTileArray[11][2] = 0;
+	LevelTileArray[11][3] = 0;
+	LevelTileArray[12][1] = 0;
+	LevelTileArray[12][2] = 0;
+	LevelTileArray[12][3] = 0;
+	LevelTileArray[13][1] = 0;
+	LevelTileArray[13][2] = 0;
+	LevelTileArray[13][3] = 0;
+	LevelTileArray[14][2] = 0;
+	LevelTileArray[14][5] = 0;
+	LevelTileArray[14][6] = 0;
+	LevelTileArray[14][7] = 0;
+
+	LevelTileArray[15][2] = 0;
+	LevelTileArray[15][3] = 0;
+	LevelTileArray[15][4] = 0;
+	LevelTileArray[15][5] = 0;
+	LevelTileArray[15][6] = 0;
+	LevelTileArray[15][7] = 0;
+
+	LevelTileArray[16][2] = 0;
+	LevelTileArray[16][5] = 0;
+	LevelTileArray[16][6] = 0;
+	LevelTileArray[16][7] = 0;
+
+	LevelTileArray[17][1] = 0;
+	LevelTileArray[17][2] = 0;
+	LevelTileArray[17][3] = 0;
+	LevelTileArray[17][5] = 0;
+	LevelTileArray[17][6] = 0;
+	LevelTileArray[17][7] = 0;
+	LevelTileArray[17][9] = 0;
+	LevelTileArray[17][10] = 0;
+	LevelTileArray[17][11] = 0;
+	LevelTileArray[18][1] = 0;
+	LevelTileArray[18][2] = 2;
+	LevelTileArray[18][3] = 0;
+	LevelTileArray[18][5] = 0;
+	LevelTileArray[18][6] = 0;
+	LevelTileArray[18][7] = 0;
+	LevelTileArray[18][8] = 0;
+	LevelTileArray[18][9] = 0;
+	LevelTileArray[18][10] = 0;
+	LevelTileArray[18][11] = 0;
+}
+
+void LevelManager::PrintLevelTileArray()
+{
+	FString tileArray = "";
+	for (int32 i = 0; i < LevelTileArray.Num(); i++)
+	{
+		FString tileArrayRow = "";
+		for (int32 j = 0; j < LevelTileArray[i].Num(); j++)
+		{
+			tileArrayRow += FString::FromInt(LevelTileArray[i][j]) + ",";
+		}
+		tileArray += tileArrayRow + "\n";
+	}
+	UE_LOG(LogTemp, Error, TEXT("---------------------- Tile map ----------------------"));
+	UE_LOG(LogTemp, Error, TEXT("%s"), *tileArray);
+}
+
+void LevelManager::SpawnTiles()
+{
+	RoomDetailManager* roomDetailManager = new RoomDetailManager(World, LevelArray, LevelTileArray);
+	for (int32 i = 0; i < LevelTileArray.Num(); i++)
+	{
+		for (int32 j = 0; j < LevelTileArray[i].Num(); j++)
+		{
+			if (i == 6 && (j == 3 || j == 4)) {
+				UE_LOG(LogTemp, Error, TEXT("tu"));
+			}
+
+			roomDetailManager->SpawnTile(i, j);
 		}
 	}
 }

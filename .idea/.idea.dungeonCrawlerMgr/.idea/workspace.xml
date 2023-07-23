@@ -2,15 +2,14 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="b4b456aa-386c-40d5-b9a1-82b83f4707c0" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/Config/DefaultEngine.ini" beforeDir="false" afterPath="$PROJECT_DIR$/Config/DefaultEngine.ini" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Config/DefaultGame.ini" beforeDir="false" afterPath="$PROJECT_DIR$/Config/DefaultGame.ini" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.dungeonCrawlerMgr/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.dungeonCrawlerMgr/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/StarterContent/Materials/M_CobbleStone_Smooth4.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/StarterContent/Materials/M_CobbleStone_Smooth4.uasset" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Content/dungeonCrawler/Map1.umap" beforeDir="false" afterPath="$PROJECT_DIR$/Content/dungeonCrawler/Map1.umap" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/dungeonCrawler/Prefab_BlurPrints/WallWithDoor.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/dungeonCrawler/Prefab_BlurPrints/WallWithDoor_Blueprint.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/dungeonCrawler/Prefab_BlurPrints/Wall_800x200_Blueprint.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/dungeonCrawlerMgr/dungeonCrawlerMgrCharacter.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/dungeonCrawlerMgr/dungeonCrawlerMgrCharacter.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/dungeonCrawlerMgr/dungeonCrawlerMgrPlayerController.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/dungeonCrawlerMgr/dungeonCrawlerMgrPlayerController.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dungeonCrawlerMgr.uproject" beforeDir="false" afterPath="$PROJECT_DIR$/dungeonCrawlerMgr.uproject" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/dungeonCrawlerMgr/LevelManager.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/dungeonCrawlerMgr/LevelManager.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/dungeonCrawlerMgr/LevelManager.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/dungeonCrawlerMgr/LevelManager.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/dungeonCrawlerMgr/RoomDetailManager.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/dungeonCrawlerMgr/RoomDetailManager.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/dungeonCrawlerMgr/RoomDetailManager.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/dungeonCrawlerMgr/RoomDetailManager.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/dungeonCrawlerMgr/dungeonCrawlerMgrGameMode.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/dungeonCrawlerMgr/dungeonCrawlerMgrGameMode.cpp" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -25,14 +24,14 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
@@ -42,6 +41,9 @@
       <option name="presentableId" value="Default" />
       <updated>1689692661057</updated>
       <workItem from="1689692662136" duration="1178000" />
+      <workItem from="1690136810668" duration="2000" />
+      <workItem from="1690136820652" duration="20000" />
+      <workItem from="1690136853307" duration="10000" />
     </task>
     <servers />
   </component>

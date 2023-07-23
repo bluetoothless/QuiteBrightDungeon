@@ -31,4 +31,16 @@ public:
 		//Key,
 		//GuardedKey
 	};
+
+	static enum TileType
+	{
+		EmptyTile,
+		WallTile,
+		PlayerStartTile,
+		PlayerEndTile,
+		EnemyTile,
+		TreasureTile,
+		//DoorTile,
+		//KeyTile,
+	};
 };

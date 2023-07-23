@@ -7,7 +7,9 @@ class DUNGEONCRAWLERMGR_API RoomDetailManager
 private:
 	UWorld* World;
 	TArray<TArray<TArray<int32>>> LevelArray;
+	TArray<TArray<int32>> LevelTileArray;
 	double RoomSize;
+	double TileSize;
 	TMap<FString, FString> RoomClassPaths = {
 		{ "NoRoom", "/Game/dungeonCrawler/Prefab_BluePrints/Rooms/NoRoomSquare_Blueprint.NoRoomSquare_Blueprint_C" },
 		{ "BasicRoom_1d_up", "/Game/dungeonCrawler/Prefab_BluePrints/Rooms/Room_1door_up_Blueprint.Room_1door_up_Blueprint_C" },
@@ -25,12 +27,23 @@ private:
 		{ "GuardedTreasure", "" }
 	};
 
+	TMap<FString, FString> TileClassPaths = {
+		{ "EmptyTile", "" },
+		{ "WallTile", "/Game/dungeonCrawler/Prefab_BluePrints/Tiles/TileWall_Blueprint.TileWall_Blueprint_C" },
+		{ "PlayerStartTile", "" },
+		{ "PlayerEndTile", "" },
+		{ "EnemyTile", "" },
+		{ "TreasureTile", "" }
+	};
+
 public:
-	RoomDetailManager(UWorld* world, TArray<TArray<TArray<int32>>> levelArray);
+	RoomDetailManager(UWorld* world, TArray<TArray<TArray<int32>>> levelArray, TArray<TArray<int32>> levelTileArray);
 	~RoomDetailManager();
 
 	void SpawnRoomWithType(int32 i, int32 j);
 	void SpawnEntityWithType(int32 i, int32 j);
 	RoomSpawnInfo* DetermineAssetClassAndRotation(int32 i, int32 j);
+
+	void SpawnTile(int32 i, int32 j);
 };
 

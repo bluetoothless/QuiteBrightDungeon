@@ -6,11 +6,15 @@
 #include "RoomSpawnInfo.h"
 #include <GameFramework/PlayerStart.h>
 
-RoomDetailManager::RoomDetailManager(UWorld* world, TArray<TArray<TArray<int32>>> levelArray)
+RoomDetailManager::RoomDetailManager(UWorld* world, TArray<TArray<TArray<int32>>> levelArray, TArray<TArray<int32>> levelTileArray)
 {
 	World = world;
+
 	LevelArray = levelArray;
 	RoomSize = 800.0f;
+	TileSize = 400.0f;
+
+	LevelTileArray = levelTileArray;
 
 	UE_LOG(LogTemp, Error, TEXT("RoomDetailManager - constructor"));
 }
@@ -19,8 +23,23 @@ RoomDetailManager::~RoomDetailManager()
 {
 }
 
-
 void RoomDetailManager::SpawnRoomWithType(int32 i, int32 j)
+{
+	UClass* assetClass;
+	FRotator spawnRotation;	//SpawnRotation.Yaw = 270.0f; //left
+	FActorSpawnParameters spawnParams;
+	AActor* spawnedRoom;
+	FVector location(i * -RoomSize + RoomSize / 2, j * RoomSize + RoomSize / 2, 10.0f);
+	spawnParams.Name = FName(*("Room_" + FString::FromInt(i) + "_" + FString::FromInt(j)));
+	spawnParams.bNoFail = true;
+
+	RoomSpawnInfo* roomSpawnInfo = DetermineAssetClassAndRotation(i, j);
+	assetClass = roomSpawnInfo->AssetClass;
+	spawnRotation = roomSpawnInfo->SpawnRotation;
+	spawnedRoom = World->SpawnActor<AActor>(assetClass, location, spawnRotation, spawnParams);
+}
+
+void RoomDetailManager::SpawnEntityWithType(int32 i, int32 j)
 {
 	UClass* assetClass;
 	FRotator spawnRotation;	//SpawnRotation.Yaw = 270.0f; //left
@@ -107,35 +126,53 @@ RoomSpawnInfo* RoomDetailManager::DetermineAssetClassAndRotation(int32 i, int32 
 	return roomSpawnInfo;
 }
 
-void RoomDetailManager::SpawnEntityWithType(int32 i, int32 j)
+//------------------------------ ^ rooms ------------- v tiles
+
+void RoomDetailManager::SpawnTile(int32 i, int32 j)
 {
-	FVector location(i * -RoomSize + RoomSize / 2, j * RoomSize + RoomSize / 2, 200.0f); //102
-	FRotator rotation(0, 0, 0);
-	APlayerStart* PlayerStart;
+	UClass* assetClass;
+	FRotator spawnRotation(0, 0, 0);
 	FActorSpawnParameters spawnParams;
+	AActor* spawnedTile;
+	FVector location(i * -TileSize + TileSize / 2, j * TileSize + TileSize / 2, 110.0f);
+	spawnParams.Name = FName(*("Tile_" + FString::FromInt(i) + "_" + FString::FromInt(j)));
 	spawnParams.bNoFail = true;
+	FString TileType;
 
-	switch (LevelArray[i][j][1]) {
-	case UEnvControllerObj::EntityType::NoEntity:
+	switch (LevelTileArray[i][j])
+	{
+	case UEnvControllerObj::TileType::EmptyTile:
+		return;
+	case UEnvControllerObj::TileType::WallTile:
+		TileType = "WallTile";
 		break;
-	case UEnvControllerObj::EntityType::PlayerStart:
-		spawnParams.Name = FName("PlayerStart");
-		PlayerStart = World->SpawnActor<APlayerStart>(location, rotation, spawnParams);
-		break;
-	case UEnvControllerObj::EntityType::PlayerEnd:
+	case UEnvControllerObj::TileType::PlayerStartTile:
 
+		return;
 		break;
-	case UEnvControllerObj::EntityType::Enemy:
-
+	case UEnvControllerObj::TileType::PlayerEndTile:
 		break;
-	case UEnvControllerObj::EntityType::Treasure:
-
+	case UEnvControllerObj::TileType::EnemyTile:
 		break;
-	case UEnvControllerObj::EntityType::GuardedTreasure:
-
-		break;
-	default:
-		UE_LOG(LogTemp, Error, TEXT("ERROR ERROR ERROR: wrong entity type at i:%d, j:%d"), i, j);
+	case UEnvControllerObj::TileType::TreasureTile:
 		break;
 	}
+
+	FString TileBlueprintPath = TileClassPaths[TileType];
+	assetClass = LoadClass<AActor>(nullptr, *TileBlueprintPath);
+
+	spawnedTile = World->SpawnActor<AActor>(assetClass, location, spawnRotation, spawnParams);
 }
+/*
+static enum TileType
+	{
+		Empty,
+		Wall,
+		PlayerStart,
+		PlayerEnd,
+		Enemy,
+		Treasure,
+		//Door,
+		//Key,
+	};
+*/
