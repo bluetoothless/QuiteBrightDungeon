@@ -147,9 +147,8 @@ void RoomDetailManager::SpawnTile(int32 i, int32 j)
 		TileType = "WallTile";
 		break;
 	case UEnvControllerObj::TileType::PlayerStartTile:
-
+		APlayerStart* PlayerStart = World->SpawnActor<APlayerStart>(APlayerStart::StaticClass(), location, spawnRotation, spawnParams);
 		return;
-		break;
 	case UEnvControllerObj::TileType::PlayerEndTile:
 		break;
 	case UEnvControllerObj::TileType::EnemyTile:
