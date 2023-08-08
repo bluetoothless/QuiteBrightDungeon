@@ -14,6 +14,8 @@
 
 AdungeonCrawlerMgrCharacter::AdungeonCrawlerMgrCharacter()
 {
+    //AutoPossessPlayer = EAutoReceiveInput::Disabled;
+
 	// Set size for player capsule
 	GetCapsuleComponent()->InitCapsuleSize(42.f, 96.0f);
 
@@ -44,8 +46,6 @@ AdungeonCrawlerMgrCharacter::AdungeonCrawlerMgrCharacter()
 	// Activate ticking in order to update the cursor every frame.
 	PrimaryActorTick.bCanEverTick = true;
 	PrimaryActorTick.bStartWithTickEnabled = true;
-
-    AutoPossessPlayer = EAutoReceiveInput::Disabled;
 }
 
 void AdungeonCrawlerMgrCharacter::Tick(float DeltaSeconds)

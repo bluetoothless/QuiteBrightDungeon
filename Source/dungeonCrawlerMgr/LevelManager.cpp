@@ -116,7 +116,7 @@ void LevelManager::ReadLevelTileArray(FString levelFilePath)
 	LevelTileArray[11][1] = 0;
 	LevelTileArray[11][2] = 0;
 	LevelTileArray[11][3] = 0;
-	LevelTileArray[12][1] = 0;
+	LevelTileArray[12][1] = 2;
 	LevelTileArray[12][2] = 0;
 	LevelTileArray[12][3] = 0;
 	LevelTileArray[13][1] = 0;
@@ -149,7 +149,7 @@ void LevelManager::ReadLevelTileArray(FString levelFilePath)
 	LevelTileArray[17][10] = 0;
 	LevelTileArray[17][11] = 0;
 	LevelTileArray[18][1] = 0;
-	LevelTileArray[18][2] = 2;
+	LevelTileArray[18][2] = 0;
 	LevelTileArray[18][3] = 0;
 	LevelTileArray[18][5] = 0;
 	LevelTileArray[18][6] = 0;

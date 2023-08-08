@@ -7,6 +7,7 @@
 #include "UObject/ConstructorHelpers.h"
 #include "EnvControllerObj.h"
 #include <Kismet/GameplayStatics.h>
+#include <Actions/PawnActionsComponent.h>
 
 AdungeonCrawlerMgrGameMode::AdungeonCrawlerMgrGameMode()
 {
@@ -40,18 +41,23 @@ void AdungeonCrawlerMgrGameMode::LoadLevel()
 	UWorld* world = GetWorld();
 	LevelManager* levelManager = new LevelManager(world);
 	levelManager->LoadLevel();
-	APlayerController* PlayerController = UGameplayStatics::GetPlayerController(this, 0);
-	if (PlayerController)
+	APlayerController* playerController = UGameplayStatics::GetPlayerController(this, 0);
+	if (playerController)
 	{
-		ACharacter* SpawnedPawn = GetWorld()->SpawnActor<ACharacter>(AdungeonCrawlerMgrCharacter::StaticClass(),
-			UEnvControllerObj::PlayerStart->GetActorLocation(), UEnvControllerObj::PlayerStart->GetActorRotation());
-		if (SpawnedPawn)
+		APawn* controlledPawn = playerController->GetPawn();
+		if (controlledPawn)
 		{
-			PlayerController->Possess(SpawnedPawn);
+			ACharacter* controlledCharacter = Cast<ACharacter>(controlledPawn);
+			if (controlledCharacter && UEnvControllerObj::PlayerStart)
+			{
+				FVector TargetLocation = UEnvControllerObj::PlayerStart->GetActorLocation();
+				FRotator TargetRotation = UEnvControllerObj::PlayerStart->GetActorRotation();
+				controlledCharacter->SetActorLocationAndRotation(TargetLocation, TargetRotation);
+			}
 		}
 	}
 }
-
+/*
 AActor* AdungeonCrawlerMgrGameMode::ChoosePlayerStart_Implementation(AController* Player)
 {
 
@@ -66,3 +72,4 @@ bool AdungeonCrawlerMgrGameMode::ShouldSpawnAtStartSpot(AController* Player)
 {
 	return false;
 }
+*/
