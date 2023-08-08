@@ -4,7 +4,10 @@
 #include "RoomDetailManager.h"
 #include "EnvControllerObj.h"
 #include "RoomSpawnInfo.h"
+#include "CustomPlayerStart.h"
 #include <GameFramework/PlayerStart.h>
+#include "dungeonCrawlerMgrGameMode.h"
+#include <Kismet/GameplayStatics.h>
 
 RoomDetailManager::RoomDetailManager(UWorld* world, TArray<TArray<TArray<int32>>> levelArray, TArray<TArray<int32>> levelTileArray)
 {
@@ -134,6 +137,7 @@ void RoomDetailManager::SpawnTile(int32 i, int32 j)
 	FRotator spawnRotation(0, 0, 0);
 	FActorSpawnParameters spawnParams;
 	AActor* spawnedTile;
+	APlayerStart* playerStart;
 	FVector location(i * -TileSize + TileSize / 2, j * TileSize + TileSize / 2, 110.0f);
 	spawnParams.Name = FName(*("Tile_" + FString::FromInt(i) + "_" + FString::FromInt(j)));
 	spawnParams.bNoFail = true;
@@ -144,12 +148,25 @@ void RoomDetailManager::SpawnTile(int32 i, int32 j)
 	case UEnvControllerObj::TileType::EmptyTile:
 		return;
 	case UEnvControllerObj::TileType::WallTile:
-		TileType = "WallTile";
+		return;//TileType = "WallTile";
 		break;
 	case UEnvControllerObj::TileType::PlayerStartTile:
-		APlayerStart* PlayerStart = World->SpawnActor<APlayerStart>(APlayerStart::StaticClass(), location, spawnRotation, spawnParams);
+		playerStart = World->SpawnActor<APlayerStart>(APlayerStart::StaticClass(), location, spawnRotation, spawnParams);
+		UEnvControllerObj::PlayerStart = playerStart;
+		/*AGameModeBase* GameMode = UGameplayStatics::GetGameMode(World);
+		if (GameMode)
+		{
+			GameMode->SetDefaultPawnClassForController(nullptr, ACustomPlayerStart::StaticClass());
+		}*/
+		/*AGameModeBase* GameMode = World->GetAuthGameMode();
+		if (GameMode)
+		{
+			GameMode->PostLogin(playerStart);
+		}*/
 		return;
 	case UEnvControllerObj::TileType::PlayerEndTile:
+		location.Z = 10.0f;
+		TileType = "PlayerEndTile";
 		break;
 	case UEnvControllerObj::TileType::EnemyTile:
 		break;

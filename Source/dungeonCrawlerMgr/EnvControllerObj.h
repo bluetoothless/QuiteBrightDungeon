@@ -1,6 +1,7 @@
 #pragma once
 #include "CoreMinimal.h"
 #include "Components/ActorComponent.h"
+#include <GameFramework/PlayerStart.h>
 #include "EnvControllerObj.generated.h"
 
 
@@ -11,6 +12,7 @@ class DUNGEONCRAWLERMGR_API UEnvControllerObj : public UActorComponent
 
 public:	
 	// Sets default values for this component's properties
+	static APlayerStart* PlayerStart;
 	UEnvControllerObj();
 
 	static enum RoomType 
@@ -23,8 +25,8 @@ public:
 	static enum EntityType
 	{
 		NoEntity,
-		PlayerStart,
-		PlayerEnd,
+		PlayerStartEntity,
+		PlayerEndEntity,
 		Enemy,
 		Treasure,
 		GuardedTreasure,

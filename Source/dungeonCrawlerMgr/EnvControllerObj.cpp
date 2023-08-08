@@ -1,5 +1,7 @@
 #include "EnvControllerObj.h"
 
+APlayerStart* UEnvControllerObj::PlayerStart = nullptr;
+
 UEnvControllerObj::UEnvControllerObj()
 {
 	PrimaryComponentTick.bCanEverTick = true;

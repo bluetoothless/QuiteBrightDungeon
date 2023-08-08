@@ -16,6 +16,8 @@ public:
 	virtual void BeginPlay();
 	void LoadLevel();
 	void SpawnRooms(TArray<TArray<int32>> levelArray);
+	virtual AActor* ChoosePlayerStart_Implementation(AController* Player) override;
+	virtual bool ShouldSpawnAtStartSpot(AController* Player) override;
 };
 
 

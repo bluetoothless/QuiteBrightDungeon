@@ -31,7 +31,7 @@ private:
 		{ "EmptyTile", "" },
 		{ "WallTile", "/Game/dungeonCrawler/Prefab_BluePrints/Tiles/TileWall_Blueprint.TileWall_Blueprint_C" },
 		{ "PlayerStartTile", "" },
-		{ "PlayerEndTile", "" },
+		{ "PlayerEndTile", "/Game/FXVarietyPack/Blueprints/BP_ky_magicCircle1.BP_ky_magicCircle1_C" },
 		{ "EnemyTile", "" },
 		{ "TreasureTile", "" }
 	};

@@ -5,6 +5,8 @@
 #include "dungeonCrawlerMgrCharacter.h"
 #include "LevelManager.h"
 #include "UObject/ConstructorHelpers.h"
+#include "EnvControllerObj.h"
+#include <Kismet/GameplayStatics.h>
 
 AdungeonCrawlerMgrGameMode::AdungeonCrawlerMgrGameMode()
 {
@@ -38,4 +40,29 @@ void AdungeonCrawlerMgrGameMode::LoadLevel()
 	UWorld* world = GetWorld();
 	LevelManager* levelManager = new LevelManager(world);
 	levelManager->LoadLevel();
+	APlayerController* PlayerController = UGameplayStatics::GetPlayerController(this, 0);
+	if (PlayerController)
+	{
+		ACharacter* SpawnedPawn = GetWorld()->SpawnActor<ACharacter>(AdungeonCrawlerMgrCharacter::StaticClass(),
+			UEnvControllerObj::PlayerStart->GetActorLocation(), UEnvControllerObj::PlayerStart->GetActorRotation());
+		if (SpawnedPawn)
+		{
+			PlayerController->Possess(SpawnedPawn);
+		}
+	}
+}
+
+AActor* AdungeonCrawlerMgrGameMode::ChoosePlayerStart_Implementation(AController* Player)
+{
+
+	if (UEnvControllerObj::PlayerStart)
+	{
+		return UEnvControllerObj::PlayerStart;
+	}
+	return nullptr;
+}
+
+bool AdungeonCrawlerMgrGameMode::ShouldSpawnAtStartSpot(AController* Player)
+{
+	return false;
 }

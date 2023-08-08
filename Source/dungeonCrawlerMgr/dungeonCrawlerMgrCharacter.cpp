@@ -44,6 +44,8 @@ AdungeonCrawlerMgrCharacter::AdungeonCrawlerMgrCharacter()
 	// Activate ticking in order to update the cursor every frame.
 	PrimaryActorTick.bCanEverTick = true;
 	PrimaryActorTick.bStartWithTickEnabled = true;
+
+    AutoPossessPlayer = EAutoReceiveInput::Disabled;
 }
 
 void AdungeonCrawlerMgrCharacter::Tick(float DeltaSeconds)
