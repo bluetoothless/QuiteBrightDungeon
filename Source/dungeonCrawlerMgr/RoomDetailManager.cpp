@@ -138,7 +138,7 @@ void RoomDetailManager::SpawnTile(int32 i, int32 j)
 	FActorSpawnParameters spawnParams;
 	AActor* spawnedTile;
 	APlayerStart* playerStart;
-	FVector location(i * -TileSize + TileSize / 2, j * TileSize + TileSize / 2, 110.0f);
+	FVector spawnLocation(i * -TileSize + TileSize / 2, j * TileSize + TileSize / 2, 110.0f);
 	spawnParams.Name = FName(*("Tile_" + FString::FromInt(i) + "_" + FString::FromInt(j)));
 	spawnParams.bNoFail = true;
 	FString TileType;
@@ -151,27 +151,38 @@ void RoomDetailManager::SpawnTile(int32 i, int32 j)
 		TileType = "WallTile";
 		break;
 	case UEnvControllerObj::TileType::PlayerStartTile:
-		playerStart = World->SpawnActor<APlayerStart>(APlayerStart::StaticClass(), location, spawnRotation, spawnParams);
+		playerStart = World->SpawnActor<APlayerStart>(APlayerStart::StaticClass(), spawnLocation, spawnRotation, spawnParams);
 		UEnvControllerObj::PlayerStart = playerStart;
-		/*AGameModeBase* GameMode = UGameplayStatics::GetGameMode(World);
-		if (GameMode)
-		{
-			GameMode->SetDefaultPawnClassForController(nullptr, ACustomPlayerStart::StaticClass());
-		}*/
-		/*AGameModeBase* GameMode = World->GetAuthGameMode();
-		if (GameMode)
-		{
-			GameMode->PostLogin(playerStart);
-		}*/
 		return;
 	case UEnvControllerObj::TileType::PlayerEndTile:
-		location.Z = 10.0f;
+		spawnLocation.Z = 10.0f;
 		TileType = "PlayerEndTile";
 		break;
 	case UEnvControllerObj::TileType::EnemyTile:
-		break;
+		return;
 	case UEnvControllerObj::TileType::TreasureTile:
-		location.Z = 10.0f;
+		spawnLocation.Z = 10.0f;
+		bool hasWallLeftNeighbor = (j > 0 && LevelTileArray[i][j - 1] == UEnvControllerObj::TileType::WallTile);
+		bool hasWallRightNeighbor = (j < LevelTileArray[i].Num() - 1 && LevelTileArray[i][j + 1] == UEnvControllerObj::TileType::WallTile);
+		bool hasWallUpNeighbor = (i > 0 && LevelTileArray[i - 1][j] == UEnvControllerObj::TileType::WallTile);
+		bool hasWallDownNeighbor = (i < LevelTileArray.Num() - 1 && LevelTileArray[i + 1][j] == UEnvControllerObj::TileType::WallTile);
+		int32 adjacentWallsNumber = 0;
+
+		if (hasWallLeftNeighbor) adjacentWallsNumber++;
+		if (hasWallRightNeighbor) adjacentWallsNumber++;
+		if (hasWallUpNeighbor) adjacentWallsNumber++;
+		if (hasWallDownNeighbor) adjacentWallsNumber++;
+		if (adjacentWallsNumber == 1) {
+			if ( hasWallRightNeighbor) {
+				spawnRotation = FRotator(0, 90, 0);
+			}
+			else if (hasWallLeftNeighbor) {
+				spawnRotation = FRotator(0, 270, 0);
+			}
+			else if (hasWallDownNeighbor) {
+				spawnRotation = FRotator(0, 180, 0);
+			}
+		}
 		TileType = "TreasureTile";
 		break;
 	}
@@ -179,7 +190,7 @@ void RoomDetailManager::SpawnTile(int32 i, int32 j)
 	FString TileBlueprintPath = TileClassPaths[TileType];
 	assetClass = LoadClass<AActor>(nullptr, *TileBlueprintPath);
 
-	spawnedTile = World->SpawnActor<AActor>(assetClass, location, spawnRotation, spawnParams);
+	spawnedTile = World->SpawnActor<AActor>(assetClass, spawnLocation, spawnRotation, spawnParams);
 }
 /*
 static enum TileType
