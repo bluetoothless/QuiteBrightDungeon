@@ -65,6 +65,13 @@ private:
 
 	bool bIsTouch; // Is it a touch device
 	float FollowTime; // For how long it has been pressed
+
+	TMap<FString, TCHAR*> InputActionPaths = {
+		{ "SwordSlash", TEXT("InputAction'/Game/TopDown/Input/Actions/IA_SwingSword.IA_SwingSword'") },
+	};
+	TMap<FString, TCHAR*> AnimationPaths = {
+		{ "SwordSlash", TEXT("AnimSequence'/Game/dungeonCrawler/SwordSlash.SwordSlash'") },
+	};
 };
 
 

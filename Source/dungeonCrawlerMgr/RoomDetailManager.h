@@ -30,7 +30,7 @@ private:
 	TMap<FString, FString> TileClassPaths = {
 		{ "WallTile", "/Game/dungeonCrawler/Prefab_BluePrints/Tiles/TileWall_Blueprint.TileWall_Blueprint_C" },
 		{ "PlayerEndTile", "/Game/dungeonCrawler/Prefab_BluePrints/Tiles/TilePlayerEnd_Blueprint.TilePlayerEnd_Blueprint_C" },
-		{ "EnemyTile", "" },
+		{ "EnemyTile", "/Game/dungeonCrawler/Prefab_BluePrints/Tiles/TileEnemy_Blueprint.TileEnemy_Blueprint_C" },
 		{ "TreasureTile", "/Game/dungeonCrawler/Prefab_BluePrints/Tiles/TileTreasure_Blueprint.TileTreasure_Blueprint_C" }
 	};
 

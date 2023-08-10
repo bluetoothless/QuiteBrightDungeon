@@ -17,8 +17,7 @@ AdungeonCrawlerMgrPlayerController::AdungeonCrawlerMgrPlayerController()
 	CachedDestination = FVector::ZeroVector;
 	FollowTime = 0.f;
 	SwingSwordAction = Cast<UInputAction>(StaticLoadObject(
-		UInputAction::StaticClass(), nullptr, 
-		TEXT("InputAction'/Game/TopDown/Input/Actions/IA_SwingSword.IA_SwingSword'")));
+		UInputAction::StaticClass(), nullptr, InputActionPaths["SwordSlash"]));
 }
 
 void AdungeonCrawlerMgrPlayerController::BeginPlay()
@@ -48,7 +47,7 @@ void AdungeonCrawlerMgrPlayerController::SetupInputComponent()
 		EnhancedInputComponent->BindAction(SetDestinationClickAction, ETriggerEvent::Completed, this, &AdungeonCrawlerMgrPlayerController::OnSetDestinationReleased);
 		EnhancedInputComponent->BindAction(SetDestinationClickAction, ETriggerEvent::Canceled, this, &AdungeonCrawlerMgrPlayerController::OnSetDestinationReleased);
 
-		//EnhancedInputComponent->BindAction(SwingSwordAction, ETriggerEvent::Started, this, &AdungeonCrawlerMgrPlayerController::SwingSword);
+		EnhancedInputComponent->BindAction(SwingSwordAction, ETriggerEvent::Started, this, &AdungeonCrawlerMgrPlayerController::SwingSword);
 	}
 }
 
@@ -115,7 +114,8 @@ void AdungeonCrawlerMgrPlayerController::SwingSword()
 		USkeletalMeshComponent* CharacterMesh = ControlledCharacter->GetMesh();
 		if (CharacterMesh != nullptr)
 		{
-			UAnimSequence* Anim = Cast<UAnimSequence>(StaticLoadObject(UAnimSequence::StaticClass(), nullptr, TEXT("AnimSequence'/Game/dungeonCrawler/SwordSlash.SwordSlash'")));
+			UAnimSequence* Anim = Cast<UAnimSequence>(StaticLoadObject(UAnimSequence::StaticClass(), 
+				nullptr, AnimationPaths["SwordSlash"]));
 			bool bLoop = false;
 			CharacterMesh->PlayAnimation(Anim, bLoop);
 		}

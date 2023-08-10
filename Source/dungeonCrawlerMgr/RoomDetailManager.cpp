@@ -159,7 +159,9 @@ void RoomDetailManager::SpawnTile(int32 i, int32 j)
 		TileType = "PlayerEndTile";
 		break;
 	case UEnvControllerObj::TileType::EnemyTile:
-		return;
+		spawnLocation.Z = 98.0f;
+		TileType = "EnemyTile";
+		break;
 	case UEnvControllerObj::TileType::TreasureTile:
 		spawnLocation.Z = 10.0f;
 		bool hasWallLeftNeighbor = (j > 0 && LevelTileArray[i][j - 1] == UEnvControllerObj::TileType::WallTile);
