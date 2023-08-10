@@ -28,12 +28,10 @@ private:
 	};
 
 	TMap<FString, FString> TileClassPaths = {
-		{ "EmptyTile", "" },
 		{ "WallTile", "/Game/dungeonCrawler/Prefab_BluePrints/Tiles/TileWall_Blueprint.TileWall_Blueprint_C" },
-		{ "PlayerStartTile", "" },
-		{ "PlayerEndTile", "/Game/FXVarietyPack/Blueprints/BP_ky_magicCircle1.BP_ky_magicCircle1_C" },
+		{ "PlayerEndTile", "/Game/dungeonCrawler/Prefab_BluePrints/Tiles/TilePlayerEnd_Blueprint.TilePlayerEnd_Blueprint_C" },
 		{ "EnemyTile", "" },
-		{ "TreasureTile", "" }
+		{ "TreasureTile", "/Game/dungeonCrawler/Prefab_BluePrints/Tiles/TileTreasure_Blueprint.TileTreasure_Blueprint_C" }
 	};
 
 public:

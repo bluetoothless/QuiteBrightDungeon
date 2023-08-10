@@ -171,6 +171,8 @@ void RoomDetailManager::SpawnTile(int32 i, int32 j)
 	case UEnvControllerObj::TileType::EnemyTile:
 		break;
 	case UEnvControllerObj::TileType::TreasureTile:
+		location.Z = 10.0f;
+		TileType = "TreasureTile";
 		break;
 	}
 
