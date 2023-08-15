@@ -66,11 +66,26 @@ private:
 	bool bIsTouch; // Is it a touch device
 	float FollowTime; // For how long it has been pressed
 
+	USkeletalMeshComponent* CharacterMesh;
+	UAnimSequence* CurrentAnimation;
+
+	UAnimSequence* LevelStartAnimation;
+	UAnimSequence* IdleAnimation;
+	UAnimSequence* SwordSlashAnimation;
+	UAnimSequence* JogStartAnimation;
+	UAnimSequence* JogAnimation;
+	UAnimSequence* JogStopAnimation;
+
 	TMap<FString, TCHAR*> InputActionPaths = {
 		{ "SwordSlash", TEXT("InputAction'/Game/TopDown/Input/Actions/IA_SwingSword.IA_SwingSword'") },
 	};
 	TMap<FString, TCHAR*> AnimationPaths = {
+		{ "LevelStart", TEXT("AnimSequence'/Game/ParagonGreystone/Characters/Heroes/Greystone/Animations/LevelStart.LevelStart'") },
+		{ "Idle", TEXT("AnimSequence'/Game/ParagonGreystone/Characters/Heroes/Greystone/Animations/Idle.Idle'") },
 		{ "SwordSlash", TEXT("AnimSequence'/Game/dungeonCrawler/SwordSlash.SwordSlash'") },
+		{ "Jog_Fwd_Start", TEXT("AnimSequence'/Game/ParagonGreystone/Characters/Heroes/Greystone/Animations/Jog_Fwd_Start.Jog_Fwd_Start'") },
+		{ "Jog_Fwd", TEXT("AnimSequence'/Game/ParagonGreystone/Characters/Heroes/Greystone/Animations/Jog_Fwd.Jog_Fwd'") },
+		{ "Jog_Fwd_Stop", TEXT("AnimSequence'/Game/ParagonGreystone/Characters/Heroes/Greystone/Animations/Jog_Fwd_Stop.Jog_Fwd_Stop'") },
 	};
 };
 

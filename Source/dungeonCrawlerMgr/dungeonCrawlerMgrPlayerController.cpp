@@ -16,8 +16,15 @@ AdungeonCrawlerMgrPlayerController::AdungeonCrawlerMgrPlayerController()
 	DefaultMouseCursor = EMouseCursor::Default;
 	CachedDestination = FVector::ZeroVector;
 	FollowTime = 0.f;
-	//SwingSwordAction = Cast<UInputAction>(StaticLoadObject(
-	//	UInputAction::StaticClass(), nullptr, InputActionPaths["SwordSlash"]));
+	SwingSwordAction = Cast<UInputAction>(StaticLoadObject(
+		UInputAction::StaticClass(), nullptr, InputActionPaths["SwordSlash"]));
+
+	LevelStartAnimation = Cast<UAnimSequence>(StaticLoadObject(UAnimSequence::StaticClass(), nullptr, AnimationPaths["LevelStart"]));
+	IdleAnimation = Cast<UAnimSequence>(StaticLoadObject(UAnimSequence::StaticClass(), nullptr, AnimationPaths["Idle"]));
+	SwordSlashAnimation = Cast<UAnimSequence>(StaticLoadObject(UAnimSequence::StaticClass(), nullptr, AnimationPaths["SwordSlash"]));
+	JogStartAnimation = Cast<UAnimSequence>(StaticLoadObject(UAnimSequence::StaticClass(), nullptr, AnimationPaths["Jog_Fwd_Start"]));
+	JogAnimation = Cast<UAnimSequence>(StaticLoadObject(UAnimSequence::StaticClass(), nullptr, AnimationPaths["Jog_Fwd"]));
+	JogStopAnimation = Cast<UAnimSequence>(StaticLoadObject(UAnimSequence::StaticClass(), nullptr, AnimationPaths["Jog_Fwd_Stop"]));
 }
 
 void AdungeonCrawlerMgrPlayerController::BeginPlay()
@@ -26,11 +33,19 @@ void AdungeonCrawlerMgrPlayerController::BeginPlay()
 	Super::BeginPlay();
 	UE_LOG(LogTemp, Error, TEXT("PlayerController - Begin Play"));
 
+	APawn* ControlledPawn = GetPawn();
+	if (AdungeonCrawlerMgrCharacter* ControlledCharacter = Cast<AdungeonCrawlerMgrCharacter>(ControlledPawn))
+		CharacterMesh = ControlledCharacter->GetMesh();
+	if (CharacterMesh == nullptr)
+		UE_LOG(LogTemp, Error, TEXT("ERROR ERROR : character mesh is nullptr"));
+
 	//Add Input Mapping Context
 	if (UEnhancedInputLocalPlayerSubsystem* Subsystem = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(GetLocalPlayer()))
 	{
 		Subsystem->AddMappingContext(DefaultMappingContext, 0);
 	}
+
+	CharacterMesh->PlayAnimation(LevelStartAnimation, false);
 }
 
 void AdungeonCrawlerMgrPlayerController::SetupInputComponent()
@@ -47,18 +62,25 @@ void AdungeonCrawlerMgrPlayerController::SetupInputComponent()
 		EnhancedInputComponent->BindAction(SetDestinationClickAction, ETriggerEvent::Completed, this, &AdungeonCrawlerMgrPlayerController::OnSetDestinationReleased);
 		EnhancedInputComponent->BindAction(SetDestinationClickAction, ETriggerEvent::Canceled, this, &AdungeonCrawlerMgrPlayerController::OnSetDestinationReleased);
 
-		//EnhancedInputComponent->BindAction(SwingSwordAction, ETriggerEvent::Started, this, &AdungeonCrawlerMgrPlayerController::SwingSword);
+		EnhancedInputComponent->BindAction(SwingSwordAction, ETriggerEvent::Started, this, &AdungeonCrawlerMgrPlayerController::SwingSword);
 	}
 }
 
 void AdungeonCrawlerMgrPlayerController::OnInputStarted()
 {
 	StopMovement();
+	if (CurrentAnimation != JogAnimation)
+	{
+		CharacterMesh->PlayAnimation(IdleAnimation, true);
+		CurrentAnimation = IdleAnimation;
+	}
 }
 
 // Triggered every frame when the input is held down
 void AdungeonCrawlerMgrPlayerController::OnSetDestinationTriggered()
 {
+	//CharacterMesh->PlayAnimation(IdleAnimation, true);
+
 	// We flag that the input is being pressed
 	FollowTime += GetWorld()->GetDeltaSeconds();
 	
@@ -85,6 +107,13 @@ void AdungeonCrawlerMgrPlayerController::OnSetDestinationTriggered()
 	if (ControlledPawn != nullptr)
 	{
 		FVector WorldDirection = (CachedDestination - ControlledPawn->GetActorLocation()).GetSafeNormal();
+		
+		if (CurrentAnimation != JogAnimation)
+		{
+			CharacterMesh->PlayAnimation(JogAnimation, true);
+			CurrentAnimation = JogAnimation;
+		}
+		
 		ControlledPawn->AddMovementInput(WorldDirection, 1.0, false);
 	}
 }
@@ -106,30 +135,18 @@ void AdungeonCrawlerMgrPlayerController::OnSetDestinationReleased()
 void AdungeonCrawlerMgrPlayerController::SwingSword()
 {
 	UE_LOG(LogTemp, Error, TEXT("!	 SWING SWORD   !"));
+	CharacterMesh->PlayAnimation(SwordSlashAnimation, false);
+	CurrentAnimation = SwordSlashAnimation;
+	/*UAnimSequence* Anim = Cast<UAnimSequence>(StaticLoadObject(UAnimSequence::StaticClass(),
+		nullptr, AnimationPaths["SwordSlash"]));
+	bool bLoop = false;
+	UAnimInstance* AnimInstance = CharacterMesh->GetAnimInstance();
+	UAnimBlueprintGeneratedClass* AnimBlueprintClass = Cast<UAnimBlueprintGeneratedClass>(AnimInstance->GetClass());
+	FName isAttackingVarName = TEXT("isAttacking");
+	FProperty* isAttackingVar1 = AnimBlueprintClass->FindPropertyByName(isAttackingVarName);
+	isAttackingVar1 = true;
 
-	APawn* ControlledPawn = GetPawn();
-	if (AdungeonCrawlerMgrCharacter* ControlledCharacter = Cast<AdungeonCrawlerMgrCharacter>(ControlledPawn))
-	{
-		// Retrieve the character's mesh component and play the animation
-		USkeletalMeshComponent* CharacterMesh = ControlledCharacter->GetMesh();
-		if (CharacterMesh != nullptr)
-		{
-			/*UAnimSequence* Anim = Cast<UAnimSequence>(StaticLoadObject(UAnimSequence::StaticClass(), 
-				nullptr, AnimationPaths["SwordSlash"]));
-			bool bLoop = false;
-			CharacterMesh->PlayAnimation(Anim, bLoop);*/
-			UAnimSequence* Anim = Cast<UAnimSequence>(StaticLoadObject(UAnimSequence::StaticClass(),
-				nullptr, AnimationPaths["SwordSlash"]));
-			bool bLoop = false;
-			UAnimInstance* AnimInstance = CharacterMesh->GetAnimInstance();
-			UAnimBlueprintGeneratedClass* AnimBlueprintClass = Cast<UAnimBlueprintGeneratedClass>(AnimInstance->GetClass());
-			FName isAttackingVarName = TEXT("isAttacking");
-			FProperty* isAttackingVar1 = AnimBlueprintClass->FindPropertyByName(isAttackingVarName);
-			//isAttackingVar1 = true;
+	UBoolProperty* isAttackingVar = FindField<UBoolProperty>(AnimInstance->GetClass(), isAttackingVarName);
 
-			//UBoolProperty* isAttackingVar = FindField<UBoolProperty>(AnimInstance->GetClass(), isAttackingVarName);
-
-			CharacterMesh->PlayAnimation(Anim, bLoop);
-		}
-	}
+	CharacterMesh->PlayAnimation(Anim, bLoop);*/
 }
