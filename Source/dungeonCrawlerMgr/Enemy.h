@@ -1,5 +1,3 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
 #pragma once
 
 #include "CoreMinimal.h"
@@ -21,7 +19,9 @@ public:
 
 	void CheckDistanceToPlayer();
 	void MoveToPlayer();
-	void PlayAnimation(UAnimSequence* Animation);
+	void PlayAnimation(UAnimSequence* Animation, bool loop);
+
+	bool CanMove();
 
 
 	// Called to bind functionality to input
@@ -32,14 +32,18 @@ protected:
 	virtual void BeginPlay() override;
 
 private:
-	float FollowDistance = 800.0f;
-	float AttackDistance = 80.0f;
+	float FollowDistance = 1000.0f;
+	float AttackDistance = 150.0f;
+
+	bool IsInAtomicAnimation = false;
+	float LastAnimationEndTime = 0.0f;
+	UAnimSequence* CurrentAnimation;
 	UAnimSequence* IdleAnimation;
 	UAnimSequence* RunningAnimation;
 	UAnimSequence* HitAnimation;
 	TMap<FString, TCHAR*> AnimationPaths = {
-		{ "Idle", TEXT("/Game/CityofBrass_Enemies/Meshes/Enemy/Corpse/Animation/Corpse_passive_idle.Corpse_passive_idle_C") },
-		{ "Running", TEXT("/Game/CityofBrass_Enemies/Meshes/Enemy/Corpse/Animation/Corpse_Run_Forward.Corpse_Run_Forward_C") },
-		{ "Hit", TEXT("/Game/CityofBrass_Enemies/Meshes/Enemy/Corpse/Animation/Corpse_Alert_Attack_Basic03.Corpse_Alert_Attack_Basic03_C") },
+		{ "Idle", TEXT("AnimSequence'/Game/CityofBrass_Enemies/Meshes/Enemy/Corpse/Animation/Corpse_passive_idle.Corpse_passive_idle'") },
+		{ "Running", TEXT("AnimSequence'/Game/CityofBrass_Enemies/Meshes/Enemy/Corpse/Animation/Corpse_Run_Forward.Corpse_Run_Forward'") },
+		{ "Hit", TEXT("AnimSequence'/Game/CityofBrass_Enemies/Meshes/Enemy/Corpse/Animation/Corpse_Alert_Attack_Basic03.Corpse_Alert_Attack_Basic03'") },
 	};
 };

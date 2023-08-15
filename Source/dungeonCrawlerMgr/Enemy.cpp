@@ -4,7 +4,7 @@
 // Sets default values
 AEnemy::AEnemy()
 {
- 	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
+	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 	IdleAnimation = Cast<UAnimSequence>(StaticLoadObject(UAnimSequence::StaticClass(), nullptr, AnimationPaths["Idle"]));
 	RunningAnimation = Cast<UAnimSequence>(StaticLoadObject(UAnimSequence::StaticClass(), nullptr, AnimationPaths["Running"]));
@@ -31,19 +31,22 @@ void AEnemy::CheckDistanceToPlayer()
 	if (!TargetPlayer) return;
 
 	float DistanceToPlayer = FVector::Dist(GetActorLocation(), TargetPlayer->GetActorLocation());
-
-	if (DistanceToPlayer <= AttackDistance)
-	{
-		PlayAnimation(HitAnimation);
-	}
-	else if (DistanceToPlayer <= FollowDistance)
-	{
-		MoveToPlayer();
-		PlayAnimation(RunningAnimation);
-	}
-	else
-	{
-		PlayAnimation(IdleAnimation);
+	if (CanMove()) {
+		if (DistanceToPlayer <= AttackDistance)
+		{
+			PlayAnimation(HitAnimation, true);
+			IsInAtomicAnimation = true;
+			LastAnimationEndTime = GetWorld()->GetTimeSeconds() + HitAnimation->GetPlayLength();
+		}
+		else if (DistanceToPlayer <= FollowDistance)
+		{
+			MoveToPlayer();
+			PlayAnimation(RunningAnimation, true);
+		}
+		else
+		{
+			PlayAnimation(IdleAnimation, true);
+		}
 	}
 }
 
@@ -56,12 +59,19 @@ void AEnemy::MoveToPlayer()
 	}
 }
 
-void AEnemy::PlayAnimation(UAnimSequence* Animation)
+void AEnemy::PlayAnimation(UAnimSequence* Animation, bool loop)
 {
-	if (Animation && GetMesh())
+	if (Animation && GetMesh() && CurrentAnimation != Animation)
 	{
-		GetMesh()->PlayAnimation(Animation, false);
+		GetMesh()->PlayAnimation(Animation, loop);
+		CurrentAnimation = Animation;
+		IsInAtomicAnimation = false;
 	}
+}
+
+bool AEnemy::CanMove()
+{
+	return !IsInAtomicAnimation || GetWorld()->GetTimeSeconds() > LastAnimationEndTime;
 }
 
 // Called to bind functionality to input
