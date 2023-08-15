@@ -8,6 +8,7 @@
 #include <GameFramework/PlayerStart.h>
 #include "dungeonCrawlerMgrGameMode.h"
 #include <Kismet/GameplayStatics.h>
+#include <AIController.h>
 
 RoomDetailManager::RoomDetailManager(UWorld* world, TArray<TArray<TArray<int32>>> levelArray, TArray<TArray<int32>> levelTileArray)
 {
@@ -193,6 +194,12 @@ void RoomDetailManager::SpawnTile(int32 i, int32 j)
 	assetClass = LoadClass<AActor>(nullptr, *TileBlueprintPath);
 
 	spawnedTile = World->SpawnActor<AActor>(assetClass, spawnLocation, spawnRotation, spawnParams);
+
+	if (TileType == "EnemyTile") 
+	{
+		AAIController* AIController = World->SpawnActor<AAIController>(spawnLocation, spawnRotation);
+		AIController->Possess(Cast<APawn>(spawnedTile));
+	}
 }
 /*
 static enum TileType

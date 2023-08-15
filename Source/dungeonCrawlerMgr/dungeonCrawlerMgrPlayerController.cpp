@@ -16,8 +16,8 @@ AdungeonCrawlerMgrPlayerController::AdungeonCrawlerMgrPlayerController()
 	DefaultMouseCursor = EMouseCursor::Default;
 	CachedDestination = FVector::ZeroVector;
 	FollowTime = 0.f;
-	SwingSwordAction = Cast<UInputAction>(StaticLoadObject(
-		UInputAction::StaticClass(), nullptr, InputActionPaths["SwordSlash"]));
+	//SwingSwordAction = Cast<UInputAction>(StaticLoadObject(
+	//	UInputAction::StaticClass(), nullptr, InputActionPaths["SwordSlash"]));
 }
 
 void AdungeonCrawlerMgrPlayerController::BeginPlay()
@@ -47,7 +47,7 @@ void AdungeonCrawlerMgrPlayerController::SetupInputComponent()
 		EnhancedInputComponent->BindAction(SetDestinationClickAction, ETriggerEvent::Completed, this, &AdungeonCrawlerMgrPlayerController::OnSetDestinationReleased);
 		EnhancedInputComponent->BindAction(SetDestinationClickAction, ETriggerEvent::Canceled, this, &AdungeonCrawlerMgrPlayerController::OnSetDestinationReleased);
 
-		EnhancedInputComponent->BindAction(SwingSwordAction, ETriggerEvent::Started, this, &AdungeonCrawlerMgrPlayerController::SwingSword);
+		//EnhancedInputComponent->BindAction(SwingSwordAction, ETriggerEvent::Started, this, &AdungeonCrawlerMgrPlayerController::SwingSword);
 	}
 }
 
@@ -114,9 +114,21 @@ void AdungeonCrawlerMgrPlayerController::SwingSword()
 		USkeletalMeshComponent* CharacterMesh = ControlledCharacter->GetMesh();
 		if (CharacterMesh != nullptr)
 		{
-			UAnimSequence* Anim = Cast<UAnimSequence>(StaticLoadObject(UAnimSequence::StaticClass(), 
+			/*UAnimSequence* Anim = Cast<UAnimSequence>(StaticLoadObject(UAnimSequence::StaticClass(), 
 				nullptr, AnimationPaths["SwordSlash"]));
 			bool bLoop = false;
+			CharacterMesh->PlayAnimation(Anim, bLoop);*/
+			UAnimSequence* Anim = Cast<UAnimSequence>(StaticLoadObject(UAnimSequence::StaticClass(),
+				nullptr, AnimationPaths["SwordSlash"]));
+			bool bLoop = false;
+			UAnimInstance* AnimInstance = CharacterMesh->GetAnimInstance();
+			UAnimBlueprintGeneratedClass* AnimBlueprintClass = Cast<UAnimBlueprintGeneratedClass>(AnimInstance->GetClass());
+			FName isAttackingVarName = TEXT("isAttacking");
+			FProperty* isAttackingVar1 = AnimBlueprintClass->FindPropertyByName(isAttackingVarName);
+			//isAttackingVar1 = true;
+
+			//UBoolProperty* isAttackingVar = FindField<UBoolProperty>(AnimInstance->GetClass(), isAttackingVarName);
+
 			CharacterMesh->PlayAnimation(Anim, bLoop);
 		}
 	}
