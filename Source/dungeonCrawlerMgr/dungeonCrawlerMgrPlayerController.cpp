@@ -46,6 +46,8 @@ void AdungeonCrawlerMgrPlayerController::BeginPlay()
 	}
 
 	CharacterMesh->PlayAnimation(LevelStartAnimation, false);
+	CurrentAnimation = LevelStartAnimation;
+	LastAnimationEndTime = GetWorld()->GetTimeSeconds() + LevelStartAnimation->GetPlayLength();
 }
 
 void AdungeonCrawlerMgrPlayerController::SetupInputComponent()
@@ -69,7 +71,7 @@ void AdungeonCrawlerMgrPlayerController::SetupInputComponent()
 void AdungeonCrawlerMgrPlayerController::OnInputStarted()
 {
 	StopMovement();
-	if (CurrentAnimation != JogAnimation)
+	if (CurrentAnimation != IdleAnimation)
 	{
 		CharacterMesh->PlayAnimation(IdleAnimation, true);
 		CurrentAnimation = IdleAnimation;
@@ -102,6 +104,8 @@ void AdungeonCrawlerMgrPlayerController::OnSetDestinationTriggered()
 		CachedDestination = Hit.Location;
 	}
 	
+	IsMoving = true;
+
 	// Move towards mouse pointer or touch
 	APawn* ControlledPawn = GetPawn();
 	if (ControlledPawn != nullptr)
@@ -130,23 +134,27 @@ void AdungeonCrawlerMgrPlayerController::OnSetDestinationReleased()
 	}
 
 	FollowTime = 0.f;
+	IsMoving = false;
 }
 
 void AdungeonCrawlerMgrPlayerController::SwingSword()
 {
 	UE_LOG(LogTemp, Error, TEXT("!	 SWING SWORD   !"));
 	CharacterMesh->PlayAnimation(SwordSlashAnimation, false);
-	CurrentAnimation = SwordSlashAnimation;
-	/*UAnimSequence* Anim = Cast<UAnimSequence>(StaticLoadObject(UAnimSequence::StaticClass(),
-		nullptr, AnimationPaths["SwordSlash"]));
-	bool bLoop = false;
-	UAnimInstance* AnimInstance = CharacterMesh->GetAnimInstance();
-	UAnimBlueprintGeneratedClass* AnimBlueprintClass = Cast<UAnimBlueprintGeneratedClass>(AnimInstance->GetClass());
-	FName isAttackingVarName = TEXT("isAttacking");
-	FProperty* isAttackingVar1 = AnimBlueprintClass->FindPropertyByName(isAttackingVarName);
-	isAttackingVar1 = true;
+	CurrentAnimation = SwordSlashAnimation; 
+	LastAnimationEndTime = GetWorld()->GetTimeSeconds() + SwordSlashAnimation->GetPlayLength();
+}
 
-	UBoolProperty* isAttackingVar = FindField<UBoolProperty>(AnimInstance->GetClass(), isAttackingVarName);
+void AdungeonCrawlerMgrPlayerController::Tick(float DeltaSeconds)
+{
+	Super::Tick(DeltaSeconds);
 
-	CharacterMesh->PlayAnimation(Anim, bLoop);*/
+	IsAttacking = CurrentAnimation == SwordSlashAnimation && GetWorld()->GetTimeSeconds() <= LastAnimationEndTime;
+	bool isInStartAnimation = CurrentAnimation == LevelStartAnimation && GetWorld()->GetTimeSeconds() <= LastAnimationEndTime;
+
+	if (!IsMoving && !IsAttacking && !isInStartAnimation && CurrentAnimation != IdleAnimation)
+	{
+		CharacterMesh->PlayAnimation(IdleAnimation, true);
+		CurrentAnimation = IdleAnimation;
+	}
 }

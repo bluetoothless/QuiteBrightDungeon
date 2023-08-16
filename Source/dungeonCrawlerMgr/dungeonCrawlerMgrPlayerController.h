@@ -55,15 +55,18 @@ protected:
 	void OnInputStarted();
 	void OnSetDestinationTriggered();
 	void OnSetDestinationReleased();
-	void OnTouchTriggered();
-	void OnTouchReleased();
 
 	void SwingSword();
+
+	virtual void Tick(float DeltaSeconds) override;
 
 private:
 	FVector CachedDestination;
 
 	bool bIsTouch; // Is it a touch device
+	bool IsMoving = false;
+	bool IsAttacking = false;
+	float LastAnimationEndTime = 0.0f;
 	float FollowTime; // For how long it has been pressed
 
 	USkeletalMeshComponent* CharacterMesh;
