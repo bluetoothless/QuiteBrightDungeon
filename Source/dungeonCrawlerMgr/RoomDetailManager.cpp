@@ -3,7 +3,6 @@
 
 #include "RoomDetailManager.h"
 #include "EnvControllerObj.h"
-#include "RoomSpawnInfo.h"
 #include "CustomPlayerStart.h"
 #include <GameFramework/PlayerStart.h>
 #include "dungeonCrawlerMgrGameMode.h"

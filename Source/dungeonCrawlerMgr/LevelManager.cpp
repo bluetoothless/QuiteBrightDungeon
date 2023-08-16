@@ -17,17 +17,16 @@ LevelManager::~LevelManager()
 
 void LevelManager::LoadLevel()
 {
-	//// spawning whole rooms
-	/* ReadLevelArray(levelFilePath);
-	PrintLevelArray();
-	SpawnRooms(); */
-
-	//// spawning tiles
 	LevelTileArrayPath = FPaths::ProjectContentDir() + TEXT("dungeonCrawler/MapRepresentations/levelTileArray.json");
 
 	ReadLevelTileArray();
 	PrintLevelTileArray();
 	SpawnTiles();
+
+	//// spawning whole rooms
+	/* ReadLevelArray(levelFilePath);
+	PrintLevelArray();
+	SpawnRooms(); */
 }
 
 void LevelManager::ReadLevelTileArray()

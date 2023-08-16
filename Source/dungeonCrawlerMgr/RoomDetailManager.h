@@ -1,6 +1,5 @@
 #pragma once
 #include "CoreMinimal.h"
-#include "RoomSpawnInfo.h"
 
 class DUNGEONCRAWLERMGR_API RoomDetailManager
 {
