@@ -3,6 +3,7 @@
 #include "dungeonCrawlerMgrPlayerController.h"
 #include "Engine/World.h"
 #include "RoomDetailManager.h"
+#include "JsonFileReader.h"
 
 LevelManager::LevelManager(UWorld* world)
 {
@@ -16,93 +17,66 @@ LevelManager::~LevelManager()
 
 void LevelManager::LoadLevel()
 {
-    FString levelFilePath = "";
 	//// spawning whole rooms
-	/*
-	ReadLevelArray(levelFilePath);
+	/* ReadLevelArray(levelFilePath);
 	PrintLevelArray();
-	SpawnRooms();
-	*/
+	SpawnRooms(); */
 
 	//// spawning tiles
-	ReadLevelTileArray(levelFilePath);
+	LevelTileArrayPath = FPaths::ProjectContentDir() + TEXT("dungeonCrawler/MapRepresentations/levelTileArray.json");
+
+	ReadLevelTileArray();
 	PrintLevelTileArray();
 	SpawnTiles();
-
 }
 
-
-void LevelManager::ReadLevelArray(FString levelFilePath)
+void LevelManager::ReadLevelTileArray()
 {
-	UE_LOG(LogTemp, Error, TEXT("LevelManager - LoadLevel"));
-	LevelArray.SetNum(10);
-    for (int32 i = 0; i < LevelArray.Num(); i++)
-    {
-		LevelArray[i].SetNum(10);
-
-        for (int32 j = 0; j < LevelArray[i].Num(); j++)
-        {
-			LevelArray[i][j].SetNum(2);
-        }
-    }
-	LevelArray[9][4] = { 1, 1 };
-	LevelArray[8][3] = { 1, 0 };
-	LevelArray[8][4] = { 1, 0 };
-	LevelArray[8][5] = { 1, 0 };
-	LevelArray[8][6] = { 1, 0 };
-	LevelArray[7][4] = { 1, 0 };
-	LevelArray[7][6] = { 1, 0 };
-	LevelArray[7][7] = { 1, 0 };
-	LevelArray[6][3] = { 1, 0 };
-	LevelArray[6][4] = { 1, 0 };
-	LevelArray[6][7] = { 1, 0 };
-	LevelArray[5][4] = { 1, 0 };
+	UE_LOG(LogTemp, Error, TEXT("LevelManager - LoadTileLevel"));
+	JsonFileReader* jsonFileReader = new JsonFileReader();
+	LevelTileArray = jsonFileReader->ReadJSONFile(LevelTileArrayPath);
 }
 
-void LevelManager::PrintLevelArray()
+void LevelManager::PrintLevelTileArray()
 {
-	FString roomArray = "";
-	FString entityArray = "";
-	for (int32 i = 0; i < LevelArray.Num(); i++)
+	FString tileArray = "";
+	for (int32 i = 0; i < LevelTileArray.Num(); i++)
 	{
-		FString roomArrayRow = "";
-		FString entityArrayRow = "";
-		for (int32 j = 0; j < LevelArray[i].Num(); j++)
+		FString tileArrayRow = "";
+		for (int32 j = 0; j < LevelTileArray[i].Num(); j++)
 		{
-			roomArrayRow += FString::FromInt(LevelArray[i][j][0]) + ",";
-			entityArrayRow += FString::FromInt(LevelArray[i][j][1]) + ",";
+			tileArrayRow += FString::FromInt(LevelTileArray[i][j]) + ",";
 		}
-		roomArray += roomArrayRow + "\n";
-		entityArray += entityArrayRow + "\n";
+		tileArray += tileArrayRow + "\n";
 	}
-	UE_LOG(LogTemp, Error, TEXT("---------------------- Room map ----------------------"));
-	UE_LOG(LogTemp, Error, TEXT("%s"), *roomArray);
-	UE_LOG(LogTemp, Error, TEXT("---------------------- Entity map ----------------------"));
-	UE_LOG(LogTemp, Error, TEXT("%s"), *entityArray);
+	UE_LOG(LogTemp, Error, TEXT("---------------------- Tile map ----------------------"));
+	UE_LOG(LogTemp, Error, TEXT("%s"), *tileArray);
 }
 
-void LevelManager::SpawnRooms()
+void LevelManager::SpawnTiles()
 {
-	RoomDetailManager* roomDetailManager = new RoomDetailManager(World, LevelArray, LevelTileArray);
-	for (int32 i = 0; i < LevelArray.Num(); i++)
+	RoomDetailManager* roomDetailManager = new RoomDetailManager(World, /*LevelArray,*/ LevelTileArray);
+	for (int32 i = 0; i < LevelTileArray.Num(); i++)
 	{
-		for (int32 j = 0; j < LevelArray[i].Num(); j++)
+		for (int32 j = 0; j < LevelTileArray[i].Num(); j++)
 		{
 			if (i == 6 && (j == 3 || j == 4)) {
 				UE_LOG(LogTemp, Error, TEXT("tu"));
 			}
 
-			roomDetailManager->SpawnRoomWithType(i, j);
-			roomDetailManager->SpawnEntityWithType(i, j);
+			roomDetailManager->SpawnTile(i, j);
 		}
 	}
 }
 
-//------------------------------ ^ rooms ------------- v tiles
+
+//------------------------------ v rooms ------------- ^ tiles
+/*
 
 void LevelManager::ReadLevelTileArray(FString levelFilePath)
 {
 	UE_LOG(LogTemp, Error, TEXT("LevelManager - LoadTileLevel"));
+
 	LevelTileArray.SetNum(20);
 	for (int32 i = 0; i < LevelTileArray.Num(); i++)
 	{
@@ -159,35 +133,70 @@ void LevelManager::ReadLevelTileArray(FString levelFilePath)
 	LevelTileArray[18][10] = 3;
 	LevelTileArray[18][11] = 0;
 }
-
-void LevelManager::PrintLevelTileArray()
+ 
+void LevelManager::ReadLevelArray(FString levelFilePath)
 {
-	FString tileArray = "";
-	for (int32 i = 0; i < LevelTileArray.Num(); i++)
+	UE_LOG(LogTemp, Error, TEXT("LevelManager - LoadLevel"));
+	LevelArray.SetNum(10);
+	for (int32 i = 0; i < LevelArray.Num(); i++)
 	{
-		FString tileArrayRow = "";
-		for (int32 j = 0; j < LevelTileArray[i].Num(); j++)
+		LevelArray[i].SetNum(10);
+
+		for (int32 j = 0; j < LevelArray[i].Num(); j++)
 		{
-			tileArrayRow += FString::FromInt(LevelTileArray[i][j]) + ",";
+			LevelArray[i][j].SetNum(2);
 		}
-		tileArray += tileArrayRow + "\n";
 	}
-	UE_LOG(LogTemp, Error, TEXT("---------------------- Tile map ----------------------"));
-	UE_LOG(LogTemp, Error, TEXT("%s"), *tileArray);
+	LevelArray[9][4] = { 1, 1 };
+	LevelArray[8][3] = { 1, 0 };
+	LevelArray[8][4] = { 1, 0 };
+	LevelArray[8][5] = { 1, 0 };
+	LevelArray[8][6] = { 1, 0 };
+	LevelArray[7][4] = { 1, 0 };
+	LevelArray[7][6] = { 1, 0 };
+	LevelArray[7][7] = { 1, 0 };
+	LevelArray[6][3] = { 1, 0 };
+	LevelArray[6][4] = { 1, 0 };
+	LevelArray[6][7] = { 1, 0 };
+	LevelArray[5][4] = { 1, 0 };
 }
 
-void LevelManager::SpawnTiles()
+void LevelManager::PrintLevelArray()
+{
+	FString roomArray = "";
+	FString entityArray = "";
+	for (int32 i = 0; i < LevelArray.Num(); i++)
+	{
+		FString roomArrayRow = "";
+		FString entityArrayRow = "";
+		for (int32 j = 0; j < LevelArray[i].Num(); j++)
+		{
+			roomArrayRow += FString::FromInt(LevelArray[i][j][0]) + ",";
+			entityArrayRow += FString::FromInt(LevelArray[i][j][1]) + ",";
+		}
+		roomArray += roomArrayRow + "\n";
+		entityArray += entityArrayRow + "\n";
+	}
+	UE_LOG(LogTemp, Error, TEXT("---------------------- Room map ----------------------"));
+	UE_LOG(LogTemp, Error, TEXT("%s"), *roomArray);
+	UE_LOG(LogTemp, Error, TEXT("---------------------- Entity map ----------------------"));
+	UE_LOG(LogTemp, Error, TEXT("%s"), *entityArray);
+}
+
+void LevelManager::SpawnRooms()
 {
 	RoomDetailManager* roomDetailManager = new RoomDetailManager(World, LevelArray, LevelTileArray);
-	for (int32 i = 0; i < LevelTileArray.Num(); i++)
+	for (int32 i = 0; i < LevelArray.Num(); i++)
 	{
-		for (int32 j = 0; j < LevelTileArray[i].Num(); j++)
+		for (int32 j = 0; j < LevelArray[i].Num(); j++)
 		{
 			if (i == 6 && (j == 3 || j == 4)) {
 				UE_LOG(LogTemp, Error, TEXT("tu"));
 			}
 
-			roomDetailManager->SpawnTile(i, j);
+			roomDetailManager->SpawnRoomWithType(i, j);
+			roomDetailManager->SpawnEntityWithType(i, j);
 		}
 	}
 }
+*/

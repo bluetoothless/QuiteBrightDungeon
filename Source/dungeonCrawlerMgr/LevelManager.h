@@ -11,18 +11,19 @@ class DUNGEONCRAWLERMGR_API LevelManager
 {
 private:
 		UWorld* World;
-		TArray<TArray<TArray<int32>>> LevelArray;
+		//TArray<TArray<TArray<int32>>> LevelArray;
 		TArray<TArray<int32>> LevelTileArray;
+		FString LevelTileArrayPath;
 public:
 	LevelManager(UWorld* world);
 	~LevelManager();
 
 	void LoadLevel();
-	void ReadLevelArray(FString levelFilePath);
+	/*void ReadLevelArray(FString levelFilePath);
 	void PrintLevelArray();
-	void SpawnRooms();
+	void SpawnRooms();*/
 
-	void ReadLevelTileArray(FString levelFilePath);
+	void ReadLevelTileArray();
 	void PrintLevelTileArray();
 	void SpawnTiles();
 };

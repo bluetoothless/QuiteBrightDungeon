@@ -6,7 +6,7 @@ class DUNGEONCRAWLERMGR_API RoomDetailManager
 {
 private:
 	UWorld* World;
-	TArray<TArray<TArray<int32>>> LevelArray;
+	//TArray<TArray<TArray<int32>>> LevelArray;
 	TArray<TArray<int32>> LevelTileArray;
 	double RoomSize;
 	double TileSize;
@@ -35,12 +35,12 @@ private:
 	};
 
 public:
-	RoomDetailManager(UWorld* world, TArray<TArray<TArray<int32>>> levelArray, TArray<TArray<int32>> levelTileArray);
+	RoomDetailManager(UWorld* world, /*TArray<TArray<TArray<int32>>> levelArray,*/ TArray<TArray<int32>> levelTileArray);
 	~RoomDetailManager();
 
 	void SpawnRoomWithType(int32 i, int32 j);
 	void SpawnEntityWithType(int32 i, int32 j);
-	RoomSpawnInfo* DetermineAssetClassAndRotation(int32 i, int32 j);
+	//RoomSpawnInfo* DetermineAssetClassAndRotation(int32 i, int32 j);
 
 	void SpawnTile(int32 i, int32 j);
 };

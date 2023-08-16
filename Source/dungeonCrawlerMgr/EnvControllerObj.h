@@ -15,7 +15,19 @@ public:
 	static APlayerStart* PlayerStart;
 	UEnvControllerObj();
 
-	static enum RoomType 
+	static enum TileType
+	{
+		EmptyTile,
+		WallTile,
+		PlayerStartTile,
+		PlayerEndTile,
+		EnemyTile,
+		TreasureTile,
+		//DoorTile,
+		//KeyTile,
+	};
+
+	/*static enum RoomType
 	{ 
 		NoRoom, 
 		BasicRoom, 
@@ -32,17 +44,5 @@ public:
 		GuardedTreasure,
 		//Key,
 		//GuardedKey
-	};
-
-	static enum TileType
-	{
-		EmptyTile,
-		WallTile,
-		PlayerStartTile,
-		PlayerEndTile,
-		EnemyTile,
-		TreasureTile,
-		//DoorTile,
-		//KeyTile,
-	};
+	};*/
 };
