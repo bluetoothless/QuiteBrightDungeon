@@ -16,8 +16,8 @@ LevelManager::~LevelManager()
 }
 
 void LevelManager::LoadLevel()
-{
-	LevelTileArrayPath = FPaths::ProjectContentDir() + TEXT("dungeonCrawler/MapRepresentations/levelTileArray.json");
+{														// D:\Github\dungeonCrawlerMgr\dungeonCrawlerMgr\Content\dungeonCrawler\MapRepresentations
+	LevelTileArrayPath = FPaths::ProjectContentDir() + TEXT("dungeonCrawler/MapRepresentations/levelTileArray_12.json");
 
 	ReadLevelTileArray();
 	PrintLevelTileArray();
