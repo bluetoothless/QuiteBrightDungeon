@@ -23,6 +23,7 @@ public:
 		PlayerEndTile,
 		EnemyTile,
 		TreasureTile,
+		TrapTile,
 		//DoorTile,
 		//KeyTile,
 	};

@@ -30,15 +30,16 @@ private:
 		{ "WallTile", "/Game/dungeonCrawler/Prefab_BluePrints/Tiles/TileWall_Blueprint.TileWall_Blueprint_C" },
 		{ "PlayerEndTile", "/Game/dungeonCrawler/Prefab_BluePrints/Tiles/TilePlayerEnd_Blueprint.TilePlayerEnd_Blueprint_C" },
 		{ "EnemyTile", "/Game/dungeonCrawler/Prefab_BluePrints/Tiles/TileEnemy_Blueprint.TileEnemy_Blueprint_C" },
-		{ "TreasureTile", "/Game/dungeonCrawler/Prefab_BluePrints/Tiles/TileTreasure_Blueprint.TileTreasure_Blueprint_C" }
+		{ "TreasureTile", "/Game/dungeonCrawler/Prefab_BluePrints/Tiles/TileTreasure_Blueprint.TileTreasure_Blueprint_C" },
+		{ "TrapTile", "/Game/dungeonCrawler/Prefab_BluePrints/Tiles/TileTrap_Blueprint.TileTrap_Blueprint_C" },
 	};
 
 public:
 	RoomDetailManager(UWorld* world, /*TArray<TArray<TArray<int32>>> levelArray,*/ TArray<TArray<int32>> levelTileArray);
 	~RoomDetailManager();
 
-	void SpawnRoomWithType(int32 i, int32 j);
-	void SpawnEntityWithType(int32 i, int32 j);
+	//void SpawnRoomWithType(int32 i, int32 j);
+	//void SpawnEntityWithType(int32 i, int32 j);
 	//RoomSpawnInfo* DetermineAssetClassAndRotation(int32 i, int32 j);
 
 	void SpawnTile(int32 i, int32 j);

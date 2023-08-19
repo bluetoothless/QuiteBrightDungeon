@@ -37,6 +37,11 @@ void RoomDetailManager::SpawnTile(int32 i, int32 j)
 	spawnParams.Name = FName(*("Tile_" + FString::FromInt(i) + "_" + FString::FromInt(j)));
 	spawnParams.bNoFail = true;
 	FString TileType;
+	bool hasWallLeftNeighbor;
+	bool hasWallRightNeighbor;
+	bool hasWallUpNeighbor;
+	bool hasWallDownNeighbor;
+	int32 adjacentWallsNumber;
 
 	switch (LevelTileArray[i][j])
 	{
@@ -59,11 +64,11 @@ void RoomDetailManager::SpawnTile(int32 i, int32 j)
 		break;
 	case UEnvControllerObj::TileType::TreasureTile:
 		spawnLocation.Z = 10.0f;
-		bool hasWallLeftNeighbor = (j > 0 && LevelTileArray[i][j - 1] == UEnvControllerObj::TileType::WallTile);
-		bool hasWallRightNeighbor = (j < LevelTileArray[i].Num() - 1 && LevelTileArray[i][j + 1] == UEnvControllerObj::TileType::WallTile);
-		bool hasWallUpNeighbor = (i > 0 && LevelTileArray[i - 1][j] == UEnvControllerObj::TileType::WallTile);
-		bool hasWallDownNeighbor = (i < LevelTileArray.Num() - 1 && LevelTileArray[i + 1][j] == UEnvControllerObj::TileType::WallTile);
-		int32 adjacentWallsNumber = 0;
+		hasWallLeftNeighbor = (j > 0 && LevelTileArray[i][j - 1] == UEnvControllerObj::TileType::WallTile);
+		hasWallRightNeighbor = (j < LevelTileArray[i].Num() - 1 && LevelTileArray[i][j + 1] == UEnvControllerObj::TileType::WallTile);
+		hasWallUpNeighbor = (i > 0 && LevelTileArray[i - 1][j] == UEnvControllerObj::TileType::WallTile);
+		hasWallDownNeighbor = (i < LevelTileArray.Num() - 1 && LevelTileArray[i + 1][j] == UEnvControllerObj::TileType::WallTile);
+		adjacentWallsNumber = 0;
 
 		if (hasWallLeftNeighbor) adjacentWallsNumber++;
 		if (hasWallRightNeighbor) adjacentWallsNumber++;
@@ -82,6 +87,12 @@ void RoomDetailManager::SpawnTile(int32 i, int32 j)
 		}
 		TileType = "TreasureTile";
 		break;
+	case UEnvControllerObj::TileType::TrapTile:
+		spawnLocation.Z = 0.0f;
+		TileType = "TrapTile";
+		break;
+	default:
+		return;
 	}
 
 	FString TileBlueprintPath = TileClassPaths[TileType];
