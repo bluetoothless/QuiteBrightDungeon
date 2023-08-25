@@ -23,6 +23,7 @@ public:
 	void PrintLevelArray();
 	void SpawnRooms();*/
 
+	void GenerateLevelTileArray();
 	void ReadLevelTileArray();
 	void PrintLevelTileArray();
 	void SpawnTiles();

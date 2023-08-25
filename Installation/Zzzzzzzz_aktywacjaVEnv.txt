@@ -1,0 +1,18 @@
+(powershell)
+D:\Github\dungeonCrawlerMgr\dungeonCrawlerMgr\ML>      .\VirtualEnv\Scripts\activate
+
+Odpalenie uczenia:
+D:\Github\dungeonCrawlerMgr\dungeonCrawlerMgr\ML>	python '..\..\MLTrainingScripts\VAE_training.py'
+
+Generacja mapki z wutrenowanego modelu:
+D:\Github\dungeonCrawlerMgr\dungeonCrawlerMgr\ML>	python '..\..\MLTrainingScripts\VAE_generating.py''
+
+
+
+pip list
+python --version
+
+
+pip install torch
+pip install onnx
+pip install onnxruntime

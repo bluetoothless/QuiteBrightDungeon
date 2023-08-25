@@ -2,8 +2,9 @@
 
 #include "dungeonCrawlerMgr.h"
 #include "Modules/ModuleManager.h"
+#include "CustomGameModule.h"
 
-IMPLEMENT_PRIMARY_GAME_MODULE( FDefaultGameModuleImpl, dungeonCrawlerMgr, "dungeonCrawlerMgr" );
+IMPLEMENT_PRIMARY_GAME_MODULE(FDefaultGameModuleImpl, dungeonCrawlerMgr, "dungeonCrawlerMgr" );
 
 DEFINE_LOG_CATEGORY(LogdungeonCrawlerMgr)
  

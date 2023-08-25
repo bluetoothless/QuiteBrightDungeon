@@ -4,6 +4,7 @@
 #include "Engine/World.h"
 #include "RoomDetailManager.h"
 #include "JsonFileReader.h"
+#include "MLModelManager.h"
 
 LevelManager::LevelManager(UWorld* world)
 {
@@ -19,7 +20,8 @@ void LevelManager::LoadLevel()
 {														// D:\Github\dungeonCrawlerMgr\dungeonCrawlerMgr\Content\dungeonCrawler\MapRepresentations
 	LevelTileArrayPath = FPaths::ProjectContentDir() + TEXT("dungeonCrawler/MapRepresentations/levelTileArray_12.json");
 
-	ReadLevelTileArray();
+	GenerateLevelTileArray();
+	//ReadLevelTileArray();
 	PrintLevelTileArray();
 	SpawnTiles();
 
@@ -29,9 +31,16 @@ void LevelManager::LoadLevel()
 	SpawnRooms(); */
 }
 
+void LevelManager::GenerateLevelTileArray()
+{
+	UE_LOG(LogTemp, Error, TEXT("LevelManager - GenerateLevelTileArray"));
+	MLModelManager* mlModelManager = new MLModelManager();
+	LevelTileArray = mlModelManager->GenerateMapWithVAE();
+}
+
 void LevelManager::ReadLevelTileArray()
 {
-	UE_LOG(LogTemp, Error, TEXT("LevelManager - LoadTileLevel"));
+	UE_LOG(LogTemp, Error, TEXT("LevelManager - ReadLevelTileArray"));
 	JsonFileReader* jsonFileReader = new JsonFileReader();
 	LevelTileArray = jsonFileReader->ReadJSONFile(LevelTileArrayPath);
 }

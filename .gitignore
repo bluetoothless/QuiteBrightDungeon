@@ -76,3 +76,6 @@ DerivedDataCache/*
 ML/*
 
 onnxruntime/*
+
+Installation/VirtualEnv/*
+VirtualEnv/*
