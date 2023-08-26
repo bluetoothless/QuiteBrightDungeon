@@ -9,5 +9,12 @@ public class dungeonCrawlerMgr : ModuleRules
 		PCHUsage = PCHUsageMode.UseExplicitOrSharedPCHs;
 
         PublicDependencyModuleNames.AddRange(new string[] { "Core", "CoreUObject", "Engine", "InputCore", "HeadMountedDisplay", "NavigationSystem", "AIModule", "Niagara", "EnhancedInput", "Json", "JsonUtilities" });
+		
+		PublicIncludePaths.AddRange(
+            new string[] {
+                ModuleDirectory + "/../../ML",
+                ModuleDirectory + "/../../Installation",
+            }
+        );
     }
 }

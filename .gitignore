@@ -79,3 +79,5 @@ onnxruntime/*
 
 Installation/VirtualEnv/*
 VirtualEnv/*
+
+ML/bat-to-exe-converter-x64-3.2-installer.exe

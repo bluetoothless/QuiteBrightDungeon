@@ -4,6 +4,8 @@
 #include "MLModelManager.h"
 #include "Misc/Paths.h"
 #include "HAL/PlatformProcess.h"
+#include "JsonFileReader.h"
+#include <cstdlib>
 
 //#include <onnxruntime/core/providers/cpu/cpu_provider_factory.h>
 //#include <onnxruntime/core/session/onnxruntime_cxx_api.h>
@@ -18,23 +20,35 @@ MLModelManager::~MLModelManager()
 
 TArray<TArray<int32>> MLModelManager::GenerateMapWithVAE()
 {
-    FString pythonPath = TEXT("python");
+    return GenerateMap("VAE");
+}
 
-    // Construct full path to the script if needed.
-    // FString fullPathToScript = FPaths::ProjectDir() + scriptPath;
+TArray<TArray<int32>> MLModelManager::GenerateMap(FString method)
+{
+    FString ProjectDir = FPaths::ProjectDir();
+    const TCHAR* ScriptPath = *(FPaths::ConvertRelativePathToFull(FPaths::Combine(ProjectDir, GenerationScriptPaths[method])));
+    /*FProcHandle procHandle = FPlatformProcess::CreateProc(*ScriptPath, nullptr, true, false, false, nullptr, 0, nullptr, nullptr);
 
-    // Use this command to run the script.
-    FString command = pythonPath + TEXT(" ") + FPaths::ProjectDir() + GenerationScriptPaths["CVAE"];
-
-    // Create a process to run the script.
-    FProcHandle procHandle = FPlatformProcess::CreateProc(*command, nullptr, true, false, false, nullptr, 0, nullptr, nullptr);
-
-    // Wait for the process to finish.
     if (procHandle.IsValid())
     {
         FPlatformProcess::WaitForProc(procHandle);
         FPlatformProcess::CloseProc(procHandle);
     }
+    */
+    int result = std::system(TCHAR_TO_UTF8(ScriptPath));
+    if (result != 0)
+    {
+        UE_LOG(LogTemp, Error, TEXT("ERROR: Failed to generate level map"));
+        return TArray<TArray<int32>>();
+    }
+
+    JsonFileReader* jsonFileReader = new JsonFileReader();
+
+    FString ResultPath = FPaths::ConvertRelativePathToFull(FPaths::Combine(ProjectDir, ResultPaths[method]));
+    TArray<TArray<int32>> levelTileArray = jsonFileReader->ReadJSONFile(ResultPath);
+    return levelTileArray;
+
+
     /*FString LibraryPath = FPaths::Combine(FPaths::ProjectContentDir(), TEXT("../onnxruntime/build/Windows/RelWithDebInfo/RelWithDebInfo/onnxruntime.dll"));
 
     void* DLLHandle = FPlatformProcess::GetDllHandle(*LibraryPath);

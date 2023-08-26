@@ -11,11 +11,17 @@
 class DUNGEONCRAWLERMGR_API MLModelManager
 {
 public:
+	TMap<FString, FString> GenerationScriptPaths = {
+		{ "VAE", "ML/VAE_run_generation_script.bat" }
+	};
+
+	TMap<FString, FString> ResultPaths = {
+		{ "VAE", "ML/VAE/results/generated_levelTileArray.json" }
+	};
 	MLModelManager();
 	~MLModelManager();
 
 	TArray<TArray<int32>> GenerateMapWithVAE();
-	TMap<FString, FString> GenerationScriptPaths = {
-		{ "VAE", L"/Game/ML/VAE_generating.py" }
-	};
+private:
+	TArray<TArray<int32>> GenerateMap(FString method);
 };

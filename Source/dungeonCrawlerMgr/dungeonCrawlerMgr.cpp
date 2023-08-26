@@ -2,7 +2,6 @@
 
 #include "dungeonCrawlerMgr.h"
 #include "Modules/ModuleManager.h"
-#include "CustomGameModule.h"
 
 IMPLEMENT_PRIMARY_GAME_MODULE(FDefaultGameModuleImpl, dungeonCrawlerMgr, "dungeonCrawlerMgr" );
 
