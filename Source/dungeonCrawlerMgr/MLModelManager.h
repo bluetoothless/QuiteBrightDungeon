@@ -11,6 +11,7 @@
 class DUNGEONCRAWLERMGR_API MLModelManager
 {
 public:
+	FString WorkingDirectoryPath = "ML";
 	TMap<FString, FString> GenerationScriptPaths = {
 		{ "VAE", "ML/VAE_run_generation_script.bat" }
 	};
