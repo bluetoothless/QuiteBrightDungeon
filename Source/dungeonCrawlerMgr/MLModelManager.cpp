@@ -1,14 +1,7 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
-
 #include "MLModelManager.h"
 #include "Misc/Paths.h"
 #include "HAL/PlatformProcess.h"
 #include "JsonFileReader.h"
-#include <cstdlib>
-
-//#include <onnxruntime/core/providers/cpu/cpu_provider_factory.h>
-//#include <onnxruntime/core/session/onnxruntime_cxx_api.h>
 
 MLModelManager::MLModelManager()
 {
