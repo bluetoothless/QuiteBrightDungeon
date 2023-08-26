@@ -11,7 +11,6 @@ class DUNGEONCRAWLERMGR_API UEnvControllerObj : public UActorComponent
 	GENERATED_BODY()
 
 public:	
-	// Sets default values for this component's properties
 	static APlayerStart* PlayerStart;
 	UEnvControllerObj();
 
@@ -23,27 +22,6 @@ public:
 		PlayerEndTile,
 		EnemyTile,
 		TreasureTile,
-		TrapTile,
-		//DoorTile,
-		//KeyTile,
+		TrapTile
 	};
-
-	/*static enum RoomType
-	{ 
-		NoRoom, 
-		BasicRoom, 
-		//LockedDoorRoom
-	};
-
-	static enum EntityType
-	{
-		NoEntity,
-		PlayerStartEntity,
-		PlayerEndEntity,
-		Enemy,
-		Treasure,
-		GuardedTreasure,
-		//Key,
-		//GuardedKey
-	};*/
 };

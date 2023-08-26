@@ -1,25 +1,20 @@
 #include "Enemy.h"
 #include <Actions/PawnAction.h>
 
-// Sets default values
 AEnemy::AEnemy()
 {
-	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 	IdleAnimation = Cast<UAnimSequence>(StaticLoadObject(UAnimSequence::StaticClass(), nullptr, AnimationPaths["Idle"]));
 	RunningAnimation = Cast<UAnimSequence>(StaticLoadObject(UAnimSequence::StaticClass(), nullptr, AnimationPaths["Running"]));
 	HitAnimation = Cast<UAnimSequence>(StaticLoadObject(UAnimSequence::StaticClass(), nullptr, AnimationPaths["Hit"]));
 }
 
-// Called when the game starts or when spawned
 void AEnemy::BeginPlay()
 {
 	Super::BeginPlay();
-	//TargetPlayer = Cast<ACharacter>(GetWorld()->GetFirstPlayerController()->GetPawn());
 	TargetPlayer = GetWorld()->GetFirstPlayerController()->GetCharacter();
 }
 
-// Called every frame
 void AEnemy::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);

@@ -35,12 +35,8 @@ private:
 	};
 
 public:
-	RoomDetailManager(UWorld* world, /*TArray<TArray<TArray<int32>>> levelArray,*/ TArray<TArray<int32>> levelTileArray);
+	RoomDetailManager(UWorld* world, TArray<TArray<int32>> levelTileArray);
 	~RoomDetailManager();
-
-	//void SpawnRoomWithType(int32 i, int32 j);
-	//void SpawnEntityWithType(int32 i, int32 j);
-	//RoomSpawnInfo* DetermineAssetClassAndRotation(int32 i, int32 j);
 
 	void SpawnTile(int32 i, int32 j);
 };

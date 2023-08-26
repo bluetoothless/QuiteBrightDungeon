@@ -57,19 +57,3 @@ void AdungeonCrawlerMgrGameMode::LoadLevel()
 		}
 	}
 }
-/*
-AActor* AdungeonCrawlerMgrGameMode::ChoosePlayerStart_Implementation(AController* Player)
-{
-
-	if (UEnvControllerObj::PlayerStart)
-	{
-		return UEnvControllerObj::PlayerStart;
-	}
-	return nullptr;
-}
-
-bool AdungeonCrawlerMgrGameMode::ShouldSpawnAtStartSpot(AController* Player)
-{
-	return false;
-}
-*/

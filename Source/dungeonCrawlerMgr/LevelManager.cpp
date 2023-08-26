@@ -31,13 +31,6 @@ void LevelManager::GenerateLevelTileArray()
 	MLModelManager* mlModelManager = new MLModelManager();
 	LevelTileArray = mlModelManager->GenerateMapWithVAE();
 }
-/*
-void LevelManager::ReadLevelTileArray()
-{
-	UE_LOG(LogTemp, Error, TEXT("LevelManager - ReadLevelTileArray"));
-	JsonFileReader* jsonFileReader = new JsonFileReader();
-	LevelTileArray = jsonFileReader->ReadJSONFile(LevelTileArrayPath);
-}*/
 
 void LevelManager::PrintLevelTileArray()
 {
