@@ -13,7 +13,6 @@ RoomDetailManager::RoomDetailManager(UWorld* world, TArray<TArray<int32>> levelT
 {
 	World = world;
 
-	RoomSize = 800.0f;
 	TileSize = 400.0f;
 
 	LevelTileArray = levelTileArray;

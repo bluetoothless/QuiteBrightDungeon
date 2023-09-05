@@ -7,7 +7,6 @@ private:
 	UWorld* World;
 	//TArray<TArray<TArray<int32>>> LevelArray;
 	TArray<TArray<int32>> LevelTileArray;
-	double RoomSize;
 	double TileSize;
 	TMap<FString, FString> RoomClassPaths = {
 		{ "NoRoom", "/Game/dungeonCrawler/Prefab_BluePrints/Rooms/NoRoomSquare_Blueprint.NoRoomSquare_Blueprint_C" },

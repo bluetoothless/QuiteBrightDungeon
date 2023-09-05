@@ -4,7 +4,7 @@ D:\Github\dungeonCrawlerMgr\dungeonCrawlerMgr\ML>      .\VirtualEnv\Scripts\acti
 Odpalenie uczenia:
 D:\Github\dungeonCrawlerMgr\dungeonCrawlerMgr\ML>	python '..\..\MLTrainingScripts\VAE_training.py'
 
-Generacja mapki z wutrenowanego modelu:
+Generacja mapki z wytrenowanego modelu:
 D:\Github\dungeonCrawlerMgr\dungeonCrawlerMgr\ML>	python '..\..\MLTrainingScripts\VAE_generating.py''
 
 
