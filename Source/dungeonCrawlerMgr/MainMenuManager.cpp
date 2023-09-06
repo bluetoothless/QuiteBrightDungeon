@@ -7,11 +7,16 @@ void UMainMenuManager::NativeConstruct()
 {
     Super::NativeConstruct();
 
-    // Bind the Start button
+    // Bind the buttons
     UButton* StartButton = Cast<UButton>(GetWidgetFromName(TEXT("ButtonStart")));
-    if (StartButton)
+    UButton* OptionsButton = Cast<UButton>(GetWidgetFromName(TEXT("ButtonOptions")));
+    UButton* ExitButton = Cast<UButton>(GetWidgetFromName(TEXT("ButtonExit")));
+
+    if (StartButton && OptionsButton && ExitButton)
     {
         StartButton->OnClicked.AddDynamic(this, &UMainMenuManager::OnStartButtonClicked);
+        OptionsButton->OnClicked.AddDynamic(this, &UMainMenuManager::OnOptionsButtonClicked);
+        ExitButton->OnClicked.AddDynamic(this, &UMainMenuManager::OnExitButtonClicked);
     }
 }
 
@@ -22,5 +27,14 @@ void UMainMenuManager::OnStartButtonClicked()
     {
         World->ServerTravel(Paths["Level"]);
     }
+}
+
+void UMainMenuManager::OnOptionsButtonClicked()
+{
+}
+
+void UMainMenuManager::OnExitButtonClicked()
+{
+    FGenericPlatformMisc::RequestExit(false);
 }
 
