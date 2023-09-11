@@ -1,6 +1,7 @@
 #include "MainMenuManager.h"
 #include "Components/Button.h"
 #include "Engine/World.h"
+#include "OptionsManager.h"
 #include "GameFramework/PlayerController.h"
 
 void UMainMenuManager::NativeConstruct()
@@ -31,6 +32,21 @@ void UMainMenuManager::OnStartButtonClicked()
 
 void UMainMenuManager::OnOptionsButtonClicked()
 {
+    if (OptionsMenu == nullptr)
+    {
+        OptionsMenu = CreateWidget<UUserWidget>(GetWorld(), UOptionsManager::StaticClass());
+    }
+
+    if (OptionsMenu)
+    {
+        this->RemoveFromViewport();
+        OptionsMenu->AddToViewport(1);
+        if (OptionsMenu->IsInViewport())
+        {
+            int a = 2;
+            a++;
+        }
+    }
 }
 
 void UMainMenuManager::OnExitButtonClicked()
