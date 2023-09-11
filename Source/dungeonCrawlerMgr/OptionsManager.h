@@ -1,14 +1,9 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
 #pragma once
 
 #include "CoreMinimal.h"
 #include "Blueprint/UserWidget.h"
 #include "OptionsManager.generated.h"
 
-/**
- * 
- */
 UCLASS()
 class DUNGEONCRAWLERMGR_API UOptionsManager : public UUserWidget
 {
@@ -19,4 +14,8 @@ private:
 	TMap<FString, FString> Paths = {
 		{ "MainMenu", "" }
 	};
+	bool isInitialized = false;
+
+	UFUNCTION()
+		void OnBackButtonClicked();
 };

@@ -3,21 +3,26 @@
 #include "Engine/World.h"
 #include "OptionsManager.h"
 #include "GameFramework/PlayerController.h"
+#include "UIGameMode.h"
 
 void UMainMenuManager::NativeConstruct()
 {
     Super::NativeConstruct();
 
-    // Bind the buttons
-    UButton* StartButton = Cast<UButton>(GetWidgetFromName(TEXT("ButtonStart")));
-    UButton* OptionsButton = Cast<UButton>(GetWidgetFromName(TEXT("ButtonOptions")));
-    UButton* ExitButton = Cast<UButton>(GetWidgetFromName(TEXT("ButtonExit")));
-
-    if (StartButton && OptionsButton && ExitButton)
+    if (!isInitialized)
     {
-        StartButton->OnClicked.AddDynamic(this, &UMainMenuManager::OnStartButtonClicked);
-        OptionsButton->OnClicked.AddDynamic(this, &UMainMenuManager::OnOptionsButtonClicked);
-        ExitButton->OnClicked.AddDynamic(this, &UMainMenuManager::OnExitButtonClicked);
+        // Bind the buttons
+        UButton* StartButton = Cast<UButton>(GetWidgetFromName(TEXT("ButtonStart")));
+        UButton* OptionsButton = Cast<UButton>(GetWidgetFromName(TEXT("ButtonOptions")));
+        UButton* ExitButton = Cast<UButton>(GetWidgetFromName(TEXT("ButtonExit")));
+
+        if (StartButton && OptionsButton && ExitButton)
+        {
+            StartButton->OnClicked.AddDynamic(this, &UMainMenuManager::OnStartButtonClicked);
+            OptionsButton->OnClicked.AddDynamic(this, &UMainMenuManager::OnOptionsButtonClicked);
+            ExitButton->OnClicked.AddDynamic(this, &UMainMenuManager::OnExitButtonClicked);
+        }
+        isInitialized = true;
     }
 }
 
@@ -32,19 +37,13 @@ void UMainMenuManager::OnStartButtonClicked()
 
 void UMainMenuManager::OnOptionsButtonClicked()
 {
-    if (OptionsMenu == nullptr)
+    UWorld* world = GetWorld();
+    if (world)
     {
-        OptionsMenu = CreateWidget<UUserWidget>(GetWorld(), UOptionsManager::StaticClass());
-    }
-
-    if (OptionsMenu)
-    {
-        this->RemoveFromViewport();
-        OptionsMenu->AddToViewport(1);
-        if (OptionsMenu->IsInViewport())
+        AUIGameMode* gameMode = world->GetAuthGameMode<AUIGameMode>();
+        if (gameMode)
         {
-            int a = 2;
-            a++;
+            gameMode->SetToOptions();
         }
     }
 }

@@ -11,10 +11,10 @@ class DUNGEONCRAWLERMGR_API UMainMenuManager : public UUserWidget
 public:
 	virtual void NativeConstruct() override;
 private:
-	UUserWidget* OptionsMenu = nullptr;
 	TMap<FString, FString> Paths = {
 		{ "Level", "/Game/dungeonCrawler/Map1" }
 	};
+	bool isInitialized = false;
 
 	UFUNCTION()
 		void OnStartButtonClicked();

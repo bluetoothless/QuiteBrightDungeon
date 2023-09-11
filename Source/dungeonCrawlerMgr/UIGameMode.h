@@ -1,5 +1,3 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
 #pragma once
 
 #include "CoreMinimal.h"
@@ -17,17 +15,18 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Widgets")
 		TSubclassOf<UUserWidget> MainMenuClass;
 
-	//UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Widgets")
-	//	TSubclassOf<UUserWidget> OptionsClass;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Widgets")
+		TSubclassOf<UUserWidget> OptionsClass;
 
 	AUIGameMode();
-
 	virtual void BeginPlay();
+	void SetToMainMenu();
+	void SetToOptions();
 private:
 	TMap<FString, FString> ClassPaths = {
 		{ "MainMenu", "/Game/dungeonCrawler/UI/MainMenuBlueprint.MainMenuBlueprint_C" },
-		//{ "Options", "/Game/dungeonCrawler/UI/OptionsBlueprint.OptionsBlueprint_C" },
+		{ "Options", "/Game/dungeonCrawler/UI/OptionsBlueprint.OptionsBlueprint_C" },
 	};
-	//UPROPERTY()
-	//	UWidgetSwitcher* WidgetSwitcher;
+	UUserWidget* MainMenu;
+	UUserWidget* Options;
 };
