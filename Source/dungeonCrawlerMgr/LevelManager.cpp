@@ -17,10 +17,9 @@ LevelManager::~LevelManager()
 }
 
 void LevelManager::LoadLevel()
-{														// D:\Github\dungeonCrawlerMgr\dungeonCrawlerMgr\Content\dungeonCrawler\MapRepresentations
-	//LevelTileArrayPath = FPaths::ProjectContentDir() + TEXT("dungeonCrawler/MapRepresentations/levelTileArray_12.json");
-	//ReadLevelTileArray();
-	GenerateLevelTileArray();
+{	
+	ReadLevelTileArray();
+	//GenerateLevelTileArray();
 	PrintLevelTileArray();
 	SpawnTiles();
 }
@@ -30,6 +29,14 @@ void LevelManager::GenerateLevelTileArray()
 	UE_LOG(LogTemp, Error, TEXT("LevelManager - GenerateLevelTileArray"));
 	MLModelManager* mlModelManager = new MLModelManager();
 	LevelTileArray = mlModelManager->GenerateMapWithVAE();
+}
+
+void LevelManager::ReadLevelTileArray() {
+	// D:\Github\dungeonCrawlerMgr\dungeonCrawlerMgr\Content\dungeonCrawler\MapRepresentations
+	LevelTileArrayPath = FPaths::ProjectContentDir() + TEXT("dungeonCrawler/MapRepresentations/levelTileArray_12.json");
+	JsonFileReader* jsonFileReader = new JsonFileReader();
+	FString ResultPath = FPaths::ConvertRelativePathToFull(LevelTileArrayPath);
+	LevelTileArray = jsonFileReader->ReadJSONFile(ResultPath);
 }
 
 void LevelManager::PrintLevelTileArray()

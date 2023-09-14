@@ -15,6 +15,7 @@ public:
 	void LoadLevel();
 
 	void GenerateLevelTileArray();
+	void ReadLevelTileArray();
 	void PrintLevelTileArray();
 	void SpawnTiles();
 };

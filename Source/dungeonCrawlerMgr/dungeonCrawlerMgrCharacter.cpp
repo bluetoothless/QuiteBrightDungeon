@@ -45,9 +45,28 @@ AdungeonCrawlerMgrCharacter::AdungeonCrawlerMgrCharacter()
 	// Activate ticking in order to update the cursor every frame.
 	PrimaryActorTick.bCanEverTick = true;
 	PrimaryActorTick.bStartWithTickEnabled = true;
+
+	static ConstructorHelpers::FClassFinder<UUserWidget> GameUIBlueprintClass(*ClassPaths["GameUI"]);
+	if (GameUIBlueprintClass.Class)
+	{
+		InGameUIClass = GameUIBlueprintClass.Class;
+	}
 }
 
 void AdungeonCrawlerMgrCharacter::Tick(float DeltaSeconds)
 {
     Super::Tick(DeltaSeconds);
+}
+
+void AdungeonCrawlerMgrCharacter::BeginPlay()
+{
+	Super::BeginPlay();
+	if (InGameUIClass)
+	{
+		InGameUI = CreateWidget<UUserWidget>(GetWorld(), InGameUIClass);
+		if (InGameUI)
+		{
+			InGameUI->AddToViewport();
+		}
+	}
 }
