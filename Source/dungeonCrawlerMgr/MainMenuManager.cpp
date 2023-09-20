@@ -25,10 +25,10 @@ void UMainMenuManager::NativeConstruct()
             ExitButton->OnClicked.AddDynamic(this, &UMainMenuManager::OnExitButtonClicked);
         }
 
-        SetBestScoreText();
-
         isInitialized = true;
     }
+
+    SetBestScoreText();
 }
 
 void UMainMenuManager::OnStartButtonClicked()

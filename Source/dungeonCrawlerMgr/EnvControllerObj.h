@@ -14,8 +14,6 @@ public:
 	static APlayerStart* PlayerStart;
 	static int32 BestScore;
 
-	UEnvControllerObj();
-
 	static enum TileType
 	{
 		EmptyTile,
@@ -26,4 +24,8 @@ public:
 		TreasureTile,
 		TrapTile
 	};
+
+	UEnvControllerObj();
+
+	static void SetBestScore(int32 value);
 };

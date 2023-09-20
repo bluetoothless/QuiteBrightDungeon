@@ -17,5 +17,8 @@ private:
 	bool isInitialized = false;
 
 	UFUNCTION()
+		void OnResetScoreButtonClicked();
+
+	UFUNCTION()
 		void OnBackButtonClicked();
 };
