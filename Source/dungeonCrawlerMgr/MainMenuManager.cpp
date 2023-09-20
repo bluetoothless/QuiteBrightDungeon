@@ -4,6 +4,8 @@
 #include "OptionsManager.h"
 #include "GameFramework/PlayerController.h"
 #include "UIGameMode.h"
+#include "EnvControllerObj.h"
+#include "JsonFileReader.h"
 
 void UMainMenuManager::NativeConstruct()
 {
@@ -22,6 +24,9 @@ void UMainMenuManager::NativeConstruct()
             OptionsButton->OnClicked.AddDynamic(this, &UMainMenuManager::OnOptionsButtonClicked);
             ExitButton->OnClicked.AddDynamic(this, &UMainMenuManager::OnExitButtonClicked);
         }
+
+        SetBestScoreText();
+
         isInitialized = true;
     }
 }
@@ -51,5 +56,17 @@ void UMainMenuManager::OnOptionsButtonClicked()
 void UMainMenuManager::OnExitButtonClicked()
 {
     FGenericPlatformMisc::RequestExit(false);
+}
+
+void UMainMenuManager::SetBestScoreText()
+{
+    if (UEnvControllerObj::BestScore == -1) // Best score not acquired from json
+    {
+        JsonFileReader* jsonFileReader = new JsonFileReader();
+        FString ResultPath = FPaths::ConvertRelativePathToFull(
+            FPaths::ProjectDir() + Paths["BestScore"]);
+        UEnvControllerObj::BestScore = jsonFileReader->ReadBestScoreFromJSON(ResultPath);
+    }
+    TextRecordValue->SetText(FText::FText::AsNumber(UEnvControllerObj::BestScore));
 }
 

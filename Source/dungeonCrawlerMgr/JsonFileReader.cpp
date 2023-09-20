@@ -13,29 +13,45 @@ JsonFileReader::JsonFileReader()
 JsonFileReader::~JsonFileReader()
 {
 }
-TArray<TArray<int32>> JsonFileReader::ReadJSONFile(FString FilePath)
+TArray<TArray<int32>> JsonFileReader::ReadLevelArrayFromJSON(FString FilePath)
 {
-    TArray<TArray<int32>> Result;
+    TArray<TArray<int32>> result;
 
-    FString JsonStr;
-    FFileHelper::LoadFileToString(JsonStr, *FilePath); // Load the JSON file into a string
+    FString jsonStr;
+    FFileHelper::LoadFileToString(jsonStr, *FilePath);
+    TSharedPtr<FJsonObject> jsonObject = MakeShareable(new FJsonObject());
+    TSharedRef<TJsonReader<>> reader = TJsonReaderFactory<>::Create(jsonStr);
 
-    TSharedPtr<FJsonObject> JsonObject = MakeShareable(new FJsonObject());
-    TSharedRef<TJsonReader<>> Reader = TJsonReaderFactory<>::Create(JsonStr);
-
-    if (FJsonSerializer::Deserialize(Reader, JsonObject) && JsonObject.IsValid())
+    if (FJsonSerializer::Deserialize(reader, jsonObject) && jsonObject.IsValid())
     {
-        TArray<TSharedPtr<FJsonValue>> LevelTileArrayJson = JsonObject->GetArrayField("LevelTileArray");
-        for (auto& Row : LevelTileArrayJson)
+        TArray<TSharedPtr<FJsonValue>> levelTileArrayJson = jsonObject->GetArrayField("LevelTileArray");
+        for (auto& row : levelTileArrayJson)
         {
-            TArray<int32> IntRow;
-            for (auto& Value : Row->AsArray())
+            TArray<int32> intRow;
+            for (auto& value : row->AsArray())
             {
-                IntRow.Add(Value->AsNumber());
+                intRow.Add(value->AsNumber());
             }
-            Result.Add(IntRow);
+            result.Add(intRow);
         }
     }
 
-    return Result;
+    return result;
+}
+
+int32 JsonFileReader::ReadBestScoreFromJSON(FString FilePath)
+{
+    int32 result = 0;
+
+    FString jsonStr;
+    FFileHelper::LoadFileToString(jsonStr, *FilePath);
+    TSharedPtr<FJsonObject> jsonObject = MakeShareable(new FJsonObject());
+    TSharedRef<TJsonReader<>> reader = TJsonReaderFactory<>::Create(jsonStr);
+
+    if (FJsonSerializer::Deserialize(reader, jsonObject) && jsonObject.IsValid())
+    {
+        result = jsonObject->GetIntegerField("BestScore");
+    }
+
+    return result;
 }

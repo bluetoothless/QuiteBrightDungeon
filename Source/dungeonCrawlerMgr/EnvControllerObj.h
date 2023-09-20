@@ -12,6 +12,8 @@ class DUNGEONCRAWLERMGR_API UEnvControllerObj : public UActorComponent
 
 public:	
 	static APlayerStart* PlayerStart;
+	static int32 BestScore;
+
 	UEnvControllerObj();
 
 	static enum TileType

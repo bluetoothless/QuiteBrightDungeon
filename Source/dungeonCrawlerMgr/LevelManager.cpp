@@ -36,7 +36,7 @@ void LevelManager::ReadLevelTileArray() {
 	LevelTileArrayPath = FPaths::ProjectContentDir() + TEXT("dungeonCrawler/MapRepresentations/levelTileArray_12.json");
 	JsonFileReader* jsonFileReader = new JsonFileReader();
 	FString ResultPath = FPaths::ConvertRelativePathToFull(LevelTileArrayPath);
-	LevelTileArray = jsonFileReader->ReadJSONFile(ResultPath);
+	LevelTileArray = jsonFileReader->ReadLevelArrayFromJSON(ResultPath);
 }
 
 void LevelManager::PrintLevelTileArray()

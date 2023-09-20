@@ -36,6 +36,6 @@ TArray<TArray<int32>> MLModelManager::GenerateMap(FString method)
         
     JsonFileReader* jsonFileReader = new JsonFileReader();
     FString ResultPath = FPaths::ConvertRelativePathToFull(FPaths::Combine(ProjectDir, ResultPaths[method]));
-    TArray<TArray<int32>> levelTileArray = jsonFileReader->ReadJSONFile(ResultPath);
+    TArray<TArray<int32>> levelTileArray = jsonFileReader->ReadLevelArrayFromJSON(ResultPath);
     return levelTileArray;
 }

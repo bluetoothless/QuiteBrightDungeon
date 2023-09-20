@@ -14,6 +14,7 @@ public class dungeonCrawlerMgr : ModuleRules
             new string[] {
                 ModuleDirectory + "/../../ML",
                 ModuleDirectory + "/../../Installation",
+                ModuleDirectory + "/../../GameData",
             }
         );
     }
