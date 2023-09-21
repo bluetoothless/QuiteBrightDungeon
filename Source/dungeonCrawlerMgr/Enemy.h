@@ -22,6 +22,10 @@ public:
 	bool CanMove();
 
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
+	
+	UFUNCTION()
+		void OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, 
+			UPrimitiveComponent* OtherComponent, FVector NormalImpulse, const FHitResult& Hit);
 
 protected:
 	virtual void BeginPlay() override;

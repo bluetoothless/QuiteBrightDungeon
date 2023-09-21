@@ -1,4 +1,5 @@
 #include "Enemy.h"
+#include "dungeonCrawlerMgrCharacter.h"
 #include <Actions/PawnAction.h>
 
 AEnemy::AEnemy()
@@ -13,6 +14,7 @@ void AEnemy::BeginPlay()
 {
 	Super::BeginPlay();
 	TargetPlayer = GetWorld()->GetFirstPlayerController()->GetCharacter();
+	//CollisionComponent->OnComponentHit.AddDynamic(this, &AEnemy::OnHit);
 }
 
 void AEnemy::Tick(float DeltaTime)
@@ -73,6 +75,16 @@ bool AEnemy::CanMove()
 void AEnemy::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
-
 }
 
+void AEnemy::OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComponent, FVector NormalImpulse, const FHitResult& Hit)
+{
+	if (OtherActor->IsA(AdungeonCrawlerMgrCharacter::StaticClass()))
+	{
+		AdungeonCrawlerMgrCharacter* Player = Cast<AdungeonCrawlerMgrCharacter>(OtherActor);
+		if (Player)
+		{
+			Player->CurrentHealthPoints -= 10;
+		}
+	}
+}

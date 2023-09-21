@@ -51,6 +51,9 @@ AdungeonCrawlerMgrCharacter::AdungeonCrawlerMgrCharacter()
 	{
 		InGameUIClass = GameUIBlueprintClass.Class;
 	}
+
+	MaxHealthPoints = 100;
+	CurrentHealthPoints = MaxHealthPoints;
 }
 
 void AdungeonCrawlerMgrCharacter::Tick(float DeltaSeconds)

@@ -13,6 +13,12 @@ class AdungeonCrawlerMgrCharacter : public ACharacter
 	GENERATED_BODY()
 
 public:
+	int32 MaxHealthPoints;
+	int32 CurrentHealthPoints;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Widgets")
+		TSubclassOf<UUserWidget> InGameUIClass;
+
 	AdungeonCrawlerMgrCharacter();
 
 	// Called every frame.
@@ -22,9 +28,6 @@ public:
 	FORCEINLINE class UCameraComponent* GetTopDownCameraComponent() const { return TopDownCameraComponent; }
 	/** Returns CameraBoom subobject **/
 	FORCEINLINE class USpringArmComponent* GetCameraBoom() const { return CameraBoom; }
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Widgets")
-		TSubclassOf<UUserWidget> InGameUIClass;
 
 private:
 	/** Top down camera */
