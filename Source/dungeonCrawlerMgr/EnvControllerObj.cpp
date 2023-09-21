@@ -1,8 +1,8 @@
 #include "EnvControllerObj.h"
 
 APlayerStart* UEnvControllerObj::PlayerStart = nullptr;
-
 int32 UEnvControllerObj::BestScore = -1;
+int32 UEnvControllerObj::CurrentGenerationType = UEnvControllerObj::VAE;
 
 UEnvControllerObj::UEnvControllerObj()
 {

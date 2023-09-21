@@ -4,11 +4,11 @@
 #include "Engine/World.h"
 #include "RoomDetailManager.h"
 #include "JsonFileReader.h"
-#include "MLModelManager.h"
 
 LevelManager::LevelManager(UWorld* world)
 {
 	World = world;
+	MlModelManager = new MLModelManager();
 	UE_LOG(LogTemp, Error, TEXT("LevelManager - constructor"));
 }
 
@@ -18,17 +18,30 @@ LevelManager::~LevelManager()
 
 void LevelManager::LoadLevel()
 {	
-	ReadLevelTileArray();
-	//GenerateLevelTileArray();
+	switch (UEnvControllerObj::CurrentGenerationType) {
+		case UEnvControllerObj::VAE:
+			GenerateLevelTileArrayWithVAE();
+			break;
+		case UEnvControllerObj::GAN:
+			break;
+		case UEnvControllerObj::DefaultMap:
+			ReadLevelTileArray();
+			break;
+	}
 	PrintLevelTileArray();
 	SpawnTiles();
 }
 
-void LevelManager::GenerateLevelTileArray()
+void LevelManager::GenerateLevelTileArrayWithVAE()
 {
-	UE_LOG(LogTemp, Error, TEXT("LevelManager - GenerateLevelTileArray"));
-	MLModelManager* mlModelManager = new MLModelManager();
-	LevelTileArray = mlModelManager->GenerateMapWithVAE();
+	UE_LOG(LogTemp, Error, TEXT("LevelManager - GenerateLevelTileArrayWithVAE"));
+	LevelTileArray = MlModelManager->GenerateMapWithVAE();
+}
+
+void LevelManager::GenerateLevelTileArrayWithGAN()
+{
+	UE_LOG(LogTemp, Error, TEXT("LevelManager - GenerateLevelTileArrayWithGAN"));
+	//LevelTileArray = MlModelManager->GenerateMapWithVAE();
 }
 
 void LevelManager::ReadLevelTileArray() {

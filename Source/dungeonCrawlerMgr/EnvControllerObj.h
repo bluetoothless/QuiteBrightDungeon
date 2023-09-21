@@ -13,6 +13,7 @@ class DUNGEONCRAWLERMGR_API UEnvControllerObj : public UActorComponent
 public:	
 	static APlayerStart* PlayerStart;
 	static int32 BestScore;
+	static int32 CurrentGenerationType;
 
 	static enum TileType
 	{
@@ -23,6 +24,13 @@ public:
 		EnemyTile,
 		TreasureTile,
 		TrapTile
+	};
+
+	static enum GenerationType 
+	{
+		VAE,
+		GAN,
+		DefaultMap
 	};
 
 	UEnvControllerObj();
