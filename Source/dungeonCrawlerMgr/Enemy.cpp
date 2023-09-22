@@ -1,6 +1,8 @@
 #include "Enemy.h"
 #include "dungeonCrawlerMgrCharacter.h"
 #include <Actions/PawnAction.h>
+#include "Components/CapsuleComponent.h"
+
 
 AEnemy::AEnemy()
 {
@@ -14,7 +16,6 @@ void AEnemy::BeginPlay()
 {
 	Super::BeginPlay();
 	TargetPlayer = GetWorld()->GetFirstPlayerController()->GetCharacter();
-	//CollisionComponent->OnComponentHit.AddDynamic(this, &AEnemy::OnHit);
 }
 
 void AEnemy::Tick(float DeltaTime)
@@ -77,14 +78,37 @@ void AEnemy::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
 }
 
-void AEnemy::OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComponent, FVector NormalImpulse, const FHitResult& Hit)
+void AEnemy::SetSwordCollision(AActor* SwordActor)
 {
-	if (OtherActor->IsA(AdungeonCrawlerMgrCharacter::StaticClass()))
+	UCapsuleComponent* capsuleComponent = SwordActor->FindComponentByClass<UCapsuleComponent>();
+	if (capsuleComponent)
+	{
+		capsuleComponent->SetCollisionEnabled(ECollisionEnabled::QueryOnly);
+		capsuleComponent->SetCollisionObjectType(ECollisionChannel::ECC_GameTraceChannel1);
+		capsuleComponent->SetCollisionResponseToAllChannels(ECollisionResponse::ECR_Ignore);
+		capsuleComponent->SetCollisionResponseToChannel(ECC_Pawn, ECR_Overlap);
+		capsuleComponent->SetGenerateOverlapEvents(true);
+
+		capsuleComponent->OnComponentBeginOverlap.AddDynamic(this, &AEnemy::OnBeginOverlap);//OnComponentHit.AddDynamic(this, &AEnemy::OnHit);
+	}
+}
+
+void AEnemy::OnBeginOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor,
+	UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
+{
+	if (OtherActor && OtherActor->IsA(AdungeonCrawlerMgrCharacter::StaticClass()))
 	{
 		AdungeonCrawlerMgrCharacter* Player = Cast<AdungeonCrawlerMgrCharacter>(OtherActor);
-		if (Player)
+		if (Player && !SwordOnCooldown)
 		{
 			Player->CurrentHealthPoints -= 10;
+			SwordOnCooldown = true;
+			GetWorld()->GetTimerManager().SetTimer(CooldownTimerHandle, this, &AEnemy::ResetSwordCooldown, 0.4f, false);
 		}
 	}
+}
+
+void AEnemy::ResetSwordCooldown()
+{
+	SwordOnCooldown = false;
 }

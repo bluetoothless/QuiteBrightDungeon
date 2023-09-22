@@ -23,14 +23,24 @@ public:
 
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 	
+	void SetSwordCollision(AActor* SwordActor);
+
+	UFUNCTION()
+		void OnBeginOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, 
+			UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
+	/*
 	UFUNCTION()
 		void OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, 
-			UPrimitiveComponent* OtherComponent, FVector NormalImpulse, const FHitResult& Hit);
+			UPrimitiveComponent* OtherComponent, FVector NormalImpulse, const FHitResult& Hit);*/
 
 protected:
 	virtual void BeginPlay() override;
 
 private:
+	AActor* Sword;
+	bool SwordOnCooldown = false;
+	FTimerHandle CooldownTimerHandle;
+
 	float FollowDistance = 1000.0f;
 	float AttackDistance = 150.0f;
 
@@ -45,4 +55,6 @@ private:
 		{ "Running", TEXT("AnimSequence'/Game/CityofBrass_Enemies/Meshes/Enemy/Corpse/Animation/Corpse_Run_Forward.Corpse_Run_Forward'") },
 		{ "Hit", TEXT("AnimSequence'/Game/CityofBrass_Enemies/Meshes/Enemy/Corpse/Animation/Corpse_Alert_Attack_Basic03.Corpse_Alert_Attack_Basic03'") },
 	};
+	
+	void ResetSwordCooldown();
 };

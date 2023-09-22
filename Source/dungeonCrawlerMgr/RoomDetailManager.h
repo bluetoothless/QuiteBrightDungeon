@@ -33,6 +33,10 @@ private:
 		{ "TrapTile", "/Game/dungeonCrawler/Prefab_BluePrints/Tiles/TileTrap_Blueprint.TileTrap_Blueprint_C" },
 	};
 
+	TMap<FString, FString> AssetPaths = {
+		{ "EnemySword", "/Game/dungeonCrawler/Prefab_BluePrints/EnemySwordBlueprint.EnemySwordBlueprint_C" }
+	};
+
 public:
 	RoomDetailManager(UWorld* world, TArray<TArray<int32>> levelTileArray);
 	~RoomDetailManager();

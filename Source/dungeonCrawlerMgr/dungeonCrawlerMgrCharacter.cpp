@@ -10,6 +10,7 @@
 #include "Engine/World.h"
 #include <EnhancedInputComponent.h>
 #include "dungeonCrawlerMgrPlayerController.h"
+#include <Components/ProgressBar.h>
 
 AdungeonCrawlerMgrCharacter::AdungeonCrawlerMgrCharacter()
 {
@@ -59,6 +60,12 @@ AdungeonCrawlerMgrCharacter::AdungeonCrawlerMgrCharacter()
 void AdungeonCrawlerMgrCharacter::Tick(float DeltaSeconds)
 {
     Super::Tick(DeltaSeconds);
+
+	if (Healthbar)
+	{
+		float healthPointsPercent = static_cast<float>(CurrentHealthPoints) / static_cast<float>(MaxHealthPoints);
+		Healthbar->SetPercent(healthPointsPercent);
+	}
 }
 
 void AdungeonCrawlerMgrCharacter::BeginPlay()
@@ -70,6 +77,7 @@ void AdungeonCrawlerMgrCharacter::BeginPlay()
 		if (InGameUI)
 		{
 			InGameUI->AddToViewport();
+			Healthbar = Cast<UInGameUIManager>(InGameUI)->HealthBar;
 		}
 	}
 }

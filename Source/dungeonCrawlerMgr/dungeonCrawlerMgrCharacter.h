@@ -39,6 +39,7 @@ private:
 	class USpringArmComponent* CameraBoom;
 
 	UUserWidget* InGameUI;
+	UProgressBar* Healthbar;
 
 	TMap<FString, FString> ClassPaths = {
 		{ "GameUI", "/Game/dungeonCrawler/UI/GameUIBlueprint.GameUIBlueprint_C" }

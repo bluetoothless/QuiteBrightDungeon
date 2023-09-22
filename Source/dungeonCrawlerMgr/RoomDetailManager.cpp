@@ -8,6 +8,7 @@
 #include "dungeonCrawlerMgrGameMode.h"
 #include <Kismet/GameplayStatics.h>
 #include <AIController.h>
+#include "Enemy.h"
 
 RoomDetailManager::RoomDetailManager(UWorld* world, TArray<TArray<int32>> levelTileArray)
 {
@@ -102,5 +103,15 @@ void RoomDetailManager::SpawnTile(int32 i, int32 j)
 	{
 		AAIController* AIController = World->SpawnActor<AAIController>(spawnLocation, spawnRotation);
 		AIController->Possess(Cast<APawn>(spawnedTile));
+
+		UClass* enemySwordAssetClass = LoadClass<AActor>(nullptr, *AssetPaths["EnemySword"]);
+		AActor* spawnedSword = World->SpawnActor<AActor>(enemySwordAssetClass, spawnLocation, spawnRotation);
+		if (spawnedSword)
+		{
+			FName socketName = FName("Bip001-R-HandSocket_Sword");
+			spawnedSword->AttachToComponent(spawnedTile->FindComponentByClass<USkeletalMeshComponent>(), 
+				FAttachmentTransformRules::SnapToTargetNotIncludingScale, socketName);
+			Cast<AEnemy>(spawnedTile)->SetSwordCollision(spawnedSword);
+		}
 	}
 }
