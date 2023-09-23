@@ -18,6 +18,7 @@ LevelManager::~LevelManager()
 
 void LevelManager::LoadLevel()
 {	
+	UEnvControllerObj::CurrentLevel++;
 	switch (UEnvControllerObj::CurrentGenerationType) {
 		case UEnvControllerObj::VAE:
 			GenerateLevelTileArrayWithVAE();
@@ -70,7 +71,7 @@ void LevelManager::PrintLevelTileArray()
 
 void LevelManager::SpawnTiles()
 {
-	RoomDetailManager* roomDetailManager = new RoomDetailManager(World, /*LevelArray,*/ LevelTileArray);
+	RoomDetailManager* roomDetailManager = new RoomDetailManager(World, LevelTileArray);
 	for (int32 i = 0; i < LevelTileArray.Num(); i++)
 	{
 		for (int32 j = 0; j < LevelTileArray[i].Num(); j++)
@@ -82,4 +83,12 @@ void LevelManager::SpawnTiles()
 			roomDetailManager->SpawnTile(i, j);
 		}
 	}
+}
+
+void LevelManager::ResetGame()
+{
+	UEnvControllerObj::GameOver = false;
+	UEnvControllerObj::CurrentHealthPoints = UEnvControllerObj::MaxHealthPoints;
+	UEnvControllerObj::CurrentScore = 0;
+	UEnvControllerObj::CurrentLevel = 0;
 }

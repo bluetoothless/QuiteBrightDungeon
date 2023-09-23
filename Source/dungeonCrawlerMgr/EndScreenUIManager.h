@@ -21,6 +21,9 @@ public:
 
 private:
 	bool isInitialized = false;
+	TMap<FString, FString> Paths = {
+		{ "Level", "/Game/dungeonCrawler/Map1" }
+	};
 
 	UFUNCTION()
 		void OnRestartButtonClicked();

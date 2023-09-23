@@ -3,7 +3,6 @@
 #include "dungeonCrawlerMgrGameMode.h"
 #include "dungeonCrawlerMgrPlayerController.h"
 #include "dungeonCrawlerMgrCharacter.h"
-#include "LevelManager.h"
 #include "UObject/ConstructorHelpers.h"
 #include "EnvControllerObj.h"
 #include <Kismet/GameplayStatics.h>
@@ -33,15 +32,18 @@ AdungeonCrawlerMgrGameMode::AdungeonCrawlerMgrGameMode()
 
 void AdungeonCrawlerMgrGameMode::BeginPlay()
 {
-	LoadLevel();
+	UWorld* world = GetWorld();
+	LevelManager* levelManager = new LevelManager(world);
+	if (UEnvControllerObj::GameOver) {
+		levelManager->ResetGame();
+	}
+	LoadLevel(levelManager);
 	Super::BeginPlay();
 	UE_LOG(LogTemp, Error, TEXT("GameMode - Begin Play"));
 }
 
-void AdungeonCrawlerMgrGameMode::LoadLevel()
+void AdungeonCrawlerMgrGameMode::LoadLevel(LevelManager* levelManager)
 {
-	UWorld* world = GetWorld();
-	LevelManager* levelManager = new LevelManager(world);
 	levelManager->LoadLevel();
 	APlayerController* playerController = UGameplayStatics::GetPlayerController(this, 0);
 	if (playerController)

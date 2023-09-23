@@ -23,6 +23,11 @@ void UEndScreenUIManager::NativeConstruct()
 
 void UEndScreenUIManager::OnRestartButtonClicked()
 {
+    UWorld* World = GetWorld();
+    if (World)
+    {
+        World->ServerTravel(Paths["Level"]);
+    }
 }
 
 void UEndScreenUIManager::OnMainMenuButtonClicked()

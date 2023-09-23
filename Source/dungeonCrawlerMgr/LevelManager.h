@@ -21,4 +21,6 @@ public:
 	void ReadLevelTileArray();
 	void PrintLevelTileArray();
 	void SpawnTiles();
+
+	void ResetGame();
 };

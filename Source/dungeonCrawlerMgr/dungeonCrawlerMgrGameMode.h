@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/GameModeBase.h"
+#include "LevelManager.h"
 #include "dungeonCrawlerMgrGameMode.generated.h"
 
 UCLASS(minimalapi)
@@ -14,7 +15,7 @@ class AdungeonCrawlerMgrGameMode : public AGameModeBase
 public:
 	AdungeonCrawlerMgrGameMode();
 	virtual void BeginPlay();
-	void LoadLevel();
+	void LoadLevel(LevelManager* levelManager);
 	virtual void Tick(float DeltaSeconds) override;
 private:
 	TMap<FString, FString> Paths = {
