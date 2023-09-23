@@ -27,4 +27,6 @@ private:
 
 	UFUNCTION()
 		void OnMainMenuButtonClicked();
+
+	void SetTextBlocks();
 };

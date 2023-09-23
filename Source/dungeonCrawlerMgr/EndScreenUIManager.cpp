@@ -1,6 +1,7 @@
 #include "EndScreenUIManager.h"
 #include <Components/Button.h>
 #include "UIGameMode.h"
+#include "EnvControllerObj.h"
 
 void UEndScreenUIManager::NativeConstruct()
 {
@@ -16,6 +17,8 @@ void UEndScreenUIManager::NativeConstruct()
             MainMenuButton->OnClicked.AddDynamic(this, &UEndScreenUIManager::OnMainMenuButtonClicked);
         }
     }
+
+    SetTextBlocks();
 }
 
 void UEndScreenUIManager::OnRestartButtonClicked()
@@ -33,4 +36,16 @@ void UEndScreenUIManager::OnMainMenuButtonClicked()
             gameMode->SetToMainMenuFromEndScreen();
         }
     }
+}
+
+void UEndScreenUIManager::SetTextBlocks()
+{
+    FString newRecordText = "";
+    if (UEnvControllerObj::CurrentScore > UEnvControllerObj::BestScore) {
+        newRecordText = "NEW RECORD!";
+        UEnvControllerObj::SetBestScore(UEnvControllerObj::CurrentScore);
+    }
+    FString scoreText = "SCORE: " + FString::FromInt(UEnvControllerObj::CurrentScore);
+    TextNewRecord->SetText(FText::FromString(newRecordText));
+    TextScore->SetText(FText::FromString(scoreText));
 }
