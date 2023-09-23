@@ -7,6 +7,7 @@ int32 UEnvControllerObj::MaxHealthPoints = 100;
 int32 UEnvControllerObj::CurrentHealthPoints = MaxHealthPoints;
 int32 UEnvControllerObj::CurrentScore = 0;
 int32 UEnvControllerObj::CurrentLevel = 1;
+bool UEnvControllerObj::GameOver = false;
 
 UEnvControllerObj::UEnvControllerObj()
 {

@@ -18,6 +18,7 @@ public:
 	static int32 CurrentHealthPoints;
 	static int32 CurrentScore;
 	static int32 CurrentLevel;
+	static bool GameOver;
 
 	static enum TileType
 	{

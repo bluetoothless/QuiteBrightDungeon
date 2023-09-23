@@ -15,6 +15,11 @@ public:
 	AdungeonCrawlerMgrGameMode();
 	virtual void BeginPlay();
 	void LoadLevel();
+	virtual void Tick(float DeltaSeconds) override;
+private:
+	TMap<FString, FString> Paths = {
+		{ "UIMap", "/Game/dungeonCrawler/MainMenuMap" }
+	};
 };
 
 

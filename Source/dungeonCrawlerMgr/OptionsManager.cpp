@@ -57,7 +57,7 @@ void UOptionsManager::OnBackButtonClicked()
         AUIGameMode* gameMode = world->GetAuthGameMode<AUIGameMode>();
         if (gameMode)
         {
-            gameMode->SetToMainMenu();
+            gameMode->SetToMainMenuFromOptions();
         }
     }
 }

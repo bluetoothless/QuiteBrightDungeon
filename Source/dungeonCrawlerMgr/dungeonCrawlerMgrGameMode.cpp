@@ -23,10 +23,12 @@ AdungeonCrawlerMgrGameMode::AdungeonCrawlerMgrGameMode()
 
 	// set default controller to our Blueprinted controller
 	static ConstructorHelpers::FClassFinder<APlayerController> PlayerControllerBPClass(TEXT("/Game/TopDown/Blueprints/BP_TopDownPlayerController"));
-	if(PlayerControllerBPClass.Class != NULL)
+	if (PlayerControllerBPClass.Class != NULL)
 	{
 		PlayerControllerClass = PlayerControllerBPClass.Class;
 	}
+
+	PrimaryActorTick.bCanEverTick = true;
 }
 
 void AdungeonCrawlerMgrGameMode::BeginPlay()
@@ -54,6 +56,19 @@ void AdungeonCrawlerMgrGameMode::LoadLevel()
 				FRotator TargetRotation = UEnvControllerObj::PlayerStart->GetActorRotation();
 				controlledCharacter->SetActorLocationAndRotation(TargetLocation, TargetRotation);
 			}
+		}
+	}
+}
+
+void AdungeonCrawlerMgrGameMode::Tick(float DeltaSeconds)
+{
+	if (UEnvControllerObj::CurrentHealthPoints <= 0 && !UEnvControllerObj::GameOver) // The player died
+	{ 
+		UEnvControllerObj::GameOver = true;
+		UWorld* World = GetWorld();
+		if (World)
+		{
+			World->ServerTravel(Paths["UIMap"]);
 		}
 	}
 }

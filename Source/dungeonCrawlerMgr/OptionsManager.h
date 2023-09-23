@@ -15,9 +15,6 @@ public:
 	UPROPERTY(BlueprintReadOnly, meta = (BindWidget))
 		UTextBlock* TextGenerationTypeValue;
 private:
-	TMap<FString, FString> Paths = {
-		{ "MainMenu", "" }
-	};
 	bool isInitialized = false;
 	int32 numOfGenTypes;
 

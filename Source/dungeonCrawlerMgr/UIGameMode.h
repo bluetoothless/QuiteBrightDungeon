@@ -18,15 +18,21 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Widgets")
 		TSubclassOf<UUserWidget> OptionsClass;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Widgets")
+		TSubclassOf<UUserWidget> EndScreenUIClass;
+
 	AUIGameMode();
 	virtual void BeginPlay();
-	void SetToMainMenu();
+	void SetToMainMenuFromOptions();
+	void SetToMainMenuFromEndScreen();
 	void SetToOptions();
 private:
 	TMap<FString, FString> ClassPaths = {
 		{ "MainMenu", "/Game/dungeonCrawler/UI/MainMenuBlueprint.MainMenuBlueprint_C" },
 		{ "Options", "/Game/dungeonCrawler/UI/OptionsBlueprint.OptionsBlueprint_C" },
+		{ "EndScreen", "/Game/dungeonCrawler/UI/EndScreenUIBlueprint.EndScreenUIBlueprint_C" },
 	};
 	UUserWidget* MainMenu;
 	UUserWidget* Options;
+	UUserWidget* EndScreen;
 };
