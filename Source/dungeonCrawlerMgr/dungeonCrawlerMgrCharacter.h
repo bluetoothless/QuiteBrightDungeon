@@ -13,9 +13,6 @@ class AdungeonCrawlerMgrCharacter : public ACharacter
 	GENERATED_BODY()
 
 public:
-	int32 MaxHealthPoints;
-	int32 CurrentHealthPoints;
-
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Widgets")
 		TSubclassOf<UUserWidget> InGameUIClass;
 
@@ -40,6 +37,8 @@ private:
 
 	UUserWidget* InGameUI;
 	UProgressBar* Healthbar;
+	UTextBlock* TextCurrentScore;
+	UTextBlock* TextLevelNumber;
 
 	TMap<FString, FString> ClassPaths = {
 		{ "GameUI", "/Game/dungeonCrawler/UI/GameUIBlueprint.GameUIBlueprint_C" }

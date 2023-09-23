@@ -11,6 +11,7 @@
 #include <EnhancedInputComponent.h>
 #include "dungeonCrawlerMgrPlayerController.h"
 #include <Components/ProgressBar.h>
+#include "EnvControllerObj.h"
 
 AdungeonCrawlerMgrCharacter::AdungeonCrawlerMgrCharacter()
 {
@@ -53,8 +54,7 @@ AdungeonCrawlerMgrCharacter::AdungeonCrawlerMgrCharacter()
 		InGameUIClass = GameUIBlueprintClass.Class;
 	}
 
-	MaxHealthPoints = 100;
-	CurrentHealthPoints = MaxHealthPoints;
+	UEnvControllerObj::CurrentHealthPoints = UEnvControllerObj::MaxHealthPoints;
 }
 
 void AdungeonCrawlerMgrCharacter::Tick(float DeltaSeconds)
@@ -63,8 +63,13 @@ void AdungeonCrawlerMgrCharacter::Tick(float DeltaSeconds)
 
 	if (Healthbar)
 	{
-		float healthPointsPercent = static_cast<float>(CurrentHealthPoints) / static_cast<float>(MaxHealthPoints);
+		float healthPointsPercent = static_cast<float>(UEnvControllerObj::CurrentHealthPoints) / 
+			static_cast<float>(UEnvControllerObj::MaxHealthPoints);
 		Healthbar->SetPercent(healthPointsPercent);
+		FString scoreText = "SCORE: " + FString::FromInt(UEnvControllerObj::CurrentScore);
+		FString levelText = "Level " + FString::FromInt(UEnvControllerObj::CurrentLevel);
+		TextCurrentScore->SetText(FText::FromString(scoreText));
+		TextLevelNumber->SetText(FText::FromString(levelText));
 	}
 }
 
@@ -78,6 +83,8 @@ void AdungeonCrawlerMgrCharacter::BeginPlay()
 		{
 			InGameUI->AddToViewport();
 			Healthbar = Cast<UInGameUIManager>(InGameUI)->HealthBar;
+			TextCurrentScore = Cast<UInGameUIManager>(InGameUI)->TextCurrentScore;
+			TextLevelNumber = Cast<UInGameUIManager>(InGameUI)->TextLevelNumber;
 		}
 	}
 }

@@ -2,6 +2,7 @@
 #include "dungeonCrawlerMgrCharacter.h"
 #include <Actions/PawnAction.h>
 #include "Components/CapsuleComponent.h"
+#include "EnvControllerObj.h"
 
 
 AEnemy::AEnemy()
@@ -101,7 +102,7 @@ void AEnemy::OnBeginOverlap(UPrimitiveComponent* OverlappedComponent, AActor* Ot
 		AdungeonCrawlerMgrCharacter* Player = Cast<AdungeonCrawlerMgrCharacter>(OtherActor);
 		if (Player && !SwordOnCooldown)
 		{
-			Player->CurrentHealthPoints -= 10;
+			UEnvControllerObj::CurrentHealthPoints -= 10;
 			SwordOnCooldown = true;
 			GetWorld()->GetTimerManager().SetTimer(CooldownTimerHandle, this, &AEnemy::ResetSwordCooldown, 0.4f, false);
 		}
