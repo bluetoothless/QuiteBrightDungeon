@@ -1,6 +1,3 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
-
 #include "RoomDetailManager.h"
 #include "EnvControllerObj.h"
 #include "CustomPlayerStart.h"
@@ -26,107 +23,99 @@ RoomDetailManager::~RoomDetailManager()
 {
 }
 
-void RoomDetailManager::SpawnTile(int32 i, int32 j)
+void RoomDetailManager::SpawnTile(int32 ii, int32 jj)
 {
-	UClass* assetClass;
-	FRotator spawnRotation(0, 0, 0);
-	FActorSpawnParameters spawnParams;
-	AActor* spawnedTile;
-	APlayerStart* playerStart;
-	FVector spawnLocation(i * -TileSize + TileSize / 2, j * TileSize + TileSize / 2, 110.0f);
-	spawnParams.Name = FName(*("Tile_" + FString::FromInt(i) + "_" + FString::FromInt(j)));
-	spawnParams.bNoFail = true;
-	FString TileType;
-	bool hasWallLeftNeighbor;
-	bool hasWallRightNeighbor;
-	bool hasWallUpNeighbor;
-	bool hasWallDownNeighbor;
-	int32 adjacentWallsNumber;
+	i = ii;
+	j = jj;
+	SpawnLocation = FVector(i * -TileSize + TileSize / 2, j * TileSize + TileSize / 2, 110.0f);
+	SpawnRotation = FRotator(0, 0, 0);
 
 	switch (LevelTileArray[i][j])
 	{
 	case UEnvControllerObj::TileType::EmptyTile:
 		return;
 	case UEnvControllerObj::TileType::WallTile:
-		TileType = "WallTile";
+		SpawnWallTile();
 		break;
 	case UEnvControllerObj::TileType::PlayerStartTile:
-		playerStart = World->SpawnActor<APlayerStart>(APlayerStart::StaticClass(), spawnLocation, spawnRotation, spawnParams);
-		UEnvControllerObj::PlayerStart = playerStart;
-		return;
+		SpawnPlayerStartTile();
+		break;
 	case UEnvControllerObj::TileType::PlayerEndTile:
-		spawnLocation.Z = 10.0f;
-		TileType = "PlayerEndTile";
+		SpawnPlayerEndTile();
 		break;
 	case UEnvControllerObj::TileType::EnemyTile:
-		spawnLocation.Z = 98.0f;
-		TileType = "EnemyTile";
+		SpawnEnemyTile();
 		break;
 	case UEnvControllerObj::TileType::TreasureTile:
-		spawnLocation.Z = 10.0f;
-		hasWallLeftNeighbor = (j > 0 && LevelTileArray[i][j - 1] == UEnvControllerObj::TileType::WallTile);
-		hasWallRightNeighbor = (j < LevelTileArray[i].Num() - 1 && LevelTileArray[i][j + 1] == UEnvControllerObj::TileType::WallTile);
-		hasWallUpNeighbor = (i > 0 && LevelTileArray[i - 1][j] == UEnvControllerObj::TileType::WallTile);
-		hasWallDownNeighbor = (i < LevelTileArray.Num() - 1 && LevelTileArray[i + 1][j] == UEnvControllerObj::TileType::WallTile);
-		adjacentWallsNumber = 0;
-
-		if (hasWallLeftNeighbor) adjacentWallsNumber++;
-		if (hasWallRightNeighbor) adjacentWallsNumber++;
-		if (hasWallUpNeighbor) adjacentWallsNumber++;
-		if (hasWallDownNeighbor) adjacentWallsNumber++;
-		if (adjacentWallsNumber == 1) {
-			if ( hasWallRightNeighbor) {
-				spawnRotation = FRotator(0, 90, 0);
-			}
-			else if (hasWallLeftNeighbor) {
-				spawnRotation = FRotator(0, 270, 0);
-			}
-			else if (hasWallDownNeighbor) {
-				spawnRotation = FRotator(0, 180, 0);
-			}
-		}
-		TileType = "TreasureTile";
+		SpawnTreasureTile();
 		break;
 	case UEnvControllerObj::TileType::TrapTile:
-		spawnLocation.Z = 0.0f;
-		TileType = "TrapTile";
+		SpawnTrapTile();
 		break;
 	default:
 		return;
 	}
+} 
+
+AActor* RoomDetailManager::SpawnGenericTile(FString TileType)
+{
+	FActorSpawnParameters spawnParams;
+	spawnParams.Name = FName(*("Tile_" + FString::FromInt(i) + "-" + FString::FromInt(j)));
+	spawnParams.bNoFail = true;
 
 	FString TileBlueprintPath = TileClassPaths[TileType];
-	assetClass = LoadClass<AActor>(nullptr, *TileBlueprintPath);
+	UClass* assetClass = LoadClass<AActor>(nullptr, *TileBlueprintPath);
 
-	spawnedTile = World->SpawnActor<AActor>(assetClass, spawnLocation, spawnRotation, spawnParams);
+	return World->SpawnActor<AActor>(assetClass, SpawnLocation, SpawnRotation, spawnParams);
+}
 
+void RoomDetailManager::SpawnWallTile()
+{
+	AActor* spawnedTile = SpawnGenericTile("WallTile");
+}
 
-	switch (LevelTileArray[i][j])
+void RoomDetailManager::SpawnPlayerStartTile()
+{
+	FActorSpawnParameters spawnParams;
+	spawnParams.Name = FName(*("Tile_" + FString::FromInt(i) + "_" + FString::FromInt(j)));
+	spawnParams.bNoFail = true;
+	APlayerStart* playerStart = World->SpawnActor<APlayerStart>(APlayerStart::StaticClass(), SpawnLocation, SpawnRotation, spawnParams);
+	UEnvControllerObj::PlayerStart = playerStart;
+}
+
+void RoomDetailManager::SpawnPlayerEndTile()
+{
+	SpawnLocation.Z = 10.0f;
+	AActor* spawnedTile = SpawnGenericTile("PlayerEndTile");
+	Cast<APlayerEnd>(spawnedTile)->SetCollision(spawnedTile);
+}
+
+void RoomDetailManager::SpawnEnemyTile()
+{
+    SpawnLocation.Z = 98.0f;
+	AActor* spawnedTile = SpawnGenericTile("EnemyTile");
+	AAIController* AIController = World->SpawnActor<AAIController>(SpawnLocation, SpawnRotation);
+	AIController->Possess(Cast<APawn>(spawnedTile));
+
+	UClass* enemySwordAssetClass = LoadClass<AActor>(nullptr, *AssetPaths["EnemySword"]);
+	AActor* spawnedSword = World->SpawnActor<AActor>(enemySwordAssetClass, SpawnLocation, SpawnRotation);
+	if (spawnedSword)
 	{
-	case UEnvControllerObj::TileType::WallTile:
-		break;
-	case UEnvControllerObj::TileType::PlayerEndTile:
-		Cast<APlayerEnd>(spawnedTile)->SetCollision(spawnedTile);
-		break;
-	case UEnvControllerObj::TileType::TreasureTile:
-		
-		break;
-	case UEnvControllerObj::TileType::TrapTile:
-
-		break;
-	case UEnvControllerObj::TileType::EnemyTile:
-		AAIController* AIController = World->SpawnActor<AAIController>(spawnLocation, spawnRotation);
-		AIController->Possess(Cast<APawn>(spawnedTile));
-
-		UClass* enemySwordAssetClass = LoadClass<AActor>(nullptr, *AssetPaths["EnemySword"]);
-		AActor* spawnedSword = World->SpawnActor<AActor>(enemySwordAssetClass, spawnLocation, spawnRotation);
-		if (spawnedSword)
-		{
-			FName socketName = FName("Bip001-R-HandSocket_Sword");
-			spawnedSword->AttachToComponent(spawnedTile->FindComponentByClass<USkeletalMeshComponent>(), 
-				FAttachmentTransformRules::SnapToTargetNotIncludingScale, socketName);
-			Cast<AEnemy>(spawnedTile)->SetCollision(spawnedSword);
-		}
-		break;
+		FName socketName = FName("Bip001-R-HandSocket_Sword");
+		spawnedSword->AttachToComponent(spawnedTile->FindComponentByClass<USkeletalMeshComponent>(),
+			FAttachmentTransformRules::SnapToTargetNotIncludingScale, socketName);
+		Cast<AEnemy>(spawnedTile)->SetCollision(spawnedSword);
 	}
+}
+
+void RoomDetailManager::SpawnTreasureTile()
+{
+	SpawnLocation.Z = 10.0f;
+	SpawnGenericTile("TreasureTile");
+}
+
+void RoomDetailManager::SpawnTrapTile()
+{
+	SpawnLocation.Z = 0.0f;
+	SpawnGenericTile("TrapTile");
 }

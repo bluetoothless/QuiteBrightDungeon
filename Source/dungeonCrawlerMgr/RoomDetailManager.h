@@ -8,6 +8,11 @@ private:
 	//TArray<TArray<TArray<int32>>> LevelArray;
 	TArray<TArray<int32>> LevelTileArray;
 	double TileSize;
+	FVector SpawnLocation;
+	FRotator SpawnRotation;
+	int32 i;
+	int32 j;
+
 	TMap<FString, FString> RoomClassPaths = {
 		{ "NoRoom", "/Game/dungeonCrawler/Prefab_BluePrints/Rooms/NoRoomSquare_Blueprint.NoRoomSquare_Blueprint_C" },
 		{ "BasicRoom_1d_up", "/Game/dungeonCrawler/Prefab_BluePrints/Rooms/Room_1door_up_Blueprint.Room_1door_up_Blueprint_C" },
@@ -41,6 +46,13 @@ public:
 	RoomDetailManager(UWorld* world, TArray<TArray<int32>> levelTileArray);
 	~RoomDetailManager();
 
-	void SpawnTile(int32 i, int32 j);
+	void SpawnTile(int32 ii, int32 jj);
+	AActor* SpawnGenericTile(FString TileType);
+	void SpawnWallTile();
+	void SpawnPlayerStartTile();
+	void SpawnPlayerEndTile();
+	void SpawnEnemyTile();
+	void SpawnTreasureTile();
+	void SpawnTrapTile();
 };
 
