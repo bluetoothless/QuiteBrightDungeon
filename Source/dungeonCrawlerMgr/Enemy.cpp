@@ -79,9 +79,9 @@ void AEnemy::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
 }
 
-void AEnemy::SetSwordCollision(AActor* SwordActor)
+void AEnemy::SetCollision(AActor* actor)
 {
-	UCapsuleComponent* capsuleComponent = SwordActor->FindComponentByClass<UCapsuleComponent>();
+	UCapsuleComponent* capsuleComponent = actor->FindComponentByClass<UCapsuleComponent>();
 	if (capsuleComponent)
 	{
 		capsuleComponent->SetCollisionEnabled(ECollisionEnabled::QueryOnly);

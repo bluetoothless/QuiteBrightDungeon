@@ -23,7 +23,7 @@ public:
 
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 	
-	void SetSwordCollision(AActor* SwordActor);
+	void SetCollision(AActor* actor);
 
 	UFUNCTION()
 		void OnBeginOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, 

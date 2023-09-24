@@ -17,4 +17,14 @@ public:
 
 	UPROPERTY(BlueprintReadWrite, Category = "Effects")
 		UParticleSystemComponent* fx;
+
+	UFUNCTION()
+		void OnBeginOverlap(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp,
+			int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
+
+	void SetCollision(AActor* actor);
+private:
+	TMap<FString, FString> Paths = {
+		{ "Level", "/Game/dungeonCrawler/Map1" }
+	};
 };

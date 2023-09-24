@@ -9,6 +9,7 @@
 #include <Kismet/GameplayStatics.h>
 #include <AIController.h>
 #include "Enemy.h"
+#include "PlayerEnd.h"
 
 RoomDetailManager::RoomDetailManager(UWorld* world, TArray<TArray<int32>> levelTileArray)
 {
@@ -99,8 +100,21 @@ void RoomDetailManager::SpawnTile(int32 i, int32 j)
 
 	spawnedTile = World->SpawnActor<AActor>(assetClass, spawnLocation, spawnRotation, spawnParams);
 
-	if (TileType == "EnemyTile") 
+
+	switch (LevelTileArray[i][j])
 	{
+	case UEnvControllerObj::TileType::WallTile:
+		break;
+	case UEnvControllerObj::TileType::PlayerEndTile:
+		Cast<APlayerEnd>(spawnedTile)->SetCollision(spawnedTile);
+		break;
+	case UEnvControllerObj::TileType::TreasureTile:
+		
+		break;
+	case UEnvControllerObj::TileType::TrapTile:
+
+		break;
+	case UEnvControllerObj::TileType::EnemyTile:
 		AAIController* AIController = World->SpawnActor<AAIController>(spawnLocation, spawnRotation);
 		AIController->Possess(Cast<APawn>(spawnedTile));
 
@@ -111,7 +125,8 @@ void RoomDetailManager::SpawnTile(int32 i, int32 j)
 			FName socketName = FName("Bip001-R-HandSocket_Sword");
 			spawnedSword->AttachToComponent(spawnedTile->FindComponentByClass<USkeletalMeshComponent>(), 
 				FAttachmentTransformRules::SnapToTargetNotIncludingScale, socketName);
-			Cast<AEnemy>(spawnedTile)->SetSwordCollision(spawnedSword);
+			Cast<AEnemy>(spawnedTile)->SetCollision(spawnedSword);
 		}
+		break;
 	}
 }
