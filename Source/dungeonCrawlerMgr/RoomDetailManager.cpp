@@ -105,7 +105,7 @@ void RoomDetailManager::SpawnEnemyTile()
 		FName socketName = FName("Bip001-R-HandSocket_Sword");
 		spawnedSword->AttachToComponent(spawnedTile->FindComponentByClass<USkeletalMeshComponent>(),
 			FAttachmentTransformRules::SnapToTargetNotIncludingScale, socketName);
-		Cast<AEnemy>(spawnedTile)->SetCollision(spawnedSword);
+		Cast<AEnemy>(spawnedTile)->SetSwordCollision(spawnedSword);
 	}
 }
 

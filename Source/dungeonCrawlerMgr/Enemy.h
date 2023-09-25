@@ -11,27 +11,25 @@ class DUNGEONCRAWLERMGR_API AEnemy : public ACharacter
 
 public:
 	class ACharacter* TargetPlayer;
+
+	int32 MaxHealthPoints;
+	int32 CurrentHealthPoints;
+
 	AEnemy();
 
 	virtual void Tick(float DeltaTime) override;
-
 	void CheckDistanceToPlayer();
 	void MoveToPlayer();
 	void PlayAnimation(UAnimSequence* Animation, bool loop);
-
 	bool CanMove();
-
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
-	
-	void SetCollision(AActor* actor);
+	void SetSwordCollision(AActor* actor);
+	void RewardForSlaying();
+	void DestroyEnemy();
 
 	UFUNCTION()
-		void OnBeginOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, 
+		void OnSwordOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor,
 			UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
-	/*
-	UFUNCTION()
-		void OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, 
-			UPrimitiveComponent* OtherComponent, FVector NormalImpulse, const FHitResult& Hit);*/
 
 protected:
 	virtual void BeginPlay() override;

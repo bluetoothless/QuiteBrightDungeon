@@ -139,6 +139,12 @@ void AdungeonCrawlerMgrPlayerController::OnSetDestinationReleased()
 
 void AdungeonCrawlerMgrPlayerController::SwingSword()
 {
+	AdungeonCrawlerMgrCharacter* PlayerCharacter = Cast<AdungeonCrawlerMgrCharacter>(GetPawn());
+	if (PlayerCharacter)
+	{
+		PlayerCharacter->SwordOnCooldown = false;
+	}
+
 	UE_LOG(LogTemp, Error, TEXT("!	 SWING SWORD   !"));
 	CharacterMesh->PlayAnimation(SwordSlashAnimation, false);
 	CurrentAnimation = SwordSlashAnimation; 

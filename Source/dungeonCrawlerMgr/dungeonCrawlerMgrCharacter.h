@@ -13,6 +13,8 @@ class AdungeonCrawlerMgrCharacter : public ACharacter
 	GENERATED_BODY()
 
 public:
+	bool SwordOnCooldown = false;
+
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Widgets")
 		TSubclassOf<UUserWidget> InGameUIClass;
 
@@ -25,6 +27,12 @@ public:
 	FORCEINLINE class UCameraComponent* GetTopDownCameraComponent() const { return TopDownCameraComponent; }
 	/** Returns CameraBoom subobject **/
 	FORCEINLINE class USpringArmComponent* GetCameraBoom() const { return CameraBoom; }
+
+	UFUNCTION()
+		void OnSwordOverlap(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
+	/*
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Combat")
+		UCapsuleComponent* SwordCapsule;*/
 
 private:
 	/** Top down camera */

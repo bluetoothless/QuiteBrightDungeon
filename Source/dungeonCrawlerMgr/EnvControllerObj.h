@@ -20,6 +20,10 @@ public:
 	static int32 CurrentLevel;
 	static bool GameOver;
 
+	static int32 DefaultEnemyHealthPoints;
+	static int32 DefaultTreasureAmount;
+	static int32 DefaultEnemySlayingReward;
+
 	static enum TileType
 	{
 		EmptyTile,

@@ -11,6 +11,9 @@ AEnemy::AEnemy()
 	IdleAnimation = Cast<UAnimSequence>(StaticLoadObject(UAnimSequence::StaticClass(), nullptr, AnimationPaths["Idle"]));
 	RunningAnimation = Cast<UAnimSequence>(StaticLoadObject(UAnimSequence::StaticClass(), nullptr, AnimationPaths["Running"]));
 	HitAnimation = Cast<UAnimSequence>(StaticLoadObject(UAnimSequence::StaticClass(), nullptr, AnimationPaths["Hit"]));
+
+	MaxHealthPoints = UEnvControllerObj::DefaultEnemyHealthPoints;
+	CurrentHealthPoints = MaxHealthPoints;
 }
 
 void AEnemy::BeginPlay()
@@ -79,9 +82,10 @@ void AEnemy::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
 }
 
-void AEnemy::SetCollision(AActor* actor)
+void AEnemy::SetSwordCollision(AActor* sword)
 {
-	UCapsuleComponent* capsuleComponent = actor->FindComponentByClass<UCapsuleComponent>();
+	Sword = sword;
+	UCapsuleComponent* capsuleComponent = sword->FindComponentByClass<UCapsuleComponent>();
 	if (capsuleComponent)
 	{
 		capsuleComponent->SetCollisionEnabled(ECollisionEnabled::QueryOnly);
@@ -90,11 +94,22 @@ void AEnemy::SetCollision(AActor* actor)
 		capsuleComponent->SetCollisionResponseToChannel(ECC_Pawn, ECR_Overlap);
 		capsuleComponent->SetGenerateOverlapEvents(true);
 
-		capsuleComponent->OnComponentBeginOverlap.AddDynamic(this, &AEnemy::OnBeginOverlap);//OnComponentHit.AddDynamic(this, &AEnemy::OnHit);
+		capsuleComponent->OnComponentBeginOverlap.AddDynamic(this, &AEnemy::OnSwordOverlap);
 	}
 }
 
-void AEnemy::OnBeginOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor,
+void AEnemy::RewardForSlaying()
+{
+	UEnvControllerObj::CurrentScore += UEnvControllerObj::DefaultEnemySlayingReward;
+}
+
+void AEnemy::DestroyEnemy()
+{
+	Sword->Destroy();
+	Destroy();
+}
+
+void AEnemy::OnSwordOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor,
 	UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
 	if (OtherActor && OtherActor->IsA(AdungeonCrawlerMgrCharacter::StaticClass()))

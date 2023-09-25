@@ -13,7 +13,6 @@ ATreasureChest::ATreasureChest()
 	IsLooted = false;
 	PlayerByTheChest = false;
 	LidAngle = 0.0f;
-	DefaultTreasureAmount = 50;
 }
 
 // Called when the game starts or when spawned
@@ -85,6 +84,12 @@ void ATreasureChest::Tick(float DeltaTime)
 
 void ATreasureChest::ReceiveTreasure()
 {
-	UEnvControllerObj::CurrentScore += DefaultTreasureAmount;
+	float rand = FMath::RandRange(0.f, 1.f);
+	if (rand <= 0.2f) { // 20% channce for better loot
+		UEnvControllerObj::CurrentScore += 4 * UEnvControllerObj::DefaultTreasureAmount;
+	}
+	else {
+		UEnvControllerObj::CurrentScore += UEnvControllerObj::DefaultTreasureAmount;
+	}
 }
 

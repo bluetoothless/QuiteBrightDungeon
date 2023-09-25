@@ -9,6 +9,10 @@ int32 UEnvControllerObj::CurrentScore = 0;
 int32 UEnvControllerObj::CurrentLevel = 0;
 bool UEnvControllerObj::GameOver = false;
 
+int32 UEnvControllerObj::DefaultEnemyHealthPoints = 30;
+int32 UEnvControllerObj::DefaultTreasureAmount = 50;
+int32 UEnvControllerObj::DefaultEnemySlayingReward = 70;
+
 UEnvControllerObj::UEnvControllerObj()
 {
 	PrimaryComponentTick.bCanEverTick = true;

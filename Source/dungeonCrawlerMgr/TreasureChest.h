@@ -39,7 +39,6 @@ private:
 	bool IsOpening;
 	bool IsLooted;
 	bool PlayerByTheChest;
-	int32 DefaultTreasureAmount;
 
 	void ReceiveTreasure();
 };

@@ -12,6 +12,7 @@
 #include "dungeonCrawlerMgrPlayerController.h"
 #include <Components/ProgressBar.h>
 #include "EnvControllerObj.h"
+#include "Enemy.h"
 
 AdungeonCrawlerMgrCharacter::AdungeonCrawlerMgrCharacter()
 {
@@ -87,4 +88,51 @@ void AdungeonCrawlerMgrCharacter::BeginPlay()
 			TextLevelNumber = Cast<UInGameUIManager>(InGameUI)->TextLevelNumber;
 		}
 	}
+
+	TArray<UCapsuleComponent*> CapsuleComponents;
+	GetComponents<UCapsuleComponent>(CapsuleComponents);
+
+	for (UCapsuleComponent* Capsule : CapsuleComponents) {
+		if (Capsule->GetName() == "SwordCapsule") {
+			Capsule->OnComponentBeginOverlap.AddDynamic(this, &AdungeonCrawlerMgrCharacter::OnSwordOverlap);
+			break;
+		}
+	}
+	SwordOnCooldown = false;
 }
+
+void AdungeonCrawlerMgrCharacter::OnSwordOverlap(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, 
+	UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
+{
+	if (OtherActor->IsA(AEnemy::StaticClass())) {
+		AEnemy* Enemy = Cast<AEnemy>(OtherActor);
+		if (Enemy && !SwordOnCooldown)
+		{
+			SwordOnCooldown = true;
+			Enemy->CurrentHealthPoints -= 10;
+			if (Enemy->CurrentHealthPoints == 0) {
+				Enemy->RewardForSlaying();
+				Enemy->DestroyEnemy();
+			}
+		}
+	}
+}
+/*void AEnemy::OnSwordOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor,
+	UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
+{
+	if (OtherActor && OtherActor->IsA(AdungeonCrawlerMgrCharacter::StaticClass()))
+	{
+		AdungeonCrawlerMgrCharacter* Player = Cast<AdungeonCrawlerMgrCharacter>(OtherActor);
+		if (Player && !SwordOnCooldown)
+		{
+			UEnvControllerObj::CurrentHealthPoints -= 10;
+			SwordOnCooldown = true;
+			GetWorld()->GetTimerManager().SetTimer(CooldownTimerHandle, this, &AEnemy::ResetSwordCooldown, 0.4f, false);
+		}
+	}
+}
+
+void AEnemy::ResetSwordCooldown()
+{
+	SwordOnCooldown = false;
+}*/
