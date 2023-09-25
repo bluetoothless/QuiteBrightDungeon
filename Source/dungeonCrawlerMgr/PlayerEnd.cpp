@@ -1,6 +1,6 @@
 #include "PlayerEnd.h"
 #include "Components/CapsuleComponent.h"
-//#include "LevelManager.h"
+#include "dungeonCrawlerMgrCharacter.h"
 
 APlayerEnd::APlayerEnd()
 {
@@ -27,9 +27,13 @@ void APlayerEnd::SetCollision(AActor* actor)
 void APlayerEnd::OnBeginOverlap(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, 
 	int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
-	UWorld* World = GetWorld();
-	if (World)
+	if (OtherActor && OtherActor->IsA(AdungeonCrawlerMgrCharacter::StaticClass()))
 	{
-		World->ServerTravel(Paths["Level"]);
+		AdungeonCrawlerMgrCharacter* Player = Cast<AdungeonCrawlerMgrCharacter>(OtherActor);
+		UWorld* World = GetWorld();
+		if (Player && World)
+		{
+			World->ServerTravel(Paths["Level"]);
+		}
 	}
 }

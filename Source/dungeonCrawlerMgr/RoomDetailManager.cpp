@@ -7,6 +7,7 @@
 #include <AIController.h>
 #include "Enemy.h"
 #include "PlayerEnd.h"
+#include "TreasureChest.h"
 
 RoomDetailManager::RoomDetailManager(UWorld* world, TArray<TArray<int32>> levelTileArray)
 {
@@ -111,7 +112,24 @@ void RoomDetailManager::SpawnEnemyTile()
 void RoomDetailManager::SpawnTreasureTile()
 {
 	SpawnLocation.Z = 10.0f;
-	SpawnGenericTile("TreasureTile");
+	AActor* spawnedTile = SpawnGenericTile("TreasureTile");
+
+	SpawnLocation.Z = 45.0f;
+	UClass* lootAssetClass = LoadClass<AActor>(nullptr, *AssetPaths["Loot"]);
+	AActor* spawnedLoot = World->SpawnActor<AActor>(lootAssetClass, SpawnLocation, SpawnRotation);
+	if (spawnedLoot)
+	{
+		Cast<ATreasureChest>(spawnedTile)->AttachLoot(spawnedLoot);
+	}
+
+	SpawnLocation.X += 38.0f;
+	SpawnLocation.Z = 60.0f;
+	UClass* treasureChestLidAssetClass = LoadClass<AActor>(nullptr, *AssetPaths["TreasureChestLid"]);
+	AActor* spawnedLid = World->SpawnActor<AActor>(treasureChestLidAssetClass, SpawnLocation, SpawnRotation);
+	if (spawnedLid)
+	{
+		Cast<ATreasureChest>(spawnedTile)->AttachTreasureChestLid(spawnedLid);
+	}
 }
 
 void RoomDetailManager::SpawnTrapTile()
