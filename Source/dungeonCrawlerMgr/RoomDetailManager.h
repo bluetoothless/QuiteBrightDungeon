@@ -34,12 +34,13 @@ private:
 		{ "WallTile", "/Game/dungeonCrawler/Prefab_BluePrints/Tiles/TileWall_Blueprint.TileWall_Blueprint_C" },
 		{ "PlayerEndTile", "/Game/dungeonCrawler/Prefab_BluePrints/Tiles/TilePlayerEnd_Blueprint.TilePlayerEnd_Blueprint_C" },
 		{ "EnemyTile", "/Game/dungeonCrawler/Prefab_BluePrints/Tiles/TileEnemy_Blueprint.TileEnemy_Blueprint_C" },
-		{ "TreasureTile", "/Game/dungeonCrawler/Prefab_BluePrints/Tiles/TileTreasure_Blueprint.TileTreasure_Blueprint_C" },
+		{ "TreasureTile", "/Game/dungeonCrawler/Prefab_BluePrints/Tiles/TileTreasure_Blueprint1.TileTreasure_Blueprint1_C" },
 		{ "TrapTile", "/Game/dungeonCrawler/Prefab_BluePrints/Tiles/TileTrap_Blueprint.TileTrap_Blueprint_C" },
 	};
 
 	TMap<FString, FString> AssetPaths = {
-		{ "EnemySword", "/Game/dungeonCrawler/Prefab_BluePrints/EnemySwordBlueprint.EnemySwordBlueprint_C" }
+		{ "EnemySword", "/Game/dungeonCrawler/Prefab_BluePrints/EnemySwordBlueprint.EnemySwordBlueprint_C" },
+		{ "TreasureChestLid", "/Game/dungeonCrawler/TreasureChestLid.TreasureChestLid_C" }
 	};
 
 public:
