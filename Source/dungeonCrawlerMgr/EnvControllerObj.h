@@ -24,6 +24,10 @@ public:
 	static int32 DefaultTreasureAmount;
 	static int32 DefaultEnemySlayingReward;
 
+	static int32 DefaultPlayerDamage;
+	static int32 DefaultEnemyDamage;
+	static int32 DefaultTrapDamage;
+
 	static enum TileType
 	{
 		EmptyTile,

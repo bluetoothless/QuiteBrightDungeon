@@ -117,7 +117,7 @@ void AEnemy::OnSwordOverlap(UPrimitiveComponent* OverlappedComponent, AActor* Ot
 		AdungeonCrawlerMgrCharacter* Player = Cast<AdungeonCrawlerMgrCharacter>(OtherActor);
 		if (Player && !SwordOnCooldown)
 		{
-			UEnvControllerObj::CurrentHealthPoints -= 10;
+			UEnvControllerObj::CurrentHealthPoints -= UEnvControllerObj::DefaultEnemyDamage;
 			SwordOnCooldown = true;
 			GetWorld()->GetTimerManager().SetTimer(CooldownTimerHandle, this, &AEnemy::ResetSwordCooldown, 0.4f, false);
 		}

@@ -109,7 +109,7 @@ void AdungeonCrawlerMgrCharacter::OnSwordOverlap(UPrimitiveComponent* Overlapped
 		if (Enemy && !SwordOnCooldown)
 		{
 			SwordOnCooldown = true;
-			Enemy->CurrentHealthPoints -= 10;
+			Enemy->CurrentHealthPoints -= UEnvControllerObj::DefaultPlayerDamage;
 			if (Enemy->CurrentHealthPoints == 0) {
 				Enemy->RewardForSlaying();
 				Enemy->DestroyEnemy();

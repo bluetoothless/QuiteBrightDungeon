@@ -13,6 +13,10 @@ int32 UEnvControllerObj::DefaultEnemyHealthPoints = 30;
 int32 UEnvControllerObj::DefaultTreasureAmount = 50;
 int32 UEnvControllerObj::DefaultEnemySlayingReward = 70;
 
+int32 UEnvControllerObj::DefaultPlayerDamage = 10;
+int32 UEnvControllerObj::DefaultEnemyDamage = 10;
+int32 UEnvControllerObj::DefaultTrapDamage = 20;
+
 UEnvControllerObj::UEnvControllerObj()
 {
 	PrimaryComponentTick.bCanEverTick = true;

@@ -2,6 +2,7 @@
 #include "dungeonCrawlerMgrCharacter.h"
 #include "Enemy.h"
 #include "EnvControllerObj.h"
+#include "Components/BoxComponent.h"
 
 // Sets default values
 ATrap::ATrap()
@@ -54,30 +55,30 @@ void ATrap::Tick(float DeltaTime)
 void ATrap::AttachSpikes(AActor* trapSpikes)
 {
 	Spikes = trapSpikes;
-	TArray<UStaticMeshComponent*> StaticMeshComponents;
-	Spikes->GetComponents<UStaticMeshComponent>(StaticMeshComponents);
-
-	for (UStaticMeshComponent* MeshComponent : StaticMeshComponents)
+	
+	UBoxComponent* boxComponent = trapSpikes->FindComponentByClass<UBoxComponent>();
+	if (boxComponent)
 	{
-		MeshComponent->OnComponentBeginOverlap.AddDynamic(this, &ATrap::OnSpikesBeginOverlap);
+		boxComponent->OnComponentBeginOverlap.AddDynamic(this, &ATrap::OnSpikesBeginOverlap);
 	}
 }
 
 void ATrap::OnSpikesBeginOverlap(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
-	if (OtherActor) {
+	if (OtherActor && !OnDamageCooldown) {
 		if(OtherActor->IsA(AdungeonCrawlerMgrCharacter::StaticClass()))
 		{
 			AdungeonCrawlerMgrCharacter* Player = Cast<AdungeonCrawlerMgrCharacter>(OtherActor);
-			UEnvControllerObj::CurrentHealthPoints -= 20;
+			UEnvControllerObj::CurrentHealthPoints -= UEnvControllerObj::DefaultTrapDamage;
 			OnDamageCooldown = true;
 			GetWorld()->GetTimerManager().SetTimer(DamageCooldownTimer, this, &ATrap::ResetDamageCooldown, 3.0f, false);
-
 		}
 		else if (OtherActor->IsA(AEnemy::StaticClass()))
 		{
 			AEnemy* Enemy = Cast<AEnemy>(OtherActor);
-
+			Enemy->CurrentHealthPoints -= UEnvControllerObj::DefaultTrapDamage;
+			OnDamageCooldown = true;
+			GetWorld()->GetTimerManager().SetTimer(DamageCooldownTimer, this, &ATrap::ResetDamageCooldown, 3.0f, false);
 		}
 	}
 }
