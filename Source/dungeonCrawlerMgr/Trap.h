@@ -23,4 +23,19 @@ protected:
 
 private:
 	AActor* Spikes;
+	int32 CurrentSpikeAction;
+	FTimerHandle CooldownTimer;
+	FTimerHandle DamageCooldownTimer;
+	bool OnDamageCooldown = false;
+
+	enum SpikeAction
+	{
+		HeadingUp,
+		HeadingDown,
+		OnCooldown
+	};
+
+	void ChangeToHeadingUp();
+	void ChangeToHeadingDown();
+	void ResetDamageCooldown();
 };
