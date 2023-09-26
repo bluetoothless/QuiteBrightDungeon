@@ -84,8 +84,8 @@ void ATreasureChest::Tick(float DeltaTime)
 
 void ATreasureChest::ReceiveTreasure()
 {
-	float rand = FMath::RandRange(0.f, 1.f);
-	if (rand <= 0.2f) { // 20% channce for better loot
+	float rand = FMath::RandRange(0.0f, 1.0f);
+	if (rand <= 0.15f) { // 15% channce for better loot
 		UEnvControllerObj::CurrentScore += 4 * UEnvControllerObj::DefaultTreasureAmount;
 	}
 	else {

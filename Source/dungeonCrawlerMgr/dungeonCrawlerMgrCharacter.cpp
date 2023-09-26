@@ -54,8 +54,6 @@ AdungeonCrawlerMgrCharacter::AdungeonCrawlerMgrCharacter()
 	{
 		InGameUIClass = GameUIBlueprintClass.Class;
 	}
-
-	UEnvControllerObj::CurrentHealthPoints = UEnvControllerObj::MaxHealthPoints;
 }
 
 void AdungeonCrawlerMgrCharacter::Tick(float DeltaSeconds)
@@ -98,7 +96,7 @@ void AdungeonCrawlerMgrCharacter::BeginPlay()
 			break;
 		}
 	}
-	SwordOnCooldown = false;
+	SwordOnCooldown = true;
 }
 
 void AdungeonCrawlerMgrCharacter::OnSwordOverlap(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, 
@@ -110,6 +108,7 @@ void AdungeonCrawlerMgrCharacter::OnSwordOverlap(UPrimitiveComponent* Overlapped
 		{
 			SwordOnCooldown = true;
 			Enemy->CurrentHealthPoints -= UEnvControllerObj::DefaultPlayerDamage;
+			Enemy->ReactToDamageDealt();
 			if (Enemy->CurrentHealthPoints == 0) {
 				Enemy->RewardForSlaying();
 				Enemy->DestroyEnemy();

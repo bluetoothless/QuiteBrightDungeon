@@ -15,7 +15,7 @@ int32 UEnvControllerObj::DefaultEnemySlayingReward = 70;
 
 int32 UEnvControllerObj::DefaultPlayerDamage = 10;
 int32 UEnvControllerObj::DefaultEnemyDamage = 10;
-int32 UEnvControllerObj::DefaultTrapDamage = 20;
+int32 UEnvControllerObj::DefaultTrapDamage = 25;
 
 UEnvControllerObj::UEnvControllerObj()
 {

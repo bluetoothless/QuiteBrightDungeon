@@ -26,6 +26,7 @@ public:
 	void SetSwordCollision(AActor* actor);
 	void RewardForSlaying();
 	void DestroyEnemy();
+	void ReactToDamageDealt();
 
 	UFUNCTION()
 		void OnSwordOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor,
@@ -38,12 +39,14 @@ private:
 	AActor* Sword;
 	bool SwordOnCooldown = false;
 	FTimerHandle CooldownTimerHandle;
-
+	UMaterial* OriginalMaterial;
+	UMaterialInstanceDynamic* DynamicMaterial;
+	FTimerHandle FlashingTimerHandle;
 	float FollowDistance = 1000.0f;
 	float AttackDistance = 150.0f;
-
 	bool IsInAtomicAnimation = false;
 	float LastAnimationEndTime = 0.0f;
+
 	UAnimSequence* CurrentAnimation;
 	UAnimSequence* IdleAnimation;
 	UAnimSequence* RunningAnimation;
@@ -55,4 +58,5 @@ private:
 	};
 	
 	void ResetSwordCooldown();
+	void ResetFlash();
 };
