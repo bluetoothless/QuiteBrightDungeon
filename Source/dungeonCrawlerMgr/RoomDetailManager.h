@@ -42,6 +42,7 @@ private:
 		{ "EnemySword", "/Game/dungeonCrawler/Prefab_BluePrints/EnemySwordBlueprint.EnemySwordBlueprint_C" },
 		{ "TreasureChestLid", "/Game/dungeonCrawler/TreasureChestLid.TreasureChestLid_C" },
 		{ "Loot", "/Game/dungeonCrawler/Loot.Loot_C" },
+		{ "TrapSpikes", "/Game/dungeonCrawler/TrapSpikes.TrapSpikes_C" },
 	};
 
 public:

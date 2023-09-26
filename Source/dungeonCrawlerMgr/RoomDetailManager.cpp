@@ -8,6 +8,7 @@
 #include "Enemy.h"
 #include "PlayerEnd.h"
 #include "TreasureChest.h"
+#include "Trap.h"
 
 RoomDetailManager::RoomDetailManager(UWorld* world, TArray<TArray<int32>> levelTileArray)
 {
@@ -135,5 +136,12 @@ void RoomDetailManager::SpawnTreasureTile()
 void RoomDetailManager::SpawnTrapTile()
 {
 	SpawnLocation.Z = 0.0f;
-	SpawnGenericTile("TrapTile");
+	AActor* spawnedTile = SpawnGenericTile("TrapTile");
+
+	UClass* trapSpikesAssetClass = LoadClass<AActor>(nullptr, *AssetPaths["TrapSpikes"]);
+	AActor* trapSpikes = World->SpawnActor<AActor>(trapSpikesAssetClass, SpawnLocation, SpawnRotation);
+	if (trapSpikes)
+	{
+		Cast<ATrap>(spawnedTile)->AttachSpikes(trapSpikes);
+	}
 }

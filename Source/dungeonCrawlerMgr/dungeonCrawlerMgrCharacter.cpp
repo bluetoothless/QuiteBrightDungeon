@@ -117,22 +117,3 @@ void AdungeonCrawlerMgrCharacter::OnSwordOverlap(UPrimitiveComponent* Overlapped
 		}
 	}
 }
-/*void AEnemy::OnSwordOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor,
-	UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
-{
-	if (OtherActor && OtherActor->IsA(AdungeonCrawlerMgrCharacter::StaticClass()))
-	{
-		AdungeonCrawlerMgrCharacter* Player = Cast<AdungeonCrawlerMgrCharacter>(OtherActor);
-		if (Player && !SwordOnCooldown)
-		{
-			UEnvControllerObj::CurrentHealthPoints -= 10;
-			SwordOnCooldown = true;
-			GetWorld()->GetTimerManager().SetTimer(CooldownTimerHandle, this, &AEnemy::ResetSwordCooldown, 0.4f, false);
-		}
-	}
-}
-
-void AEnemy::ResetSwordCooldown()
-{
-	SwordOnCooldown = false;
-}*/
