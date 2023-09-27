@@ -40,7 +40,7 @@ private:
 	bool SwordOnCooldown = false;
 	FTimerHandle CooldownTimerHandle;
 	UMaterial* OriginalMaterial;
-	UMaterialInstanceDynamic* DynamicMaterial;
+	UMaterialInstance* HurtMaterial;
 	FTimerHandle FlashingTimerHandle;
 	float FollowDistance = 1000.0f;
 	float AttackDistance = 150.0f;
@@ -56,7 +56,10 @@ private:
 		{ "Running", TEXT("AnimSequence'/Game/CityofBrass_Enemies/Meshes/Enemy/Corpse/Animation/Corpse_Run_Forward.Corpse_Run_Forward'") },
 		{ "Hit", TEXT("AnimSequence'/Game/CityofBrass_Enemies/Meshes/Enemy/Corpse/Animation/Corpse_Alert_Attack_Basic03.Corpse_Alert_Attack_Basic03'") },
 	};
-	
+
+	TMap<FString, FString> MaterialPaths = {
+		{ "EnemyHurt", "/Game/CityofBrass_Enemies/Materials/Corpse_Charger_Inst_Hurt.Corpse_Charger_Inst_Hurt" }
+	};
 	void ResetSwordCooldown();
 	void ResetFlash();
 };

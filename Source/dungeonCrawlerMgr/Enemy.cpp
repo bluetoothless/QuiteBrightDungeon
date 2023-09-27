@@ -21,7 +21,8 @@ void AEnemy::BeginPlay()
 	Super::BeginPlay();
 	TargetPlayer = GetWorld()->GetFirstPlayerController()->GetCharacter();
 	OriginalMaterial = Cast<UMaterial>(GetMesh()->GetMaterial(0));
-	DynamicMaterial = UMaterialInstanceDynamic::Create(OriginalMaterial, this);
+	HurtMaterial = LoadObject<UMaterialInstance>(nullptr, *MaterialPaths["EnemyHurt"]);
+	//DynamicMaterial = UMaterialInstanceDynamic::Create(OriginalMaterial, this);
 }
 
 void AEnemy::Tick(float DeltaTime)
@@ -133,16 +134,12 @@ void AEnemy::ResetSwordCooldown()
 
 void AEnemy::ReactToDamageDealt()
 {
-	//GetMesh()->SetMaterial(0, DynamicMaterial);
-
-	//DynamicMaterial->SetVectorParameterValue(FName("Rim_Colour_Tint"), FLinearColor::Red);
-	GetWorld()->GetTimerManager().SetTimer(FlashingTimerHandle, this, &AEnemy::ResetFlash, 0.5f, false);
+	GetMesh()->SetMaterial(0, HurtMaterial);
+	GetWorld()->GetTimerManager().SetTimer(FlashingTimerHandle, this, &AEnemy::ResetFlash, 0.3f, false);
 }
 
 void AEnemy::ResetFlash()
 {
-	//GetMesh()->SetMaterial(0, OriginalMaterial);
-
-	//DynamicMaterial->SetVectorParameterValue(FName("BaseColor"), FLinearColor::White);
+	GetMesh()->SetMaterial(0, OriginalMaterial);
 	GetWorld()->GetTimerManager().ClearTimer(FlashingTimerHandle);
 }
