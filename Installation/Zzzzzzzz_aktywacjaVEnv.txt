@@ -11,8 +11,13 @@ D:\Github\dungeonCrawlerMgr\dungeonCrawlerMgr\ML>	python '..\..\MLTrainingScript
 
 pip list
 python --version
+nvcc --version
+pip show torch
 
 
 pip install torch
 pip install onnx
 pip install onnxruntime
+
+
+conda activate CondaEnv
