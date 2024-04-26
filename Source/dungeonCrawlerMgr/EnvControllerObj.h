@@ -41,8 +41,9 @@ public:
 
 	static enum GenerationType 
 	{
+		//GAN,
+		RL,
 		VAE,
-		GAN,
 		DefaultMap
 	};
 

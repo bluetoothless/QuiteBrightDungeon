@@ -20,11 +20,14 @@ void LevelManager::LoadLevel()
 {	
 	UEnvControllerObj::CurrentLevel++;
 	switch (UEnvControllerObj::CurrentGenerationType) {
+		case UEnvControllerObj::RL:
+			GenerateLevelTileArrayWithRL();
+			break;
 		case UEnvControllerObj::VAE:
 			GenerateLevelTileArrayWithVAE();
 			break;
-		case UEnvControllerObj::GAN:
-			break;
+		/*case UEnvControllerObj::GAN:
+			break;*/
 		case UEnvControllerObj::DefaultMap:
 			ReadLevelTileArray();
 			break;
@@ -37,6 +40,12 @@ void LevelManager::GenerateLevelTileArrayWithVAE()
 {
 	UE_LOG(LogTemp, Error, TEXT("LevelManager - GenerateLevelTileArrayWithVAE"));
 	LevelTileArray = MlModelManager->GenerateMapWithVAE();
+}
+
+void LevelManager::GenerateLevelTileArrayWithRL()
+{
+	UE_LOG(LogTemp, Error, TEXT("LevelManager - GenerateLevelTileArrayWithRL"));
+	LevelTileArray = MlModelManager->GenerateMapWithRL();
 }
 
 void LevelManager::GenerateLevelTileArrayWithGAN()

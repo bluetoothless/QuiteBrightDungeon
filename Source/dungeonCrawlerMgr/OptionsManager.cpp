@@ -71,12 +71,15 @@ void UOptionsManager::DisplayCurrentGenerationType()
 {
     FString genTypeString = "";
     switch (UEnvControllerObj::CurrentGenerationType) {
+        case UEnvControllerObj::RL:
+            genTypeString = "Reinforcement Learning (RL)";
+            break;
         case UEnvControllerObj::VAE:
             genTypeString = "Variational Autoencoder (VAE)";
             break;
-        case UEnvControllerObj::GAN:
+       /* case UEnvControllerObj::GAN:
             genTypeString = "Generative Adversarial Network (GAN)";
-            break;
+            break;*/
         case UEnvControllerObj::DefaultMap:
             genTypeString = "Default map (no generation)";
             break;

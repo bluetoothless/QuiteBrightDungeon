@@ -2,7 +2,7 @@
 
 APlayerStart* UEnvControllerObj::PlayerStart = nullptr;
 int32 UEnvControllerObj::BestScore = -1;
-int32 UEnvControllerObj::CurrentGenerationType = UEnvControllerObj::VAE;
+int32 UEnvControllerObj::CurrentGenerationType = UEnvControllerObj::RL;
 int32 UEnvControllerObj::MaxHealthPoints = 100;
 int32 UEnvControllerObj::CurrentHealthPoints = MaxHealthPoints;
 int32 UEnvControllerObj::CurrentScore = 0;
