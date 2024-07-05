@@ -43,6 +43,7 @@ public:
 	{
 		//GAN,
 		RL,
+		LLM,
 		VAE,
 		DefaultMap
 	};

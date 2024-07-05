@@ -19,6 +19,7 @@ public:
 	void GenerateLevelTileArrayWithVAE();
 	void GenerateLevelTileArrayWithGAN();
 	void GenerateLevelTileArrayWithRL();
+	void GenerateLevelTileArrayWithLLM();
 	void ReadLevelTileArray();
 	void PrintLevelTileArray();
 	void SpawnTiles();

@@ -23,6 +23,9 @@ void LevelManager::LoadLevel()
 		case UEnvControllerObj::RL:
 			GenerateLevelTileArrayWithRL();
 			break;
+		case UEnvControllerObj::LLM:
+			GenerateLevelTileArrayWithLLM();
+			break;
 		case UEnvControllerObj::VAE:
 			GenerateLevelTileArrayWithVAE();
 			break;
@@ -46,6 +49,15 @@ void LevelManager::GenerateLevelTileArrayWithRL()
 {
 	UE_LOG(LogTemp, Error, TEXT("LevelManager - GenerateLevelTileArrayWithRL"));
 	LevelTileArray = MlModelManager->GenerateMapWithRL();
+}
+
+void LevelManager::GenerateLevelTileArrayWithLLM()
+{
+	UE_LOG(LogTemp, Error, TEXT("LevelManager - GenerateLevelTileArrayWithLLM"));
+	LevelTileArray = MlModelManager->GenerateMapWithLLM();
+	while (LevelTileArray[0].Num() == 0) {
+		LevelTileArray = MlModelManager->GenerateMapWithLLM();
+	}
 }
 
 void LevelManager::GenerateLevelTileArrayWithGAN()
@@ -89,7 +101,8 @@ void LevelManager::SpawnTiles()
 				UE_LOG(LogTemp, Error, TEXT("tu"));
 			}
 
-			roomDetailManager->SpawnTile(i, j);
+			if (i < 20 && j < 20)
+				roomDetailManager->SpawnTile(i, j);
 		}
 	}
 }

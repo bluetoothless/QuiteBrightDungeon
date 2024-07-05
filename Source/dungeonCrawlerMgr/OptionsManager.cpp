@@ -74,6 +74,9 @@ void UOptionsManager::DisplayCurrentGenerationType()
         case UEnvControllerObj::RL:
             genTypeString = "Reinforcement Learning (RL)";
             break;
+        case UEnvControllerObj::LLM:
+            genTypeString = "Large Language Model (LLM)";
+            break;
         case UEnvControllerObj::VAE:
             genTypeString = "Variational Autoencoder (VAE)";
             break;

@@ -20,6 +20,11 @@ TArray<TArray<int32>> MLModelManager::GenerateMapWithRL()
     return GenerateMap("RL");
 }
 
+TArray<TArray<int32>> MLModelManager::GenerateMapWithLLM()
+{
+    return GenerateMap("LLM");
+}
+
 TArray<TArray<int32>> MLModelManager::GenerateMap(FString method)
 {
     FString ProjectDir = FPaths::ConvertRelativePathToFull(FPaths::ProjectDir());
