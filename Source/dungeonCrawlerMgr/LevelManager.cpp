@@ -68,7 +68,12 @@ void LevelManager::GenerateLevelTileArrayWithGAN()
 
 void LevelManager::ReadLevelTileArray() {
 	// D:\Github\dungeonCrawlerMgr\dungeonCrawlerMgr\Content\dungeonCrawler\MapRepresentations
-	LevelTileArrayPath = FPaths::ProjectContentDir() + TEXT("dungeonCrawler/MapRepresentations/levelTileArray_12.json");
+	UEnvControllerObj::CurrentDefaultLevelNr++;
+	if (UEnvControllerObj::CurrentDefaultLevelNr == 11) {
+		UEnvControllerObj::CurrentDefaultLevelNr = 1;
+	}
+	LevelTileArrayPath = FPaths::ProjectContentDir() + 
+		FString::Printf(TEXT("dungeonCrawler/MapRepresentations/level%d.json"), UEnvControllerObj::CurrentDefaultLevelNr);
 	JsonFileReader* jsonFileReader = new JsonFileReader();
 	FString ResultPath = FPaths::ConvertRelativePathToFull(LevelTileArrayPath);
 	LevelTileArray = jsonFileReader->ReadLevelArrayFromJSON(ResultPath);

@@ -32,6 +32,8 @@ public:
 	static int32 CurrentEnemiesNr;
 	static int32 CurrentTreasuresNr;
 
+	static int32 CurrentDefaultLevelNr;
+
 	static enum TileType
 	{
 		EmptyTile,

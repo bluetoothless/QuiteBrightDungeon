@@ -20,6 +20,8 @@ int32 UEnvControllerObj::DefaultPlayerDamage = 10;
 int32 UEnvControllerObj::DefaultEnemyDamage = 10;
 int32 UEnvControllerObj::DefaultTrapDamage = 25;
 
+int32 UEnvControllerObj::CurrentDefaultLevelNr = 1;
+
 UEnvControllerObj::UEnvControllerObj()
 {
 	PrimaryComponentTick.bCanEverTick = true;
