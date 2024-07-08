@@ -28,6 +28,10 @@ public:
 	static int32 DefaultEnemyDamage;
 	static int32 DefaultTrapDamage;
 
+	static int32 CurrentMazeType;
+	static int32 CurrentEnemiesNr;
+	static int32 CurrentTreasuresNr;
+
 	static enum TileType
 	{
 		EmptyTile,
@@ -41,11 +45,18 @@ public:
 
 	static enum GenerationType 
 	{
-		//GAN,
 		RL,
 		LLM,
 		VAE,
+		//GAN,
 		DefaultMap
+	};
+
+	static enum MazeType
+	{
+		Braid,
+		Perfect,
+		None
 	};
 
 	UEnvControllerObj();
