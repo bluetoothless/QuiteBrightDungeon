@@ -58,7 +58,7 @@ TArray<TArray<int32>> MLModelManager::GenerateMap(FString method)
                 UEnvControllerObj::CurrentEnemiesNr, UEnvControllerObj::CurrentTreasuresNr);
         }
         else {
-            Parms = FString::Printf(TEXT("--maze='%s' --enemies=%d --treasures=%d"), *mazeTypeString,
+            Parms = FString::Printf(TEXT("--maze=%s --enemies=%d --treasures=%d"), *mazeTypeString,
                 UEnvControllerObj::CurrentEnemiesNr, UEnvControllerObj::CurrentTreasuresNr);
         }
     }
