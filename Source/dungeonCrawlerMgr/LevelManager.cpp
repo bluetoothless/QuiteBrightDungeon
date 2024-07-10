@@ -55,7 +55,7 @@ void LevelManager::GenerateLevelTileArrayWithLLM()
 {
 	UE_LOG(LogTemp, Error, TEXT("LevelManager - GenerateLevelTileArrayWithLLM"));
 	LevelTileArray = MlModelManager->GenerateMapWithLLM();
-	while (LevelTileArray[0].Num() == 0) {
+	while (LevelTileArray.Num() == 0 || LevelTileArray[0].Num() == 0) {
 		LevelTileArray = MlModelManager->GenerateMapWithLLM();
 	}
 }
