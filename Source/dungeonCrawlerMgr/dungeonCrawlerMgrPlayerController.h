@@ -40,6 +40,9 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Input, meta=(AllowPrivateAccess = "true"))
 	class UInputAction* SwingSwordAction;
 
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input)
+	class UInputAction* ToggleCameraAction;
+
 protected:
 	/** True if the controlled character should navigate to the mouse cursor. */
 	uint32 bMoveToMouseCursor : 1;
@@ -55,6 +58,7 @@ protected:
 	void OnSetDestinationReleased();
 
 	void SwingSword();
+	void ToggleCamera();
 
 	virtual void Tick(float DeltaSeconds) override;
 
@@ -64,9 +68,14 @@ private:
 	bool bIsTouch; // Is it a touch device
 	bool IsMoving = false;
 	bool IsAttacking = false;
+	bool bIsCharacterCameraActive = true;
 	float LastAnimationEndTime = 0.0f;
 	float FollowTime; // For how long it has been pressed
 
+	FVector SpawnLocation;
+	FRotator SpawnRotation;
+	AActor* SpawnedCamera;
+	AActor* StaticMapCameraActor;
 	USkeletalMeshComponent* CharacterMesh;
 	UAnimSequence* CurrentAnimation;
 
@@ -79,6 +88,7 @@ private:
 
 	TMap<FString, TCHAR*> InputActionPaths = {
 		{ "SwordSlash", TEXT("InputAction'/Game/TopDown/Input/Actions/IA_SwingSword.IA_SwingSword'") },
+		{ "ToggleCamera", TEXT("InputAction'/Game/TopDown/Input/Actions/IA_ToggleCamera.IA_ToggleCamera'") },
 	};
 	TMap<FString, TCHAR*> AnimationPaths = {
 		{ "LevelStart", TEXT("AnimSequence'/Game/ParagonGreystone/Characters/Heroes/Greystone/Animations/LevelStart.LevelStart'") },

@@ -6,9 +6,11 @@
 #include "NiagaraSystem.h"
 #include "NiagaraFunctionLibrary.h"
 #include "dungeonCrawlerMgrCharacter.h"
+#include "Camera/CameraComponent.h"
 #include "Engine/World.h"
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
+#include <Kismet/GameplayStatics.h>
 
 AdungeonCrawlerMgrPlayerController::AdungeonCrawlerMgrPlayerController()
 {
@@ -18,6 +20,9 @@ AdungeonCrawlerMgrPlayerController::AdungeonCrawlerMgrPlayerController()
 	FollowTime = 0.f;
 	SwingSwordAction = Cast<UInputAction>(StaticLoadObject(
 		UInputAction::StaticClass(), nullptr, InputActionPaths["SwordSlash"]));
+
+	ToggleCameraAction = Cast<UInputAction>(StaticLoadObject(
+		UInputAction::StaticClass(), nullptr, InputActionPaths["ToggleCamera"]));
 
 	LevelStartAnimation = Cast<UAnimSequence>(StaticLoadObject(UAnimSequence::StaticClass(), nullptr, AnimationPaths["LevelStart"]));
 	IdleAnimation = Cast<UAnimSequence>(StaticLoadObject(UAnimSequence::StaticClass(), nullptr, AnimationPaths["Idle"]));
@@ -48,6 +53,12 @@ void AdungeonCrawlerMgrPlayerController::BeginPlay()
 	CharacterMesh->PlayAnimation(LevelStartAnimation, false);
 	CurrentAnimation = LevelStartAnimation;
 	LastAnimationEndTime = GetWorld()->GetTimeSeconds() + LevelStartAnimation->GetPlayLength();
+
+	UWorld* world = GetWorld();
+	UClass* cameraAssetClass = LoadClass<AActor>(nullptr, TEXT("/Game/dungeonCrawler/MapCamera.MapCamera_C"));
+	SpawnLocation = FVector(-3600.0f, 4000.0f, 8500.0f);
+	SpawnRotation = FRotator(-90, 0, 0);
+	SpawnedCamera = world->SpawnActor<AActor>(cameraAssetClass, SpawnLocation, SpawnRotation);
 }
 
 void AdungeonCrawlerMgrPlayerController::SetupInputComponent()
@@ -65,6 +76,7 @@ void AdungeonCrawlerMgrPlayerController::SetupInputComponent()
 		EnhancedInputComponent->BindAction(SetDestinationClickAction, ETriggerEvent::Canceled, this, &AdungeonCrawlerMgrPlayerController::OnSetDestinationReleased);
 
 		EnhancedInputComponent->BindAction(SwingSwordAction, ETriggerEvent::Started, this, &AdungeonCrawlerMgrPlayerController::SwingSword);
+		EnhancedInputComponent->BindAction(ToggleCameraAction, ETriggerEvent::Started, this, &AdungeonCrawlerMgrPlayerController::ToggleCamera);
 	}
 }
 
@@ -149,6 +161,37 @@ void AdungeonCrawlerMgrPlayerController::SwingSword()
 	CharacterMesh->PlayAnimation(SwordSlashAnimation, false);
 	CurrentAnimation = SwordSlashAnimation; 
 	LastAnimationEndTime = GetWorld()->GetTimeSeconds() + SwordSlashAnimation->GetPlayLength();
+}
+
+void AdungeonCrawlerMgrPlayerController::ToggleCamera()
+{
+	UCameraComponent* StaticCamera = SpawnedCamera->FindComponentByClass<UCameraComponent>();
+	AdungeonCrawlerMgrCharacter* PlayerCharacter = Cast<AdungeonCrawlerMgrCharacter>(GetPawn());
+	UCameraComponent* TopDownCameraComponent = PlayerCharacter->GetTopDownCameraComponent();
+	APlayerController* PC = UGameplayStatics::GetPlayerController(this, 0);
+	if (!PC)
+	{
+		UE_LOG(LogTemp, Error, TEXT("PlayerController is null"));
+		return;
+	}
+
+	if (StaticCamera)
+	{
+		if (bIsCharacterCameraActive)
+		{
+			TopDownCameraComponent->SetActive(false);
+			StaticCamera->SetActive(true);
+			bIsCharacterCameraActive = false;
+			PC->SetViewTarget(SpawnedCamera);
+		}
+		else
+		{
+			TopDownCameraComponent->SetActive(true);
+			StaticCamera->SetActive(false);
+			bIsCharacterCameraActive = true;
+			PC->SetViewTarget(PlayerCharacter);
+		}
+	}
 }
 
 void AdungeonCrawlerMgrPlayerController::Tick(float DeltaSeconds)
