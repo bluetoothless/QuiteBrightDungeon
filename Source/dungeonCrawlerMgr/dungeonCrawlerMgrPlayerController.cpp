@@ -24,6 +24,9 @@ AdungeonCrawlerMgrPlayerController::AdungeonCrawlerMgrPlayerController()
 	ToggleCameraAction = Cast<UInputAction>(StaticLoadObject(
 		UInputAction::StaticClass(), nullptr, InputActionPaths["ToggleCamera"]));
 
+	ExitGameAction = Cast<UInputAction>(StaticLoadObject(
+		UInputAction::StaticClass(), nullptr, InputActionPaths["ExitGame"]));
+
 	LevelStartAnimation = Cast<UAnimSequence>(StaticLoadObject(UAnimSequence::StaticClass(), nullptr, AnimationPaths["LevelStart"]));
 	IdleAnimation = Cast<UAnimSequence>(StaticLoadObject(UAnimSequence::StaticClass(), nullptr, AnimationPaths["Idle"]));
 	SwordSlashAnimation = Cast<UAnimSequence>(StaticLoadObject(UAnimSequence::StaticClass(), nullptr, AnimationPaths["SwordSlash"]));
@@ -77,6 +80,7 @@ void AdungeonCrawlerMgrPlayerController::SetupInputComponent()
 
 		EnhancedInputComponent->BindAction(SwingSwordAction, ETriggerEvent::Started, this, &AdungeonCrawlerMgrPlayerController::SwingSword);
 		EnhancedInputComponent->BindAction(ToggleCameraAction, ETriggerEvent::Started, this, &AdungeonCrawlerMgrPlayerController::ToggleCamera);
+		EnhancedInputComponent->BindAction(ExitGameAction, ETriggerEvent::Started, this, &AdungeonCrawlerMgrPlayerController::ExitGame);
 	}
 }
 
@@ -192,6 +196,11 @@ void AdungeonCrawlerMgrPlayerController::ToggleCamera()
 			PC->SetViewTarget(PlayerCharacter);
 		}
 	}
+}
+
+void AdungeonCrawlerMgrPlayerController::ExitGame()
+{
+	FGenericPlatformMisc::RequestExit(false);
 }
 
 void AdungeonCrawlerMgrPlayerController::Tick(float DeltaSeconds)

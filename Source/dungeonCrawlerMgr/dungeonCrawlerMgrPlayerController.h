@@ -43,6 +43,9 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input)
 	class UInputAction* ToggleCameraAction;
 
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Input, meta=(AllowPrivateAccess = "true"))
+	class UInputAction* ExitGameAction;
+
 protected:
 	/** True if the controlled character should navigate to the mouse cursor. */
 	uint32 bMoveToMouseCursor : 1;
@@ -59,6 +62,7 @@ protected:
 
 	void SwingSword();
 	void ToggleCamera();
+	void ExitGame();
 
 	virtual void Tick(float DeltaSeconds) override;
 
@@ -89,6 +93,7 @@ private:
 	TMap<FString, TCHAR*> InputActionPaths = {
 		{ "SwordSlash", TEXT("InputAction'/Game/TopDown/Input/Actions/IA_SwingSword.IA_SwingSword'") },
 		{ "ToggleCamera", TEXT("InputAction'/Game/TopDown/Input/Actions/IA_ToggleCamera.IA_ToggleCamera'") },
+		{ "ExitGame", TEXT("InputAction'/Game/TopDown/Input/Actions/IA_ExitGame.IA_ExitGame'") },
 	};
 	TMap<FString, TCHAR*> AnimationPaths = {
 		{ "LevelStart", TEXT("AnimSequence'/Game/ParagonGreystone/Characters/Heroes/Greystone/Animations/LevelStart.LevelStart'") },
