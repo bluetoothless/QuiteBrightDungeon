@@ -18,7 +18,7 @@ RoomDetailManager::RoomDetailManager(UWorld* world, TArray<TArray<int32>> levelT
 
 	LevelTileArray = levelTileArray;
 
-	UE_LOG(LogTemp, Error, TEXT("RoomDetailManager - constructor"));
+	//UE_LOG(LogTemp, Error, TEXT("RoomDetailManager - constructor"));
 }
 
 RoomDetailManager::~RoomDetailManager()

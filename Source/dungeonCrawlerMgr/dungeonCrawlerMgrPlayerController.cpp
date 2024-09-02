@@ -36,13 +36,13 @@ void AdungeonCrawlerMgrPlayerController::BeginPlay()
 {
 	// Call the base class  
 	Super::BeginPlay();
-	UE_LOG(LogTemp, Error, TEXT("PlayerController - Begin Play"));
+	//UE_LOG(LogTemp, Error, TEXT("PlayerController - Begin Play"));
 
 	APawn* ControlledPawn = GetPawn();
 	if (AdungeonCrawlerMgrCharacter* ControlledCharacter = Cast<AdungeonCrawlerMgrCharacter>(ControlledPawn))
 		CharacterMesh = ControlledCharacter->GetMesh();
-	if (CharacterMesh == nullptr)
-		UE_LOG(LogTemp, Error, TEXT("ERROR ERROR : character mesh is nullptr"));
+	//if (CharacterMesh == nullptr)
+	//	UE_LOG(LogTemp, Error, TEXT("ERROR ERROR : character mesh is nullptr"));
 
 	//Add Input Mapping Context
 	if (UEnhancedInputLocalPlayerSubsystem* Subsystem = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(GetLocalPlayer()))
@@ -136,7 +136,7 @@ void AdungeonCrawlerMgrPlayerController::OnSetDestinationTriggered()
 
 void AdungeonCrawlerMgrPlayerController::OnSetDestinationReleased()
 {
-	UE_LOG(LogTemp, Error, TEXT("Go go go"));
+	//UE_LOG(LogTemp, Error, TEXT("Go go go"));
 	// If it was a short press
 	if (FollowTime <= ShortPressThreshold)
 	{
@@ -157,7 +157,7 @@ void AdungeonCrawlerMgrPlayerController::SwingSword()
 		PlayerCharacter->SwordOnCooldown = false;
 	}
 
-	UE_LOG(LogTemp, Error, TEXT("!	 SWING SWORD   !"));
+	//UE_LOG(LogTemp, Error, TEXT("!	 SWING SWORD   !"));
 	CharacterMesh->PlayAnimation(SwordSlashAnimation, false);
 	CurrentAnimation = SwordSlashAnimation; 
 	LastAnimationEndTime = GetWorld()->GetTimeSeconds() + SwordSlashAnimation->GetPlayLength();
@@ -171,7 +171,7 @@ void AdungeonCrawlerMgrPlayerController::ToggleCamera()
 	APlayerController* PC = UGameplayStatics::GetPlayerController(this, 0);
 	if (!PC)
 	{
-		UE_LOG(LogTemp, Error, TEXT("PlayerController is null"));
+		//UE_LOG(LogTemp, Error, TEXT("PlayerController is null"));
 		return;
 	}
 

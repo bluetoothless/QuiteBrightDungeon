@@ -39,7 +39,7 @@ void AdungeonCrawlerMgrGameMode::BeginPlay()
 	}
 	LoadLevel(levelManager);
 	Super::BeginPlay();
-	UE_LOG(LogTemp, Error, TEXT("GameMode - Begin Play"));
+	//UE_LOG(LogTemp, Error, TEXT("GameMode - Begin Play"));
 }
 
 void AdungeonCrawlerMgrGameMode::LoadLevel(LevelManager* levelManager)

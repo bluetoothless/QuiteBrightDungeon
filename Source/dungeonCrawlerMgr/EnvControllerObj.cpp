@@ -25,7 +25,7 @@ int32 UEnvControllerObj::CurrentDefaultLevelNr = 1;
 UEnvControllerObj::UEnvControllerObj()
 {
 	PrimaryComponentTick.bCanEverTick = true;
-	UE_LOG(LogTemp, Error, TEXT("EnvControllerObj - constructor"));
+    //UE_LOG(LogTemp, Error, TEXT("EnvControllerObj - constructor"));
 }
 
 void UEnvControllerObj::SetBestScore(int32 value)

@@ -9,7 +9,7 @@ LevelManager::LevelManager(UWorld* world)
 {
 	World = world;
 	MlModelManager = new MLModelManager();
-	UE_LOG(LogTemp, Error, TEXT("LevelManager - constructor"));
+	//UE_LOG(LogTemp, Error, TEXT("LevelManager - constructor"));
 }
 
 LevelManager::~LevelManager()
@@ -41,19 +41,19 @@ void LevelManager::LoadLevel()
 
 void LevelManager::GenerateLevelTileArrayWithVAE()
 {
-	UE_LOG(LogTemp, Error, TEXT("LevelManager - GenerateLevelTileArrayWithVAE"));
+	//UE_LOG(LogTemp, Error, TEXT("LevelManager - GenerateLevelTileArrayWithVAE"));
 	LevelTileArray = MlModelManager->GenerateMapWithVAE();
 }
 
 void LevelManager::GenerateLevelTileArrayWithRL()
 {
-	UE_LOG(LogTemp, Error, TEXT("LevelManager - GenerateLevelTileArrayWithRL"));
+	//UE_LOG(LogTemp, Error, TEXT("LevelManager - GenerateLevelTileArrayWithRL"));
 	LevelTileArray = MlModelManager->GenerateMapWithRL();
 }
 
 void LevelManager::GenerateLevelTileArrayWithLLM()
 {
-	UE_LOG(LogTemp, Error, TEXT("LevelManager - GenerateLevelTileArrayWithLLM"));
+	//UE_LOG(LogTemp, Error, TEXT("LevelManager - GenerateLevelTileArrayWithLLM"));
 	LevelTileArray = MlModelManager->GenerateMapWithLLM();
 	while (LevelTileArray.Num() == 0 || LevelTileArray[0].Num() == 0) {
 		LevelTileArray = MlModelManager->GenerateMapWithLLM();
@@ -62,7 +62,7 @@ void LevelManager::GenerateLevelTileArrayWithLLM()
 
 void LevelManager::GenerateLevelTileArrayWithGAN()
 {
-	UE_LOG(LogTemp, Error, TEXT("LevelManager - GenerateLevelTileArrayWithGAN"));
+	//UE_LOG(LogTemp, Error, TEXT("LevelManager - GenerateLevelTileArrayWithGAN"));
 	//LevelTileArray = MlModelManager->GenerateMapWithVAE();
 }
 
@@ -91,8 +91,8 @@ void LevelManager::PrintLevelTileArray()
 		}
 		tileArray += tileArrayRow + "\n";
 	}
-	UE_LOG(LogTemp, Error, TEXT("---------------------- Tile map ----------------------"));
-	UE_LOG(LogTemp, Error, TEXT("%s"), *tileArray);
+	//UE_LOG(LogTemp, Error, TEXT("---------------------- Tile map ----------------------"));
+	//UE_LOG(LogTemp, Error, TEXT("%s"), *tileArray);
 }
 
 void LevelManager::SpawnTiles()
@@ -102,9 +102,9 @@ void LevelManager::SpawnTiles()
 	{
 		for (int32 j = 0; j < LevelTileArray[i].Num(); j++)
 		{
-			if (i == 6 && (j == 3 || j == 4)) {
-				UE_LOG(LogTemp, Error, TEXT("tu"));
-			}
+			//if (i == 6 && (j == 3 || j == 4)) {
+			//	UE_LOG(LogTemp, Error, TEXT("tu"));
+			//}
 
 			if (i < 20 && j < 20)
 				roomDetailManager->SpawnTile(i, j);

@@ -74,7 +74,7 @@ TArray<TArray<int32>> MLModelManager::GenerateMap(FString method)
     }
     else
     {
-        UE_LOG(LogTemp, Error, TEXT("ERROR: Failed to generate level map"));
+        //UE_LOG(LogTemp, Error, TEXT("ERROR: Failed to generate level map"));
         return TArray<TArray<int32>>();
     }
 
@@ -88,7 +88,7 @@ TArray<TArray<int32>> MLModelManager::GenerateMap(FString method)
         GenerationTimeSeconds = GenerationTimeLength - GenerationTimeMinutes * 60.0;
     }
     FString GenerationTimeString = FString::Printf(TEXT("Generation time: %f min %f s"), GenerationTimeMinutes, GenerationTimeSeconds);
-    UE_LOG(LogTemp, Error, TEXT("%s"), *GenerationTimeString);
+    //UE_LOG(LogTemp, Error, TEXT("%s"), *GenerationTimeString);
     //UE_LOG(LogTemp, Error, TEXT("Generation time: %f min %f s"), GenerationTimeMinutes, GenerationTimeSeconds);
     
     /*FProcHandle procHandle = FPlatformProcess::CreateProc(*ScriptPath, TEXT(""), true, true, true, nullptr, 0, *WorkingDirectory, nullptr);
@@ -100,7 +100,7 @@ TArray<TArray<int32>> MLModelManager::GenerateMap(FString method)
     }
     else 
     {
-        UE_LOG(LogTemp, Error, TEXT("ERROR: Failed to generate level map"));
+        //UE_LOG(LogTemp, Error, TEXT("ERROR: Failed to generate level map"));
         return TArray<TArray<int32>>();
     }*/
         
