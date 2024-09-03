@@ -72,8 +72,8 @@ void LevelManager::ReadLevelTileArray() {
 	if (UEnvControllerObj::CurrentDefaultLevelNr == 11) {
 		UEnvControllerObj::CurrentDefaultLevelNr = 1;
 	}
-	LevelTileArrayPath = FPaths::ProjectContentDir() + 
-		FString::Printf(TEXT("dungeonCrawler/MapRepresentations/level%d.json"), UEnvControllerObj::CurrentDefaultLevelNr);
+	LevelTileArrayPath = FPaths::ProjectDir() + 
+		FString::Printf(TEXT("MapRepresentations/level%d.json"), UEnvControllerObj::CurrentDefaultLevelNr);
 	JsonFileReader* jsonFileReader = new JsonFileReader();
 	FString ResultPath = FPaths::ConvertRelativePathToFull(LevelTileArrayPath);
 	LevelTileArray = jsonFileReader->ReadLevelArrayFromJSON(ResultPath);
