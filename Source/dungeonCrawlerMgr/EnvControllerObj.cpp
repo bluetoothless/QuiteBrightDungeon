@@ -2,8 +2,8 @@
 
 APlayerStart* UEnvControllerObj::PlayerStart = nullptr;
 int32 UEnvControllerObj::BestScore = -1;
-int32 UEnvControllerObj::CurrentGenerationType = UEnvControllerObj::GenerationType::RL;
-int32 UEnvControllerObj::CurrentMazeType = UEnvControllerObj::MazeType::Perfect;
+int32 UEnvControllerObj::CurrentGenerationType = UEnvControllerObj::GenerationType::DefaultMap;
+int32 UEnvControllerObj::CurrentMazeType = UEnvControllerObj::MazeType::Braid;
 int32 UEnvControllerObj::CurrentEnemiesNr = 4;
 int32 UEnvControllerObj::CurrentTreasuresNr = 3;
 int32 UEnvControllerObj::MaxHealthPoints = 100;
