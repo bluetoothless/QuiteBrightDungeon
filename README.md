@@ -14,3 +14,7 @@
 <img width="1537" height="865" alt="UI_mainMenu" src="https://github.com/user-attachments/assets/768f440b-bf3e-47a3-aed2-71849c656461" />
 
 <img width="1505" height="847" alt="UI_wGrze" src="https://github.com/user-attachments/assets/a8f8d671-fd5c-4a52-aa93-987399611107" />
+
+<img width="712" height="714" alt="map_default" src="https://github.com/user-attachments/assets/d78c97b1-bcea-43ae-a088-0672ef7f9022" />
+
+<img width="593" height="594" alt="inGame_RL_generation_1" src="https://github.com/user-attachments/assets/8d8fd45d-cfb7-4f2a-a635-93238c1fe7e1" />
