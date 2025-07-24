@@ -20,3 +20,5 @@
 <img width="592" height="594" alt="map_default" src="https://github.com/user-attachments/assets/d78c97b1-bcea-43ae-a088-0672ef7f9022" />
 
 <img width="593" height="594" alt="inGame_RL_generation_1" src="https://github.com/user-attachments/assets/8d8fd45d-cfb7-4f2a-a635-93238c1fe7e1" />
+
+Repozytorium ze skryptami treningowymi modeli uczenia maszynowego: https://github.com/bluetoothless/dungCrawlMgr_MLTrainingScripts
